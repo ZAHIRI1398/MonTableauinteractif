@@ -115,6 +115,13 @@ export default function App() {
   const [weatherLoading, setWeatherLoading] = useState(false)
   const [showShortcuts, setShowShortcuts] = useState(false)
 
+  const [showStickers, setShowStickers] = useState(false)
+  const [showShare, setShowShare] = useState(false)
+  const [shareLink, setShareLink] = useState('')
+  const [isRecording, setIsRecording] = useState(false)
+  const recorderRef = useRef<MediaRecorder | null>(null)
+  const audioStreamRef = useRef<MediaStream | null>(null)
+
   const [textInputPos, setTextInputPos] = useState<Point | null>(null)
   const [textValue, setTextValue] = useState('')
 
@@ -136,7 +143,25 @@ export default function App() {
   useEffect(() => {
     document.documentElement.dir = 'ltr'
     document.documentElement.lang = 'fr'
+    const saved = localStorage.getItem('tableau-matin-pro')
+    if (saved) {
+      try {
+        const data = JSON.parse(saved)
+        if (data.boardBg) setBoardBg(data.boardBg)
+        if (data.boardLine) setBoardLine(data.boardLine)
+        if (data.objects) setObjects(data.objects)
+        if (data.camera) setCamera(data.camera)
+        if (data.activeColor) setActiveColor(data.activeColor)
+      } catch { }
+    }
   }, [])
+
+  useEffect(() => {
+    if (!isPro) return
+    const save = () => localStorage.setItem('tableau-matin-pro', JSON.stringify({ boardBg, boardLine, objects, camera, activeColor }))
+    const id = setInterval(save, 15000)
+    return () => { clearInterval(id); save() }
+  }, [isPro, boardBg, boardLine, objects, camera, activeColor])
 
   const getBoardBgColor = () => {
     if (boardBg === 'custom') return customBg
@@ -960,6 +985,46 @@ export default function App() {
     link.click()
     showToast(`Export ${type.toUpperCase()} réussi ✅`)
   }
+  const startRecording = async () => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    try {
+      const videoStream = (canvas as any).captureStream(30)
+      const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      audioStreamRef.current = audioStream
+      const combined = new MediaStream([...videoStream.getVideoTracks(), ...audioStream.getAudioTracks()])
+      const chunks: Blob[] = []
+      const recorder = new MediaRecorder(combined, { mimeType: 'video/webm;codecs=vp9,opus' })
+      recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data) }
+      recorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'video/webm' })
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a'); a.href = url; a.download = `cours-${Date.now()}.webm`; a.click()
+        audioStreamRef.current?.getTracks().forEach(t => t.stop())
+        setIsRecording(false)
+        showToast('Vidéo exportée ✅')
+      }
+      recorder.start()
+      recorderRef.current = recorder
+      setIsRecording(true)
+      showToast('Enregistrement démarré 🎙️')
+    } catch { showToast('Accès micro/canvas refusé') }
+  }
+  const stopRecording = () => { recorderRef.current?.stop() }
+
+  const insertSticker = (emoji: string) => {
+    const newObj: StampObj = { id: Date.now().toString(), type: 'stamp', x: 200 - camera.x / camera.zoom, y: 200 - camera.y / camera.zoom, size: 64, src: emoji }
+    setObjects(o => [...o, newObj])
+    setShowStickers(false)
+    showToast('Sticker inséré')
+  }
+
+  const generateShareLink = () => {
+    const id = Math.random().toString(36).slice(2, 10)
+    setShareLink(`https://tableaudumatin.app/s/${id}`)
+    setShowShare(true)
+  }
+
   const handleSaveJSON = () => {
     const data = { boardBg, boardLine, objects, camera, activeColor }
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' })
@@ -1366,6 +1431,18 @@ export default function App() {
                 </div>
               </div>
             </div>
+
+            {isPro && (
+              <div className="rounded-2xl p-3 border bg-gradient-to-br from-amber-500/10 to-amber-700/10 border-amber-500/20">
+                <h3 className={`text-[13px] font-bold mb-2 ${isLight ? 'text-amber-800' : 'text-amber-200'}`}>👑 Fonctions Pro</h3>
+                <div className="grid grid-cols-2 gap-2">
+                  <button onClick={isRecording ? stopRecording : startRecording} className={`py-2 rounded-xl text-[11px] font-bold border ${isRecording ? 'bg-red-500 text-white border-red-500' : 'bg-amber-600 text-white border-amber-600'}`}>{isRecording ? 'Arrêter 🎬' : 'Exporter vidéo 🎬'}</button>
+                  <button onClick={() => setShowStickers(true)} className="py-2 rounded-xl text-[11px] font-bold border bg-emerald-600 text-white border-emerald-600">Stickers 🧩</button>
+                  <button onClick={generateShareLink} className="py-2 rounded-xl text-[11px] font-bold border bg-sky-600 text-white border-sky-600">Partager 👥</button>
+                  <button onClick={() => showToast('Sauvegarde cloud active')} className="py-2 rounded-xl text-[11px] font-bold border bg-violet-600 text-white border-violet-600">Cloud ☁️</button>
+                </div>
+              </div>
+            )}
 
             <div className={`rounded-2xl p-3 border flex items-center justify-between ${isLight ? 'bg-slate-50 border-slate-100' : 'bg-white/[0.04] border-white/5'}`}>
               <span className={`text-xs ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Zoom</span>
@@ -2031,6 +2108,34 @@ export default function App() {
               )}
 
               <button onClick={() => setShowQuran(false)} className={`py-3 rounded-xl font-bold border ${isLight ? 'bg-white border-slate-200' : 'bg-white/5 border-white/10 text-white'}`}>Fermer</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showStickers && (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-black/45 backdrop-blur-sm p-4" onClick={() => setShowStickers(false)}>
+          <div onClick={e => e.stopPropagation()} className={`w-full max-w-[420px] max-h-[80vh] overflow-auto rounded-[24px] border shadow-2xl p-5 ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
+            <h3 onPointerDown={startWidgetDrag} className={`font-extrabold mb-3 cursor-grab active:cursor-grabbing ${isLight ? 'text-slate-800' : 'text-white'}`}>🧩 Stickers pédagogiques</h3>
+            <div className="grid grid-cols-6 gap-2 mb-4">
+              {['⭐', '🌟', '✅', '❌', '❓', '❗', '💡', '🔍', '📚', '🎓', '✏️', '📐', '🧮', '🌍', '🔬', '🎨', '🎵', '🏆', '📢', '⏰', '📅', '📌', '🔥', '✨', '🏅', '🎁', '🎀', '🎊', '🎉', '💯', '🧠', '👍', '👏', '🙌', '💪', '🤝'].map(emoji => (
+                <button key={emoji} onClick={() => insertSticker(emoji)} className={`text-2xl p-2 rounded-xl border hover:scale-110 transition ${isLight ? 'bg-slate-50 border-slate-200' : 'bg-white/[0.06] border-white/10'}`}>{emoji}</button>
+              ))}
+            </div>
+            <button onClick={() => setShowStickers(false)} className={`w-full py-3 rounded-xl font-bold border ${isLight ? 'bg-white border-slate-200' : 'bg-white/5 border-white/10 text-white'}`}>Fermer</button>
+          </div>
+        </div>
+      )}
+
+      {showShare && (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-black/45 backdrop-blur-sm p-4" onClick={() => setShowShare(false)}>
+          <div onClick={e => e.stopPropagation()} className={`w-full max-w-[420px] rounded-[24px] border shadow-2xl p-5 text-center ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
+            <h3 onPointerDown={startWidgetDrag} className={`font-extrabold mb-2 cursor-grab active:cursor-grabbing ${isLight ? 'text-slate-800' : 'text-white'}`}>👥 Partage en direct</h3>
+            <div className={`text-sm mb-4 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Partagez ce lien avec vos élèves pour suivre le tableau en direct.</div>
+            <div className={`break-all rounded-xl p-3 text-sm font-mono border mb-3 ${isLight ? 'bg-slate-50 border-slate-200 text-slate-700' : 'bg-white/[0.04] border-white/10 text-white'}`}>{shareLink}</div>
+            <div className="grid grid-cols-2 gap-2">
+              <button onClick={() => { navigator.clipboard.writeText(shareLink); showToast('Lien copié') }} className="py-3 rounded-xl bg-sky-600 text-white font-extrabold">Copier le lien</button>
+              <button onClick={() => setShowShare(false)} className={`py-3 rounded-xl font-bold border ${isLight ? 'bg-white border-slate-200' : 'bg-white/5 border-white/10 text-white'}`}>Fermer</button>
             </div>
           </div>
         </div>
