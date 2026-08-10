@@ -1034,6 +1034,7 @@ export default function App() {
       icon: '🔢',
       w: 320,
       h: 160,
+      url: 'https://micetf.fr/Numeration/index.php?t=Cubus',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="160" viewBox="0 0 320 160"><rect width="320" height="160" fill="white" stroke="#0f172a" stroke-width="2"/><line x1="80" y1="0" x2="80" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="160" y1="0" x2="160" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="240" y1="0" x2="240" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="0" y1="60" x2="320" y2="60" stroke="#0f172a" stroke-width="2"/><text x="40" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">U</text><text x="120" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">D</text><text x="200" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">C</text><text x="280" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">M</text></svg>`
     },
     {
@@ -1041,6 +1042,7 @@ export default function App() {
       icon: '📏',
       w: 360,
       h: 100,
+      url: 'https://micetf.fr/graduations/',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="360" height="100" viewBox="0 0 360 100"><rect width="360" height="100" fill="white"/><line x1="20" y1="70" x2="340" y2="70" stroke="#0f172a" stroke-width="3"/><text x="180" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f172a">50</text>${[0, 1, 2, 3, 4, 5].map(i => `<line x1="${20 + i * 64}" y1="62" x2="${20 + i * 64}" y2="78" stroke="#0f172a" stroke-width="2"/><text x="${20 + i * 64}" y="92" text-anchor="middle" font-size="12" fill="#0f172a">${i * 10}</text>`).join('')}<text x="20" y="25" font-size="12" fill="#64748b">Droite graduée de 0 à 50</text></svg>`
     },
     {
@@ -1064,6 +1066,7 @@ export default function App() {
       icon: '🧩',
       w: 280,
       h: 120,
+      url: 'https://micetf.fr/numop',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="280" height="120" viewBox="0 0 280 120"><rect width="280" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="140" y="35" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f172a">Décomposer 728</text><rect x="30" y="60" width="70" height="40" fill="#bae6fd" stroke="#0f172a"/><text x="65" y="86" text-anchor="middle" font-size="14" fill="#0f172a">700</text><rect x="105" y="60" width="70" height="40" fill="#bbf7d0" stroke="#0f172a"/><text x="140" y="86" text-anchor="middle" font-size="14" fill="#0f172a">20</text><rect x="180" y="60" width="70" height="40" fill="#fecaca" stroke="#0f172a"/><text x="215" y="86" text-anchor="middle" font-size="14" fill="#0f172a">8</text></svg>`
     },
     {
@@ -1071,6 +1074,7 @@ export default function App() {
       icon: '⚖️',
       w: 240,
       h: 100,
+      url: 'https://micetf.fr/ordonner/',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="100" viewBox="0 0 240 100"><rect width="240" height="100" fill="white" stroke="#0f172a" stroke-width="2"/><text x="70" y="45" text-anchor="middle" font-size="24" font-weight="bold" fill="#0f172a">34</text><text x="170" y="45" text-anchor="middle" font-size="24" font-weight="bold" fill="#0f172a">62</text><text x="120" y="45" text-anchor="middle" font-size="28" fill="#0f172a">&lt;</text><text x="120" y="80" text-anchor="middle" font-size="12" fill="#64748b">Comparer les nombres</text></svg>`
     }
   ]
