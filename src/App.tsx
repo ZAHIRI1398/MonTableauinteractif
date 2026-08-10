@@ -1077,7 +1077,7 @@ export default function App() {
   const insertActivity = (idx: number) => {
     const a = activities[idx]
     svgToImg(a.svg, a.w, a.h)
-    if (a.url) window.open(a.url, '_blank')
+    if (a.url) window.open(a.url, `openboard-${Date.now()}`, 'width=1400,height=800,left=100,top=50,scrollbars=yes,resizable=yes')
     setShowActivities(false)
     showToast(`Activité « ${a.title} » insérée`)
   }
