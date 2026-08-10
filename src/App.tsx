@@ -1338,6 +1338,57 @@ export default function App() {
       url: 'https://micetf.fr/EdL/index.php?a=exercer&e=FO011&m=orthographe',
       category: 'Français',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="35" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Masculin — Féminin</text><text x="120" y="65" text-anchor="middle" font-size="18" fill="#0f172a">garçon → fille</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Reconnaître le genre</text></svg>`
+    },
+    {
+      title: 'Polygones',
+      icon: '⬡',
+      w: 220,
+      h: 140,
+      category: 'Géométrie',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><polygon points="110,25 170,55 150,115 70,115 50,55" fill="#bae6fd" stroke="#0f172a" stroke-width="2"/><text x="110" y="135" text-anchor="middle" font-size="12" fill="#0f172a">Pentagone</text></svg>`
+    },
+    {
+      title: 'Triangles',
+      icon: '🔺',
+      w: 220,
+      h: 140,
+      category: 'Géométrie',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><polygon points="110,25 180,115 40,115" fill="#fecaca" stroke="#0f172a" stroke-width="2"/><text x="110" y="135" text-anchor="middle" font-size="12" fill="#0f172a">Triangle</text></svg>`
+    },
+    {
+      title: 'Solides',
+      icon: '🧊',
+      w: 220,
+      h: 140,
+      url: 'https://micetf.fr/polyedres/',
+      category: 'Géométrie',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><polygon points="70,40 150,40 150,100 70,100" fill="#e2e8f0" stroke="#0f172a" stroke-width="2"/><polygon points="70,40 95,20 175,20 150,40" fill="#f1f5f9" stroke="#0f172a" stroke-width="2"/><polygon points="150,40 175,20 175,80 150,100" fill="#cbd5e1" stroke="#0f172a" stroke-width="2"/><text x="110" y="135" text-anchor="middle" font-size="12" fill="#0f172a">Cube / pavé</text></svg>`
+    },
+    {
+      title: 'Aires et périmètre',
+      icon: '📐',
+      w: 240,
+      h: 140,
+      url: 'https://micetf.fr/mesures/',
+      category: 'Géométrie',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="140" viewBox="0 0 240 140"><rect width="240" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><rect x="50" y="40" width="140" height="80" fill="#bbf7d0" stroke="#0f172a" stroke-width="2"/><text x="120" y="35" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Aire et périmètre</text><text x="120" y="105" text-anchor="middle" font-size="12" fill="#0f172a">L × l</text></svg>`
+    },
+    {
+      title: 'Figures planes',
+      icon: '🔷',
+      w: 220,
+      h: 140,
+      category: 'Géométrie',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><rect x="40" y="50" width="60" height="60" fill="#f59e0b" opacity="0.8" stroke="#0f172a" stroke-width="2"/><circle cx="150" cy="80" r="40" fill="#60a5fa" opacity="0.8" stroke="#0f172a" stroke-width="2"/><text x="110" y="135" text-anchor="middle" font-size="12" fill="#0f172a">Carré, disque…</text></svg>`
+    },
+    {
+      title: 'Symétrie',
+      icon: '🪞',
+      w: 220,
+      h: 140,
+      url: 'https://micetf.fr/Symetrie/',
+      category: 'Géométrie',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><line x1="110" y1="20" x2="110" y2="120" stroke="#ef4444" stroke-width="2" stroke-dasharray="5"/><polygon points="70,50 100,50 100,90 70,90" fill="#bae6fd" stroke="#0f172a" stroke-width="2"/><polygon points="150,50 120,50 120,90 150,90" fill="#bae6fd" stroke="#0f172a" stroke-width="2"/><text x="110" y="135" text-anchor="middle" font-size="12" fill="#0f172a">Axe de symétrie</text></svg>`
     }
   ]
 
@@ -2474,7 +2525,7 @@ export default function App() {
         <div className="fixed inset-0 z-40 grid place-items-center pointer-events-none p-4" onClick={() => setShowActivities(false)}>
           <div onClick={e => e.stopPropagation()} className={`pointer-events-auto w-full max-w-[560px] max-h-[80vh] overflow-auto rounded-[24px] border shadow-2xl p-5 ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
             <h3 onPointerDown={startWidgetDrag} className={`font-extrabold mb-3 cursor-grab active:cursor-grabbing ${isLight ? 'text-slate-800' : 'text-white'}`}>🎒 Activités pédagogiques</h3>
-              {['Maths — Numération', 'Maths — Grandeur et mesure', 'Maths — Calcul', 'Français'].map(cat => (
+              {['Maths — Numération', 'Maths — Grandeur et mesure', 'Maths — Calcul', 'Géométrie', 'Français'].map(cat => (
                 <div key={cat} className="mb-4">
                   <div className="text-xs font-bold text-slate-500 mb-2">{cat}</div>
                   <div className="grid grid-cols-3 gap-2">
