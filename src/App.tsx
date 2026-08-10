@@ -1705,8 +1705,8 @@ export default function App() {
       )}
 
       {textInputPos && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/40 backdrop-blur-sm p-4" onClick={() => setTextInputPos(null)}>
-          <div onClick={e => e.stopPropagation()} className={`w-full max-w-[520px] rounded-[20px] border shadow-2xl p-5 ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
+        <div className="fixed inset-0 z-40 grid place-items-center pointer-events-none p-4" onClick={() => setTextInputPos(null)}>
+          <div onClick={e => e.stopPropagation()} className={`pointer-events-auto w-full max-w-[520px] rounded-[20px] border shadow-2xl p-5 ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
             <h3 className={`font-extrabold mb-3 ${isLight ? 'text-slate-800' : 'text-white'}`}>Ajouter un texte</h3>
             <textarea value={textValue} onChange={e => setTextValue(e.target.value)} placeholder="Tapez votre texte ici..." rows={3} className={`w-full rounded-2xl border p-3 text-[15px] outline-none focus:ring-2 focus:ring-sky-500 ${isLight ? 'bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400' : 'bg-white/[0.06] border-white/10 text-white placeholder:text-slate-500'}`} autoFocus />
             <div className="flex gap-2 mt-4">
@@ -2082,8 +2082,8 @@ export default function App() {
       )}
 
       {showQuran && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/45 backdrop-blur-sm p-4" onClick={() => setShowQuran(false)}>
-          <div onClick={e => e.stopPropagation()} className={`w-full max-w-[480px] max-h-[86vh] overflow-auto rounded-[24px] border shadow-2xl ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
+        <div className="fixed inset-0 z-40 grid place-items-center pointer-events-none p-4" onClick={() => setShowQuran(false)}>
+          <div onClick={e => e.stopPropagation()} className={`pointer-events-auto w-full max-w-[480px] max-h-[86vh] overflow-auto rounded-[24px] border shadow-2xl ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
             <div onPointerDown={startWidgetDrag} className={`sticky top-0 p-5 border-b flex items-center justify-between cursor-grab active:cursor-grabbing ${isLight ? 'bg-white border-slate-100' : 'bg-[#0f172a] border-white/5'}`}>
               <h3 className={`font-extrabold flex items-center gap-2 ${isLight ? 'text-sky-700' : 'text-sky-300'}`}><span>🌦️</span> Météo du jour</h3>
               <button onClick={() => setShowQuran(false)} className="w-8 h-8 rounded-full bg-black/10 grid place-items-center">✕</button>
@@ -2114,8 +2114,8 @@ export default function App() {
       )}
 
       {showStickers && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/45 backdrop-blur-sm p-4" onClick={() => setShowStickers(false)}>
-          <div onClick={e => e.stopPropagation()} className={`w-full max-w-[420px] max-h-[80vh] overflow-auto rounded-[24px] border shadow-2xl p-5 ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
+        <div className="fixed inset-0 z-40 grid place-items-center pointer-events-none p-4" onClick={() => setShowStickers(false)}>
+          <div onClick={e => e.stopPropagation()} className={`pointer-events-auto w-full max-w-[420px] max-h-[80vh] overflow-auto rounded-[24px] border shadow-2xl p-5 ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
             <h3 onPointerDown={startWidgetDrag} className={`font-extrabold mb-3 cursor-grab active:cursor-grabbing ${isLight ? 'text-slate-800' : 'text-white'}`}>🧩 Stickers pédagogiques</h3>
             <div className="grid grid-cols-6 gap-2 mb-4">
               {['⭐', '🌟', '✅', '❌', '❓', '❗', '💡', '🔍', '📚', '🎓', '✏️', '📐', '🧮', '🌍', '🔬', '🎨', '🎵', '🏆', '📢', '⏰', '📅', '📌', '🔥', '✨', '🏅', '🎁', '🎀', '🎊', '🎉', '💯', '🧠', '👍', '👏', '🙌', '💪', '🤝'].map(emoji => (
@@ -2128,8 +2128,8 @@ export default function App() {
       )}
 
       {showShare && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/45 backdrop-blur-sm p-4" onClick={() => setShowShare(false)}>
-          <div onClick={e => e.stopPropagation()} className={`w-full max-w-[420px] rounded-[24px] border shadow-2xl p-5 text-center ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
+        <div className="fixed inset-0 z-40 grid place-items-center pointer-events-none p-4" onClick={() => setShowShare(false)}>
+          <div onClick={e => e.stopPropagation()} className={`pointer-events-auto w-full max-w-[420px] rounded-[24px] border shadow-2xl p-5 text-center ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
             <h3 onPointerDown={startWidgetDrag} className={`font-extrabold mb-2 cursor-grab active:cursor-grabbing ${isLight ? 'text-slate-800' : 'text-white'}`}>👥 Partage en direct</h3>
             <div className={`text-sm mb-4 ${isLight ? 'text-slate-500' : 'text-slate-400'}`}>Partagez ce lien avec vos élèves pour suivre le tableau en direct.</div>
             <div className={`break-all rounded-xl p-3 text-sm font-mono border mb-3 ${isLight ? 'bg-slate-50 border-slate-200 text-slate-700' : 'bg-white/[0.04] border-white/10 text-white'}`}>{shareLink}</div>
@@ -2142,8 +2142,8 @@ export default function App() {
       )}
 
       {showYoutube && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/45 backdrop-blur-sm p-4" onClick={() => setShowYoutube(false)}>
-          <div onClick={e => e.stopPropagation()} className={`w-full max-w-[520px] rounded-[20px] border shadow-2xl p-5 ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
+        <div className="fixed inset-0 z-40 grid place-items-center pointer-events-none p-4" onClick={() => setShowYoutube(false)}>
+          <div onClick={e => e.stopPropagation()} className={`pointer-events-auto w-full max-w-[520px] rounded-[20px] border shadow-2xl p-5 ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
             <h3 onPointerDown={startWidgetDrag} className={`font-extrabold mb-3 cursor-grab active:cursor-grabbing ${isLight ? 'text-slate-800' : 'text-white'}`}>Insérer une vidéo YouTube 🎥</h3>
             <input value={youtubeUrl} onChange={e => setYoutubeUrl(e.target.value)} placeholder="https://www.youtube.com/watch?v=..." dir="ltr" className={`w-full rounded-xl border px-3 py-3 text-sm outline-none ${isLight ? 'bg-slate-50 border-slate-200 placeholder:text-slate-400' : 'bg-white/[0.06] border-white/10 text-white placeholder:text-slate-500'}`} />
             {youtubeId && (
@@ -2164,8 +2164,8 @@ export default function App() {
       )}
 
       {showAbout && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/45 backdrop-blur-sm p-4" onClick={() => setShowAbout(false)}>
-          <div onClick={e => e.stopPropagation()} className={`w-full max-w-[480px] rounded-[24px] border shadow-2xl p-6 text-center ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
+        <div className="fixed inset-0 z-40 grid place-items-center pointer-events-none p-4" onClick={() => setShowAbout(false)}>
+          <div onClick={e => e.stopPropagation()} className={`pointer-events-auto w-full max-w-[480px] rounded-[24px] border shadow-2xl p-6 text-center ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
             <div className="text-5xl mb-3">❤️</div>
             <h3 className={`text-xl font-black ${isLight ? 'text-slate-800' : 'text-white'}`}>Tableau du Matin</h3>
             <div className="text-sm text-slate-500 mt-1">Tableau blanc interactif pour enseignants — inspiré de NinjaScribe</div>
@@ -2179,8 +2179,8 @@ export default function App() {
       )}
 
       {showUpgrade && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/45 backdrop-blur-sm p-4" onClick={() => setShowUpgrade(false)}>
-          <div onClick={e => e.stopPropagation()} className={`w-full max-w-[520px] rounded-[24px] border shadow-2xl overflow-hidden ${isLight ? 'bg-white border-amber-200' : 'bg-[#0f172a] border-amber-500/20'}`}>
+        <div className="fixed inset-0 z-40 grid place-items-center pointer-events-none p-4" onClick={() => setShowUpgrade(false)}>
+          <div onClick={e => e.stopPropagation()} className={`pointer-events-auto w-full max-w-[520px] rounded-[24px] border shadow-2xl overflow-hidden ${isLight ? 'bg-white border-amber-200' : 'bg-[#0f172a] border-amber-500/20'}`}>
             <div className="bg-gradient-to-br from-amber-500 via-amber-600 to-amber-700 p-6 text-white text-center">
               <div className="text-4xl">👑</div>
               <h3 className="text-xl font-black mt-2">Passer à la version Pro</h3>
@@ -2205,8 +2205,8 @@ export default function App() {
       )}
 
       {showShortcuts && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/45 backdrop-blur-sm p-4" onClick={() => setShowShortcuts(false)}>
-          <div onClick={e => e.stopPropagation()} className={`w-full max-w-[520px] rounded-[24px] border shadow-2xl p-5 ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
+        <div className="fixed inset-0 z-40 grid place-items-center pointer-events-none p-4" onClick={() => setShowShortcuts(false)}>
+          <div onClick={e => e.stopPropagation()} className={`pointer-events-auto w-full max-w-[520px] rounded-[24px] border shadow-2xl p-5 ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
             <h3 className={`font-black mb-4 ${isLight ? 'text-slate-800' : 'text-white'}`}>⌨️ Raccourcis clavier</h3>
             <div className="grid grid-cols-2 gap-2 text-sm">
               {[
