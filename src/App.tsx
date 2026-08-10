@@ -108,6 +108,7 @@ export default function App() {
   const [showYoutube, setShowYoutube] = useState(false)
   const [youtubeUrl, setYoutubeUrl] = useState('')
   const [embeddedVideos, setEmbeddedVideos] = useState<{ id: string; url: string; x: number; y: number }[]>([])
+  const [embeddedActivities, setEmbeddedActivities] = useState<{ id: string; url: string; x: number; y: number }[]>([])
   const [quranSurah, setQuranSurah] = useState('1')
   const [quranAyah, setQuranAyah] = useState('1')
   const [weatherCity, setWeatherCity] = useState('Paris')
@@ -1027,7 +1028,7 @@ export default function App() {
     setObjects(o => [...o, newObj])
   }
 
-  const activities: { title: string; icon: string; svg: string; w: number; h: number }[] = [
+  const activities: { title: string; icon: string; svg: string; w: number; h: number; url?: string }[] = [
     {
       title: 'Tableau de numération',
       icon: '🔢',
@@ -1047,6 +1048,7 @@ export default function App() {
       icon: '🧮',
       w: 240,
       h: 140,
+      url: 'https://www.openedu.fr/appliquettes/openboard/1_5/glisse_nombre.wgt/index.html',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="140" viewBox="0 0 240 140"><rect width="240" height="140" fill="white" stroke="#0f172a" stroke-width="2"/>${[0, 1, 2].map(row => `<line x1="20" y1="${35 + row * 40}" x2="220" y2="${35 + row * 40}" stroke="#0f172a" stroke-width="3"/>${[0,1,2,3,4,5,6,7,8,9].map(i => `<circle cx="${26 + i * 20}" cy="${35 + row * 40}" r="6" fill="#f59e0b" stroke="#0f172a" stroke-width="1"/>`).join('')}`).join('')}<text x="120" y="20" text-anchor="middle" font-size="12" font-weight="bold" fill="#0f172a">Abaque (unités, dizaines, centaines)</text></svg>`
     },
     {
@@ -1074,7 +1076,11 @@ export default function App() {
 
   const insertActivity = (idx: number) => {
     const a = activities[idx]
-    svgToImg(a.svg, a.w, a.h)
+    if (a.url) {
+      setEmbeddedActivities(v => [...v, { id: Date.now().toString(), url: a.url!, x: 120 - camera.x / camera.zoom, y: 100 - camera.y / camera.zoom }])
+    } else {
+      svgToImg(a.svg, a.w, a.h)
+    }
     setShowActivities(false)
     showToast(`Activité « ${a.title} » insérée`)
   }
@@ -1292,6 +1298,15 @@ export default function App() {
               <iframe src={`https://www.youtube.com/embed/${v.url}?autoplay=0`} className="w-full h-full" allowFullScreen title="youtube" />
             </div>
             <button onClick={() => setEmbeddedVideos(ev => ev.filter(x => x.id !== v.id))} className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-red-500 text-white grid place-items-center text-xs opacity-0 group-hover:opacity-100 transition">✕</button>
+          </div>
+        ))}
+
+        {embeddedActivities.map(v => (
+          <div key={v.id} className="absolute z-20 group" style={{ left: v.x, top: v.y, width: 560, height: 360 }}>
+            <div className="w-full h-full rounded-xl overflow-hidden shadow-2xl border border-white/10 bg-white">
+              <iframe src={v.url} className="w-full h-full" title="activite" sandbox="allow-scripts allow-same-origin" />
+            </div>
+            <button onClick={() => setEmbeddedActivities(ev => ev.filter(x => x.id !== v.id))} className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-red-500 text-white grid place-items-center text-xs opacity-0 group-hover:opacity-100 transition">✕</button>
           </div>
         ))}
 
