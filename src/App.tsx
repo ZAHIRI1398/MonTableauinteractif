@@ -1163,6 +1163,96 @@ export default function App() {
       url: 'https://openboard.forge.apps.education.fr/applications/euro.wgt/',
       category: 'Maths — Grandeur et mesure',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="140" viewBox="0 0 200 140"><rect width="200" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><text x="100" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Monnaie</text><rect x="40" y="50" width="120" height="40" fill="#bbf7d0" rx="4"/><text x="100" y="78" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f172a">5 €</text><circle cx="70" cy="110" r="12" fill="#f59e0b"/><circle cx="130" cy="110" r="12" fill="#94a3b8"/></svg>`
+    },
+    {
+      title: 'Calcul mental',
+      icon: '🧠',
+      w: 220,
+      h: 120,
+      url: 'https://micetf.fr/calculmental/',
+      category: 'Maths — Calcul',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="120" viewBox="0 0 220 120"><rect width="220" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="110" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Calcul mental</text><text x="110" y="60" text-anchor="middle" font-size="20" fill="#0f172a">7 + 8 = ?</text><text x="110" y="90" text-anchor="middle" font-size="12" fill="#64748b">Entraînement CP-CM2</text></svg>`
+    },
+    {
+      title: 'Compléments',
+      icon: '🎯',
+      w: 220,
+      h: 120,
+      url: 'https://micetf.fr/complements/',
+      category: 'Maths — Calcul',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="120" viewBox="0 0 220 120"><rect width="220" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="110" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Compléments</text><text x="110" y="60" text-anchor="middle" font-size="18" fill="#0f172a">7 + __ = 10</text><text x="110" y="90" text-anchor="middle" font-size="12" fill="#64748b">À 10, 100, 1 000</text></svg>`
+    },
+    {
+      title: 'Cible',
+      icon: '🎯',
+      w: 220,
+      h: 120,
+      url: 'https://micetf.fr/cibles/',
+      category: 'Maths — Calcul',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="120" viewBox="0 0 220 120"><rect width="220" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><circle cx="110" cy="60" r="45" fill="#e2e8f0" stroke="#0f172a" stroke-width="2"/><circle cx="110" cy="60" r="30" fill="#fecaca" stroke="#0f172a"/><circle cx="110" cy="60" r="15" fill="#ef4444"/><text x="110" y="100" text-anchor="middle" font-size="10" fill="#64748b">Jeu de la cible</text></svg>`
+    },
+    {
+      title: 'Le compte est bon',
+      icon: '🧮',
+      w: 220,
+      h: 120,
+      url: 'https://micetf.fr/duo/',
+      category: 'Maths — Calcul',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="120" viewBox="0 0 220 120"><rect width="220" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="110" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Le compte est bon</text><text x="110" y="60" text-anchor="middle" font-size="18" fill="#0f172a">Cible : 24</text><text x="110" y="90" text-anchor="middle" font-size="12" fill="#64748b">Trouver le calcul</text></svg>`
+    },
+    {
+      title: 'Pb - Addition et soustraction',
+      icon: '➕',
+      w: 240,
+      h: 120,
+      url: 'https://micetf.fr/Problemes/index.php?v=ce1',
+      category: 'Maths — Calcul',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">+ et −</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">18 + 5 = ?</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CE1</text></svg>`
+    },
+    {
+      title: 'Pb - Partage et division',
+      icon: '➗',
+      w: 240,
+      h: 120,
+      url: 'https://micetf.fr/Problemes/index.php?v=cm1',
+      category: 'Maths — Calcul',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Partage et division</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">24 ÷ 6 = ?</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CM1</text></svg>`
+    },
+    {
+      title: 'Pb - Vers la multiplication',
+      icon: '✖️',
+      w: 240,
+      h: 120,
+      url: 'https://micetf.fr/Problemes/index.php?v=ce2',
+      category: 'Maths — Calcul',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Vers la multiplication</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">4 × 5 = ?</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CE2</text></svg>`
+    },
+    {
+      title: 'Pb - Les fruits',
+      icon: '🍎',
+      w: 240,
+      h: 120,
+      url: 'https://micetf.fr/Problemes/index.php?v=ce1',
+      category: 'Maths — Calcul',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Problèmes fruits</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">3 pommes à 2 €</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CE1</text></svg>`
+    },
+    {
+      title: 'Pb - Les bonbons',
+      icon: '🍬',
+      w: 240,
+      h: 120,
+      url: 'https://micetf.fr/Problemes/index.php?v=ce1',
+      category: 'Maths — Calcul',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Problèmes bonbons</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">18 bonbons partagés</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CE1</text></svg>`
+    },
+    {
+      title: 'Pb - Proportionnalité',
+      icon: '📊',
+      w: 240,
+      h: 120,
+      url: 'https://micetf.fr/Problemes/index.php?v=cm2',
+      category: 'Maths — Calcul',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Proportionnalité</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">6 kg = 12 €</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CM2</text></svg>`
     }
   ]
 
@@ -2299,7 +2389,7 @@ export default function App() {
         <div className="fixed inset-0 z-40 grid place-items-center pointer-events-none p-4" onClick={() => setShowActivities(false)}>
           <div onClick={e => e.stopPropagation()} className={`pointer-events-auto w-full max-w-[560px] max-h-[80vh] overflow-auto rounded-[24px] border shadow-2xl p-5 ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
             <h3 onPointerDown={startWidgetDrag} className={`font-extrabold mb-3 cursor-grab active:cursor-grabbing ${isLight ? 'text-slate-800' : 'text-white'}`}>🎒 Activités pédagogiques</h3>
-              {['Maths — Numération', 'Maths — Grandeur et mesure'].map(cat => (
+              {['Maths — Numération', 'Maths — Grandeur et mesure', 'Maths — Calcul'].map(cat => (
                 <div key={cat} className="mb-4">
                   <div className="text-xs font-bold text-slate-500 mb-2">{cat}</div>
                   <div className="grid grid-cols-3 gap-2">
