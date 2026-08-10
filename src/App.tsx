@@ -116,6 +116,7 @@ export default function App() {
   const [showShortcuts, setShowShortcuts] = useState(false)
 
   const [showStickers, setShowStickers] = useState(false)
+  const [showActivities, setShowActivities] = useState(false)
   const [showShare, setShowShare] = useState(false)
   const [shareLink, setShareLink] = useState('')
   const [isRecording, setIsRecording] = useState(false)
@@ -1019,6 +1020,65 @@ export default function App() {
     showToast('Sticker inséré')
   }
 
+  const svgToImg = (svg: string, w: number, h: number) => {
+    const blob = new Blob([svg], { type: 'image/svg+xml' })
+    const url = URL.createObjectURL(blob)
+    const newObj: ImageObj = { id: Date.now().toString(), type: 'image', x: 120 - camera.x / camera.zoom, y: 100 - camera.y / camera.zoom, w, h, src: url }
+    setObjects(o => [...o, newObj])
+  }
+
+  const activities: { title: string; icon: string; svg: string; w: number; h: number }[] = [
+    {
+      title: 'Tableau de numération',
+      icon: '🔢',
+      w: 320,
+      h: 160,
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="160" viewBox="0 0 320 160"><rect width="320" height="160" fill="white" stroke="#0f172a" stroke-width="2"/><line x1="80" y1="0" x2="80" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="160" y1="0" x2="160" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="240" y1="0" x2="240" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="0" y1="60" x2="320" y2="60" stroke="#0f172a" stroke-width="2"/><text x="40" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">U</text><text x="120" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">D</text><text x="200" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">C</text><text x="280" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">M</text></svg>`
+    },
+    {
+      title: 'Droite graduée',
+      icon: '📏',
+      w: 360,
+      h: 100,
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="360" height="100" viewBox="0 0 360 100"><rect width="360" height="100" fill="white"/><line x1="20" y1="70" x2="340" y2="70" stroke="#0f172a" stroke-width="3"/><text x="180" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f172a">50</text>${[0, 1, 2, 3, 4, 5].map(i => `<line x1="${20 + i * 64}" y1="62" x2="${20 + i * 64}" y2="78" stroke="#0f172a" stroke-width="2"/><text x="${20 + i * 64}" y="92" text-anchor="middle" font-size="12" fill="#0f172a">${i * 10}</text>`).join('')}<text x="20" y="25" font-size="12" fill="#64748b">Droite graduée de 0 à 50</text></svg>`
+    },
+    {
+      title: 'Abaque',
+      icon: '🧮',
+      w: 240,
+      h: 140,
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="140" viewBox="0 0 240 140"><rect width="240" height="140" fill="white" stroke="#0f172a" stroke-width="2"/>${[0, 1, 2].map(row => `<line x1="20" y1="${35 + row * 40}" x2="220" y2="${35 + row * 40}" stroke="#0f172a" stroke-width="3"/>${[0,1,2,3,4,5,6,7,8,9].map(i => `<circle cx="${26 + i * 20}" cy="${35 + row * 40}" r="6" fill="#f59e0b" stroke="#0f172a" stroke-width="1"/>`).join('')}`).join('')}<text x="120" y="20" text-anchor="middle" font-size="12" font-weight="bold" fill="#0f172a">Abaque (unités, dizaines, centaines)</text></svg>`
+    },
+    {
+      title: 'Fractions',
+      icon: '🍕',
+      w: 160,
+      h: 160,
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><rect width="160" height="160" fill="white"/><circle cx="80" cy="80" r="60" fill="#f472b6" stroke="#0f172a" stroke-width="2"/><line x1="80" y1="20" x2="80" y2="140" stroke="white" stroke-width="2"/><line x1="20" y1="80" x2="140" y2="80" stroke="white" stroke-width="2"/><text x="80" y="165" text-anchor="middle" font-size="12" font-weight="bold" fill="#0f172a">1/4</text></svg>`
+    },
+    {
+      title: 'Décomposition',
+      icon: '🧩',
+      w: 280,
+      h: 120,
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="280" height="120" viewBox="0 0 280 120"><rect width="280" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="140" y="35" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f172a">Décomposer 728</text><rect x="30" y="60" width="70" height="40" fill="#bae6fd" stroke="#0f172a"/><text x="65" y="86" text-anchor="middle" font-size="14" fill="#0f172a">700</text><rect x="105" y="60" width="70" height="40" fill="#bbf7d0" stroke="#0f172a"/><text x="140" y="86" text-anchor="middle" font-size="14" fill="#0f172a">20</text><rect x="180" y="60" width="70" height="40" fill="#fecaca" stroke="#0f172a"/><text x="215" y="86" text-anchor="middle" font-size="14" fill="#0f172a">8</text></svg>`
+    },
+    {
+      title: 'Comparer',
+      icon: '⚖️',
+      w: 240,
+      h: 100,
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="100" viewBox="0 0 240 100"><rect width="240" height="100" fill="white" stroke="#0f172a" stroke-width="2"/><text x="70" y="45" text-anchor="middle" font-size="24" font-weight="bold" fill="#0f172a">34</text><text x="170" y="45" text-anchor="middle" font-size="24" font-weight="bold" fill="#0f172a">62</text><text x="120" y="45" text-anchor="middle" font-size="28" fill="#0f172a">&lt;</text><text x="120" y="80" text-anchor="middle" font-size="12" fill="#64748b">Comparer les nombres</text></svg>`
+    }
+  ]
+
+  const insertActivity = (idx: number) => {
+    const a = activities[idx]
+    svgToImg(a.svg, a.w, a.h)
+    setShowActivities(false)
+    showToast(`Activité « ${a.title} » insérée`)
+  }
+
   const generateShareLink = () => {
     const id = Math.random().toString(36).slice(2, 10)
     setShareLink(`https://tableaudumatin.app/s/${id}`)
@@ -1428,6 +1488,7 @@ export default function App() {
                   <button onClick={() => setShowWheel(true)} className={`py-2 rounded-xl text-[11px] font-bold border ${isLight ? 'bg-white border-slate-200' : 'bg-white/[0.06] border-white/10 text-white'}`}>🎡 Roue</button>
                   <button onClick={() => setShowCalculator(c => !c)} className={`py-2 rounded-xl text-[11px] font-bold border ${showCalculator ? 'bg-sky-500 text-white border-sky-500' : isLight ? 'bg-white border-slate-200' : 'bg-white/[0.06] border-white/10 text-white'}`}>🧮 Calculatrice</button>
                   <button onClick={() => setShowCurtain(c => !c)} className={`py-2 rounded-xl text-[11px] font-bold border ${showCurtain ? 'bg-slate-700 text-white' : isLight ? 'bg-white border-slate-200' : 'bg-white/[0.06] border-white/10 text-white'}`}>🫣 Rideau</button>
+                  <button onClick={() => setShowActivities(true)} className={`py-2 rounded-xl text-[11px] font-bold border col-span-3 ${isLight ? 'bg-rose-50 border-rose-200 text-rose-700' : 'bg-rose-600/20 border-rose-500/30 text-rose-200'}`}>🎒 Activités pédagogiques</button>
                 </div>
               </div>
             </div>
@@ -2123,6 +2184,24 @@ export default function App() {
               ))}
             </div>
             <button onClick={() => setShowStickers(false)} className={`w-full py-3 rounded-xl font-bold border ${isLight ? 'bg-white border-slate-200' : 'bg-white/5 border-white/10 text-white'}`}>Fermer</button>
+          </div>
+        </div>
+      )}
+
+      {showActivities && (
+        <div className="fixed inset-0 z-40 grid place-items-center pointer-events-none p-4" onClick={() => setShowActivities(false)}>
+          <div onClick={e => e.stopPropagation()} className={`pointer-events-auto w-full max-w-[560px] max-h-[80vh] overflow-auto rounded-[24px] border shadow-2xl p-5 ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
+            <h3 onPointerDown={startWidgetDrag} className={`font-extrabold mb-3 cursor-grab active:cursor-grabbing ${isLight ? 'text-slate-800' : 'text-white'}`}>🎒 Activités pédagogiques</h3>
+            <div className="text-xs font-bold text-slate-500 mb-2">Maths — Numération</div>
+            <div className="grid grid-cols-3 gap-2 mb-4">
+              {activities.map((a, i) => (
+                <button key={i} onClick={() => insertActivity(i)} className={`p-2 rounded-xl border text-center hover:scale-[1.02] transition ${isLight ? 'bg-slate-50 border-slate-200' : 'bg-white/[0.06] border-white/10 text-white'}`}>
+                  <div className="text-2xl mb-1">{a.icon}</div>
+                  <div className="text-[10px] font-bold leading-tight">{a.title}</div>
+                </button>
+              ))}
+            </div>
+            <button onClick={() => setShowActivities(false)} className={`w-full py-3 rounded-xl font-bold border ${isLight ? 'bg-white border-slate-200' : 'bg-white/5 border-white/10 text-white'}`}>Fermer</button>
           </div>
         </div>
       )}
