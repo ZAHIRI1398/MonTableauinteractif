@@ -1028,13 +1028,14 @@ export default function App() {
     setObjects(o => [...o, newObj])
   }
 
-  const activities: { title: string; icon: string; svg: string; w: number; h: number; url?: string }[] = [
+  const activities: { title: string; icon: string; svg: string; w: number; h: number; url?: string; category: string }[] = [
     {
       title: 'Tableau de numération',
       icon: '🔢',
       w: 320,
       h: 160,
       url: 'https://micetf.fr/Numeration/index.php?t=Cubus',
+      category: 'Maths — Numération',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="160" viewBox="0 0 320 160"><rect width="320" height="160" fill="white" stroke="#0f172a" stroke-width="2"/><line x1="80" y1="0" x2="80" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="160" y1="0" x2="160" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="240" y1="0" x2="240" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="0" y1="60" x2="320" y2="60" stroke="#0f172a" stroke-width="2"/><text x="40" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">U</text><text x="120" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">D</text><text x="200" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">C</text><text x="280" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">M</text></svg>`
     },
     {
@@ -1043,6 +1044,7 @@ export default function App() {
       w: 360,
       h: 100,
       url: 'https://micetf.fr/graduations/',
+      category: 'Maths — Numération',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="360" height="100" viewBox="0 0 360 100"><rect width="360" height="100" fill="white"/><line x1="20" y1="70" x2="340" y2="70" stroke="#0f172a" stroke-width="3"/><text x="180" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f172a">50</text>${[0, 1, 2, 3, 4, 5].map(i => `<line x1="${20 + i * 64}" y1="62" x2="${20 + i * 64}" y2="78" stroke="#0f172a" stroke-width="2"/><text x="${20 + i * 64}" y="92" text-anchor="middle" font-size="12" fill="#0f172a">${i * 10}</text>`).join('')}<text x="20" y="25" font-size="12" fill="#64748b">Droite graduée de 0 à 50</text></svg>`
     },
     {
@@ -1051,6 +1053,7 @@ export default function App() {
       w: 240,
       h: 140,
       url: 'https://mathsup.forge.apps.education.fr/glisse-nombre/',
+      category: 'Maths — Numération',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="140" viewBox="0 0 240 140"><rect width="240" height="140" fill="white" stroke="#0f172a" stroke-width="2"/>${[0, 1, 2].map(row => `<line x1="20" y1="${35 + row * 40}" x2="220" y2="${35 + row * 40}" stroke="#0f172a" stroke-width="3"/>${[0,1,2,3,4,5,6,7,8,9].map(i => `<circle cx="${26 + i * 20}" cy="${35 + row * 40}" r="6" fill="#f59e0b" stroke="#0f172a" stroke-width="1"/>`).join('')}`).join('')}<text x="120" y="20" text-anchor="middle" font-size="12" font-weight="bold" fill="#0f172a">Abaque (unités, dizaines, centaines)</text></svg>`
     },
     {
@@ -1059,6 +1062,7 @@ export default function App() {
       w: 160,
       h: 160,
       url: 'https://micetf.fr/Fractions/generateur/',
+      category: 'Maths — Numération',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><rect width="160" height="160" fill="white"/><circle cx="80" cy="80" r="60" fill="#f472b6" stroke="#0f172a" stroke-width="2"/><line x1="80" y1="20" x2="80" y2="140" stroke="white" stroke-width="2"/><line x1="20" y1="80" x2="140" y2="80" stroke="white" stroke-width="2"/><text x="80" y="165" text-anchor="middle" font-size="12" font-weight="bold" fill="#0f172a">1/4</text></svg>`
     },
     {
@@ -1067,6 +1071,7 @@ export default function App() {
       w: 280,
       h: 120,
       url: 'https://micetf.fr/numop',
+      category: 'Maths — Numération',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="280" height="120" viewBox="0 0 280 120"><rect width="280" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="140" y="35" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f172a">Décomposer 728</text><rect x="30" y="60" width="70" height="40" fill="#bae6fd" stroke="#0f172a"/><text x="65" y="86" text-anchor="middle" font-size="14" fill="#0f172a">700</text><rect x="105" y="60" width="70" height="40" fill="#bbf7d0" stroke="#0f172a"/><text x="140" y="86" text-anchor="middle" font-size="14" fill="#0f172a">20</text><rect x="180" y="60" width="70" height="40" fill="#fecaca" stroke="#0f172a"/><text x="215" y="86" text-anchor="middle" font-size="14" fill="#0f172a">8</text></svg>`
     },
     {
@@ -1075,7 +1080,89 @@ export default function App() {
       w: 240,
       h: 100,
       url: 'https://micetf.fr/ordonner/',
+      category: 'Maths — Numération',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="100" viewBox="0 0 240 100"><rect width="240" height="100" fill="white" stroke="#0f172a" stroke-width="2"/><text x="70" y="45" text-anchor="middle" font-size="24" font-weight="bold" fill="#0f172a">34</text><text x="170" y="45" text-anchor="middle" font-size="24" font-weight="bold" fill="#0f172a">62</text><text x="120" y="45" text-anchor="middle" font-size="28" fill="#0f172a">&lt;</text><text x="120" y="80" text-anchor="middle" font-size="12" fill="#64748b">Comparer les nombres</text></svg>`
+    },
+    {
+      title: 'Tableau de conversion',
+      icon: '↔️',
+      w: 260,
+      h: 140,
+      url: 'https://micetf.fr/conversion/',
+      category: 'Maths — Grandeur et mesure',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="260" height="140" viewBox="0 0 260 140"><rect width="260" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><text x="130" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Tableau de conversion</text><text x="130" y="60" text-anchor="middle" font-size="12" fill="#64748b">m — g — l</text><rect x="30" y="80" width="60" height="40" fill="#bae6fd" stroke="#0f172a"/><rect x="90" y="80" width="40" height="40" fill="#bbf7d0" stroke="#0f172a"/><rect x="130" y="80" width="40" height="40" fill="#bbf7d0" stroke="#0f172a"/><rect x="170" y="80" width="60" height="40" fill="#fecaca" stroke="#0f172a"/></svg>`
+    },
+    {
+      title: 'Horloge interactive',
+      icon: '🕰️',
+      w: 200,
+      h: 200,
+      url: 'https://micetf.fr/LectureHeure/',
+      category: 'Maths — Grandeur et mesure',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="200" height="200" fill="white"/><circle cx="100" cy="100" r="80" fill="#e2e8f0" stroke="#0f172a" stroke-width="2"/><line x1="100" y1="100" x2="100" y2="50" stroke="#0f172a" stroke-width="3"/><line x1="100" y1="100" x2="130" y2="100" stroke="#0f172a" stroke-width="2"/><circle cx="100" cy="100" r="5" fill="#0f172a"/></svg>`
+    },
+    {
+      title: 'Pb - Les durées',
+      icon: '⏳',
+      w: 220,
+      h: 120,
+      url: 'https://micetf.fr/LectureHeure/?v=activite6',
+      category: 'Maths — Grandeur et mesure',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="120" viewBox="0 0 220 120"><rect width="220" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="110" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Calculer une durée</text><circle cx="60" cy="70" r="30" fill="#e2e8f0" stroke="#0f172a"/><line x1="60" y1="70" x2="60" y2="50" stroke="#0f172a" stroke-width="2"/><circle cx="160" cy="70" r="30" fill="#e2e8f0" stroke="#0f172a"/><line x1="160" y1="70" x2="170" y2="70" stroke="#0f172a" stroke-width="2"/><text x="110" y="110" text-anchor="middle" font-size="12" fill="#64748b">Heure de départ → d’arrivée</text></svg>`
+    },
+    {
+      title: 'Pb - Lecture de l’heure',
+      icon: '🕐',
+      w: 220,
+      h: 120,
+      url: 'https://micetf.fr/LectureHeure/?v=dominos',
+      category: 'Maths — Grandeur et mesure',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="120" viewBox="0 0 220 120"><rect width="220" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="110" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Lire l’heure</text><circle cx="110" cy="70" r="35" fill="#e2e8f0" stroke="#0f172a" stroke-width="2"/><line x1="110" y1="70" x2="110" y2="45" stroke="#0f172a" stroke-width="3"/><line x1="110" y1="70" x2="130" y2="70" stroke="#0f172a" stroke-width="2"/></svg>`
+    },
+    {
+      title: 'Pb - Le prix',
+      icon: '💶',
+      w: 240,
+      h: 120,
+      url: 'https://micetf.fr/Problemes/index.php?v=cm1',
+      category: 'Maths — Grandeur et mesure',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Problèmes de prix</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">3 × 25 € = ?</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Résolution de problèmes CM1</text></svg>`
+    },
+    {
+      title: 'Je vends',
+      icon: '🛒',
+      w: 240,
+      h: 120,
+      url: 'https://micetf.fr/Problemes/index.php?v=ce2',
+      category: 'Maths — Grandeur et mesure',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Je vends</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">Dépensé ? Reste ?</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes monnaie CE2</text></svg>`
+    },
+    {
+      title: 'Pb - Rendre la monnaie',
+      icon: '💰',
+      w: 240,
+      h: 120,
+      url: 'https://micetf.fr/Problemes/index.php?v=ce2',
+      category: 'Maths — Grandeur et mesure',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Rendre la monnaie</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">100 € − 27 € = ?</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes monnaie CE2</text></svg>`
+    },
+    {
+      title: 'Balance interactive',
+      icon: '⚖️',
+      w: 220,
+      h: 140,
+      url: 'https://micetf.fr/Problemes/index.php?v=ce2',
+      category: 'Maths — Grandeur et mesure',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><text x="110" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Balance interactive</text><line x1="110" y1="50" x2="110" y2="100" stroke="#0f172a" stroke-width="3"/><line x1="50" y1="80" x2="170" y2="80" stroke="#0f172a" stroke-width="2"/><rect x="60" y="85" width="40" height="30" fill="#bae6fd"/><rect x="120" y="85" width="40" height="30" fill="#fecaca"/></svg>`
+    },
+    {
+      title: 'Monnaie',
+      icon: '🪙',
+      w: 200,
+      h: 140,
+      url: 'https://openboard.forge.apps.education.fr/applications/euro.wgt/',
+      category: 'Maths — Grandeur et mesure',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="140" viewBox="0 0 200 140"><rect width="200" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><text x="100" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Monnaie</text><rect x="40" y="50" width="120" height="40" fill="#bbf7d0" rx="4"/><text x="100" y="78" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f172a">5 €</text><circle cx="70" cy="110" r="12" fill="#f59e0b"/><circle cx="130" cy="110" r="12" fill="#94a3b8"/></svg>`
     }
   ]
 
@@ -2212,15 +2299,19 @@ export default function App() {
         <div className="fixed inset-0 z-40 grid place-items-center pointer-events-none p-4" onClick={() => setShowActivities(false)}>
           <div onClick={e => e.stopPropagation()} className={`pointer-events-auto w-full max-w-[560px] max-h-[80vh] overflow-auto rounded-[24px] border shadow-2xl p-5 ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
             <h3 onPointerDown={startWidgetDrag} className={`font-extrabold mb-3 cursor-grab active:cursor-grabbing ${isLight ? 'text-slate-800' : 'text-white'}`}>🎒 Activités pédagogiques</h3>
-            <div className="text-xs font-bold text-slate-500 mb-2">Maths — Numération</div>
-            <div className="grid grid-cols-3 gap-2 mb-4">
-              {activities.map((a, i) => (
-                <button key={i} onClick={() => insertActivity(i)} className={`p-2 rounded-xl border text-center hover:scale-[1.02] transition ${isLight ? 'bg-slate-50 border-slate-200' : 'bg-white/[0.06] border-white/10 text-white'}`}>
-                  <div className="text-2xl mb-1">{a.icon}</div>
-                  <div className="text-[10px] font-bold leading-tight">{a.title}</div>
-                </button>
+              {['Maths — Numération', 'Maths — Grandeur et mesure'].map(cat => (
+                <div key={cat} className="mb-4">
+                  <div className="text-xs font-bold text-slate-500 mb-2">{cat}</div>
+                  <div className="grid grid-cols-3 gap-2">
+                    {activities.filter(a => a.category === cat).map((a, i) => (
+                      <button key={a.title} onClick={() => insertActivity(activities.indexOf(a))} className={`p-2 rounded-xl border text-center hover:scale-[1.02] transition ${isLight ? 'bg-slate-50 border-slate-200' : 'bg-white/[0.06] border-white/10 text-white'}`}>
+                        <div className="text-2xl mb-1">{a.icon}</div>
+                        <div className="text-[10px] font-bold leading-tight">{a.title}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
               ))}
-            </div>
             <button onClick={() => setShowActivities(false)} className={`w-full py-3 rounded-xl font-bold border ${isLight ? 'bg-white border-slate-200' : 'bg-white/5 border-white/10 text-white'}`}>Fermer</button>
           </div>
         </div>
