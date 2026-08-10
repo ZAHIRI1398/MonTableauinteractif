@@ -1253,6 +1253,91 @@ export default function App() {
       url: 'https://micetf.fr/Problemes/index.php?v=cm2',
       category: 'Maths — Calcul',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Proportionnalité</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">6 kg = 12 €</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CM2</text></svg>`
+    },
+    {
+      title: 'Écriture Seyès',
+      icon: '📝',
+      w: 220,
+      h: 140,
+      category: 'Français',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white"/><line x1="0" y1="35" x2="220" y2="35" stroke="#3b82f6" stroke-width="1"/><line x1="0" y1="70" x2="220" y2="70" stroke="#3b82f6" stroke-width="2"/><line x1="0" y1="105" x2="220" y2="105" stroke="#3b82f6" stroke-width="1"/><line x1="0" y1="122" x2="220" y2="122" stroke="#ef4444" stroke-width="1" stroke-dasharray="4"/><text x="110" y="60" text-anchor="middle" font-size="28" fill="#0f172a">a</text></svg>`
+    },
+    {
+      title: 'Classes grammaticales',
+      icon: '🏷️',
+      w: 240,
+      h: 120,
+      url: 'https://micetf.fr/EdL/index.php?a=exercer&e=FG002&m=grammaire',
+      category: 'Français',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><rect x="20" y="25" width="70" height="30" fill="#fecaca" rx="4"/><text x="55" y="46" text-anchor="middle" font-size="12" fill="#0f172a">sujet</text><rect x="100" y="25" width="70" height="30" fill="#bae6fd" rx="4"/><text x="135" y="46" text-anchor="middle" font-size="12" fill="#0f172a">verbe</text><rect x="180" y="25" width="45" height="30" fill="#bbf7d0" rx="4"/><text x="202" y="46" text-anchor="middle" font-size="10" fill="#0f172a">COD</text><text x="120" y="85" text-anchor="middle" font-size="14" fill="#64748b">Analyser la phrase</text></svg>`
+    },
+    {
+      title: 'Phrase du jour',
+      icon: '💬',
+      w: 240,
+      h: 120,
+      url: 'https://micetf.fr/parcours-de-phrases/',
+      category: 'Français',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="40" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Phrase du jour</text><text x="120" y="70" text-anchor="middle" font-size="16" fill="#0f172a">La / chat / dort</text><text x="120" y="95" text-anchor="middle" font-size="12" fill="#64748b">Reconstruire la phrase</text></svg>`
+    },
+    {
+      title: 'Conjugaison',
+      icon: '📅',
+      w: 240,
+      h: 120,
+      url: 'https://micetf.fr/EdL/index.php?a=exercer&e=FC006&m=conjugaison',
+      category: 'Français',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="35" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Conjugaison</text><text x="120" y="65" text-anchor="middle" font-size="18" fill="#0f172a">Je / march__</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Présent de l’indicatif</text></svg>`
+    },
+    {
+      title: 'Jogging d’écriture',
+      icon: '✍️',
+      w: 220,
+      h: 140,
+      category: 'Français',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white"/><line x1="0" y1="45" x2="220" y2="45" stroke="#cbd5e1" stroke-width="1"/><line x1="0" y1="75" x2="220" y2="75" stroke="#94a3b8" stroke-width="2"/><line x1="0" y1="105" x2="220" y2="105" stroke="#cbd5e1" stroke-width="1"/><text x="110" y="65" text-anchor="middle" font-size="14" fill="#64748b">10 minutes d’écriture</text></svg>`
+    },
+    {
+      title: 'Ordre alphabétique',
+      icon: '🔤',
+      w: 240,
+      h: 120,
+      url: 'https://micetf.fr/JeuxLecture/',
+      category: 'Français',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="40" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Ordre alphabétique</text><text x="120" y="70" text-anchor="middle" font-size="20" fill="#0f172a">A B C D E</text><text x="120" y="95" text-anchor="middle" font-size="12" fill="#64748b">Ranger les mots</text></svg>`
+    },
+    {
+      title: 'Le mot du jour',
+      icon: '🌟',
+      w: 220,
+      h: 140,
+      category: 'Français',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><text x="110" y="40" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Le mot du jour</text><rect x="40" y="55" width="140" height="55" fill="#fef08a" rx="8"/><text x="110" y="90" text-anchor="middle" font-size="24" font-weight="bold" fill="#0f172a">chat</text></svg>`
+    },
+    {
+      title: 'Modèle d’écriture',
+      icon: '📄',
+      w: 220,
+      h: 140,
+      category: 'Français',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><line x1="0" y1="30" x2="220" y2="30" stroke="#cbd5e1" stroke-width="1"/><line x1="0" y1="70" x2="220" y2="70" stroke="#94a3b8" stroke-width="2"/><line x1="0" y1="110" x2="220" y2="110" stroke="#cbd5e1" stroke-width="1"/><text x="110" y="55" text-anchor="middle" font-size="18" fill="#0f172a">m a</text></svg>`
+    },
+    {
+      title: 'Niveaux de langue',
+      icon: '👄',
+      w: 240,
+      h: 120,
+      category: 'Français',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><rect x="20" y="30" width="80" height="30" fill="#fecaca" rx="4"/><text x="60" y="51" text-anchor="middle" font-size="10" fill="#0f172a">Soutenu</text><rect x="110" y="30" width="80" height="30" fill="#bae6fd" rx="4"/><text x="150" y="51" text-anchor="middle" font-size="10" fill="#0f172a">Courant</text><rect x="65" y="75" width="80" height="30" fill="#bbf7d0" rx="4"/><text x="105" y="96" text-anchor="middle" font-size="10" fill="#0f172a">Familier</text></svg>`
+    },
+    {
+      title: 'Masculin - Féminin',
+      icon: '♀♂️',
+      w: 240,
+      h: 120,
+      url: 'https://micetf.fr/EdL/index.php?a=exercer&e=FO011&m=orthographe',
+      category: 'Français',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="35" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Masculin — Féminin</text><text x="120" y="65" text-anchor="middle" font-size="18" fill="#0f172a">garçon → fille</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Reconnaître le genre</text></svg>`
     }
   ]
 
@@ -2389,7 +2474,7 @@ export default function App() {
         <div className="fixed inset-0 z-40 grid place-items-center pointer-events-none p-4" onClick={() => setShowActivities(false)}>
           <div onClick={e => e.stopPropagation()} className={`pointer-events-auto w-full max-w-[560px] max-h-[80vh] overflow-auto rounded-[24px] border shadow-2xl p-5 ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
             <h3 onPointerDown={startWidgetDrag} className={`font-extrabold mb-3 cursor-grab active:cursor-grabbing ${isLight ? 'text-slate-800' : 'text-white'}`}>🎒 Activités pédagogiques</h3>
-              {['Maths — Numération', 'Maths — Grandeur et mesure', 'Maths — Calcul'].map(cat => (
+              {['Maths — Numération', 'Maths — Grandeur et mesure', 'Maths — Calcul', 'Français'].map(cat => (
                 <div key={cat} className="mb-4">
                   <div className="text-xs font-bold text-slate-500 mb-2">{cat}</div>
                   <div className="grid grid-cols-3 gap-2">
