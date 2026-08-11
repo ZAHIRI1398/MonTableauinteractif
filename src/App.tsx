@@ -1400,6 +1400,15 @@ export default function App() {
       url: 'https://micetf.fr/Symetrie/',
       category: 'Géométrie',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><line x1="110" y1="20" x2="110" y2="120" stroke="#ef4444" stroke-width="2" stroke-dasharray="5"/><polygon points="70,50 100,50 100,90 70,90" fill="#bae6fd" stroke="#0f172a" stroke-width="2"/><polygon points="150,50 120,50 120,90 150,90" fill="#bae6fd" stroke="#0f172a" stroke-width="2"/><text x="110" y="135" text-anchor="middle" font-size="12" fill="#0f172a">Axe de symétrie</text></svg>`
+    },
+    {
+      title: 'Angle : Permis Rapporteur',
+      icon: '📐',
+      w: 240,
+      h: 140,
+      url: 'https://mathix.org/permis_rapporteur/',
+      category: 'Géométrie',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="140" viewBox="0 0 240 140"><rect width="240" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><path d="M120,110 A70,70 0 0,1 190,40" fill="none" stroke="#0f172a" stroke-width="2"/><line x1="120" y1="110" x2="190" y2="40" stroke="#ef4444" stroke-width="2"/><line x1="120" y1="110" x2="120" y2="30" stroke="#0f172a" stroke-width="2"/><text x="120" y="130" text-anchor="middle" font-size="12" fill="#0f172a">Mesurer un angle</text></svg>`
     }
   ]
 
