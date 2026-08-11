@@ -5,9 +5,10 @@ type PathObj = { id: string; type: 'path'; points: Point[]; color: string; width
 type ShapeObj = { id: string; type: 'shape'; shape: string; x1: number; y1: number; x2: number; y2: number; color: string; width: number; opacity: number; filled: boolean; lineStyle: string }
 type TextObj = { id: string; type: 'text'; x: number; y: number; text: string; color: string; size: number }
 type ImageObj = { id: string; type: 'image'; x: number; y: number; w: number; h: number; src: string }
+type PdfObj = { id: string; type: 'pdf'; x: number; y: number; w: number; h: number; src: string; words: { id: string; text: string; x: number; y: number; w: number; h: number }[] }
 type StickyObj = { id: string; type: 'sticky'; x: number; y: number; w: number; h: number; text: string; color: string }
 type StampObj = { id: string; type: 'stamp'; x: number; y: number; size: number; src: string }
-type DrawObj = PathObj | ShapeObj | TextObj | ImageObj | StickyObj | StampObj
+type DrawObj = PathObj | ShapeObj | TextObj | ImageObj | PdfObj | StickyObj | StampObj
 
 const BOARD_COLORS: Record<string, string> = {
   white: '#ffffff',
@@ -442,7 +443,7 @@ export default function App() {
         ctx.textAlign = 'left'
         const lines = obj.text.split('\n')
         lines.forEach((line, i) => ctx.fillText(line, obj.x, obj.y + i * (obj.size * 1.3)))
-      } else if (obj.type === 'image') {
+      } else if (obj.type === 'image' || obj.type === 'pdf') {
         const img = (obj as any)._img as HTMLImageElement | undefined
         if (img && img.complete) {
           ctx.drawImage(img, obj.x, obj.y, obj.w, obj.h)
@@ -682,10 +683,10 @@ export default function App() {
 
   useEffect(() => {
     objects.forEach(obj => {
-      if ((obj.type === 'image' || obj.type === 'stamp') && !(obj as any)._img) {
+      if ((obj.type === 'image' || obj.type === 'pdf' || obj.type === 'stamp') && !(obj as any)._img) {
         const img = new Image()
         img.crossOrigin = 'anonymous'
-        img.src = obj.src
+        img.src = (obj as any).src
         img.onload = () => { (obj as any)._img = img; redraw() }
         ; (obj as any)._img = img
       }
@@ -806,6 +807,27 @@ export default function App() {
         isDrawing.current = true
         return
       }
+    }
+    if (tool === 'reader') {
+      const pdf = [...objects].reverse().find(obj => obj.type === 'pdf' && pt.x >= obj.x && pt.x <= obj.x + (obj as any).w && pt.y >= obj.y && pt.y <= obj.y + (obj as any).h) as PdfObj | undefined
+      if (pdf) {
+        const lx = pt.x - pdf.x, ly = pt.y - pdf.y
+        const word = pdf.words.find(w => lx >= w.x - 4 && lx <= w.x + w.w + 4 && ly >= w.y - 4 && ly <= w.y + w.h + 4)
+        const text = word ? word.text : ''
+        if (text && 'speechSynthesis' in window) {
+          const u = new SpeechSynthesisUtterance(text)
+          u.lang = 'fr-FR'
+          u.rate = 0.85
+          window.speechSynthesis.cancel()
+          window.speechSynthesis.speak(u)
+          showToast(`Lecture : ${text}`)
+        } else if (!word) {
+          showToast('Aucun mot détecté ici')
+        }
+      } else {
+        showToast('Cliquez sur un PDF inséré')
+      }
+      return
     }
     if (tool === 'eraser') {
       isDrawing.current = true
@@ -1502,18 +1524,37 @@ export default function App() {
       const url = URL.createObjectURL(file)
       const pdf = await pdfjs.getDocument({ url }).promise
       const page = await pdf.getPage(1)
-      const scale = 1.2
-      const viewport = page.getViewport({ scale })
+      const renderScale = 1.2
+      const viewport = page.getViewport({ scale: renderScale })
       const c = document.createElement('canvas')
       c.width = viewport.width; c.height = viewport.height
       const ctx = c.getContext('2d')!
       await page.render({ canvasContext: ctx, viewport }).promise
+      const textContent = await page.getTextContent()
+      const rawWords: { id: string; text: string; x: number; y: number; w: number; h: number }[] = []
+      textContent.items.forEach((item: any, index: number) => {
+        if (!item.str?.trim()) return
+        const tx = pdfjs.Util.transform(viewport.transform, item.transform)
+        const itemWidth = Math.max(10, item.width * viewport.scale)
+        const itemHeight = Math.max(12, Math.abs(tx[3]) || 16)
+        const y = tx[5] - itemHeight
+        const parts = item.str.trim().split(/\s+/).filter(Boolean)
+        const total = parts.reduce((s: number, p: string) => s + p.length, 0) || 1
+        let x = tx[4]
+        parts.forEach((part: string, i: number) => {
+          const pw = Math.max(8, itemWidth * (part.length / total))
+          rawWords.push({ id: `${index}-${i}`, text: part, x, y, w: pw, h: itemHeight })
+          x += pw + itemWidth * 0.04
+        })
+      })
       const maxW = 800
       const w = Math.min(viewport.width, maxW)
       const h = w * (viewport.height / viewport.width)
-      const newObj: ImageObj = { id: Date.now().toString(), type: 'image', x: 80, y: 80, w, h, src: c.toDataURL('image/png') }
+      const imgScale = w / viewport.width
+      const words = rawWords.map(w => ({ ...w, x: w.x * imgScale, y: w.y * imgScale, w: w.w * imgScale, h: w.h * imgScale }))
+      const newObj: PdfObj = { id: Date.now().toString(), type: 'pdf', x: 80, y: 80, w, h, src: c.toDataURL('image/png'), words }
       setObjects(o => [...o, newObj])
-      showToast('PDF inséré')
+      showToast('PDF inséré — activez l’outil 🔊 pour lire')
     } catch {
       showToast('Erreur de rendu PDF')
     }
@@ -1615,6 +1656,7 @@ export default function App() {
       if (e.key.toLowerCase() === 't') setTool('text')
       if (e.key.toLowerCase() === 'd') setTool('dot')
       if (e.key.toLowerCase() === 'r') setTool('tts')
+      if (e.key.toLowerCase() === 'x') setTool('reader')
       if (e.key.toLowerCase() === 's' && !e.ctrlKey) setTool('rect')
       if (e.key.toLowerCase() === 'o') { setTool('compass'); if(!compassCenter) showToast('Compas activé — cliquez pour placer la pointe 📍') }
       if (e.key === 'Escape') { setShowTimer(false); setShowRuler(false); setShowProtractor(false); setShowCurtain(false); setShowCalculator(false); setShowWheel(false); if(tool==='compass'){ setCompassIsDragging(false); (compassDragMode as any).current=null } }
@@ -2093,6 +2135,10 @@ export default function App() {
 
         <button onClick={() => setTool('tts')} title="Lire à voix haute (R)" className={`w-[42px] h-[42px] grid place-items-center rounded-xl border ${tool === 'tts' ? 'bg-pink-500 border-pink-500 text-white' : 'bg-pink-500/12 border-pink-500/20'}`}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={tool === 'tts' ? 'white' : '#ec4899'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z" fill={tool === 'tts' ? 'white' : '#ec4899'} /><path d="M15.54 8.46a5 5 0 0 1 0 7.07" /><path d="M19.07 4.93a10 10 0 0 1 0 14.14" /></svg>
+        </button>
+
+        <button onClick={() => setTool('reader')} title="Lecteur PDF (X)" className={`w-[42px] h-[42px] grid place-items-center rounded-xl border ${tool === 'reader' ? 'bg-rose-600 border-rose-600 text-white' : 'bg-rose-600/12 border-rose-600/20'}`}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={tool === 'reader' ? 'white' : '#e11d48'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill={tool === 'reader' ? 'white' : 'transparent'} /><polyline points="14 2 14 8 20 8" stroke={tool === 'reader' ? 'white' : '#e11d48'} /><path d="M10 13v4" stroke={tool === 'reader' ? 'white' : '#e11d48'} /><path d="M7 15l3-2 3 2" stroke={tool === 'reader' ? 'white' : '#e11d48'} /></svg>
         </button>
 
         <div className="w-px h-7 bg-white/10 mx-1 hidden sm:block" />
