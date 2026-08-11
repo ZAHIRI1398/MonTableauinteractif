@@ -1169,7 +1169,7 @@ export default function App() {
       icon: '🪙',
       w: 200,
       h: 140,
-      url: 'https://openboard.forge.apps.education.fr/applications/euro.wgt/',
+      url: 'https://educajou.forge.apps.education.fr/joubank/',
       category: 'Maths — Grandeur et mesure',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="140" viewBox="0 0 200 140"><rect width="200" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><text x="100" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Monnaie</text><rect x="40" y="50" width="120" height="40" fill="#bbf7d0" rx="4"/><text x="100" y="78" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f172a">5 €</text><circle cx="70" cy="110" r="12" fill="#f59e0b"/><circle cx="130" cy="110" r="12" fill="#94a3b8"/></svg>`
     },
