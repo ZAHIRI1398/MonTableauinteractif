@@ -1043,7 +1043,7 @@ export default function App() {
       icon: '📏',
       w: 360,
       h: 100,
-      url: 'https://micetf.fr/graduations/',
+      url: 'https://micetf.fr/graduo/natix/ ',
       category: 'Maths — Numération',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="360" height="100" viewBox="0 0 360 100"><rect width="360" height="100" fill="white"/><line x1="20" y1="70" x2="340" y2="70" stroke="#0f172a" stroke-width="3"/><text x="180" y="40" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f172a">50</text>${[0, 1, 2, 3, 4, 5].map(i => `<line x1="${20 + i * 64}" y1="62" x2="${20 + i * 64}" y2="78" stroke="#0f172a" stroke-width="2"/><text x="${20 + i * 64}" y="92" text-anchor="middle" font-size="12" fill="#0f172a">${i * 10}</text>`).join('')}<text x="20" y="25" font-size="12" fill="#64748b">Droite graduée de 0 à 50</text></svg>`
     },
@@ -1156,11 +1156,11 @@ export default function App() {
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Rendre la monnaie</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">100 € − 27 € = ?</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes monnaie CE2</text></svg>`
     },
     {
-      title: 'Balance interactive',
+      title: 'Lire les fractions et Ecritures Fractionnaires',
       icon: '⚖️',
       w: 220,
       h: 140,
-      url: 'https://micetf.fr/Problemes/index.php?v=ce2',
+      url: 'https://micetf.fr/Fractions/',
       category: 'Maths — Grandeur et mesure',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><text x="110" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Balance interactive</text><line x1="110" y1="50" x2="110" y2="100" stroke="#0f172a" stroke-width="3"/><line x1="50" y1="80" x2="170" y2="80" stroke="#0f172a" stroke-width="2"/><rect x="60" y="85" width="40" height="30" fill="#bae6fd"/><rect x="120" y="85" width="40" height="30" fill="#fecaca"/></svg>`
     },
@@ -1201,11 +1201,11 @@ export default function App() {
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="120" viewBox="0 0 220 120"><rect width="220" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><circle cx="110" cy="60" r="45" fill="#e2e8f0" stroke="#0f172a" stroke-width="2"/><circle cx="110" cy="60" r="30" fill="#fecaca" stroke="#0f172a"/><circle cx="110" cy="60" r="15" fill="#ef4444"/><text x="110" y="100" text-anchor="middle" font-size="10" fill="#64748b">Jeu de la cible</text></svg>`
     },
     {
-      title: 'Le compte est bon',
+      title: 'Jeu du parachute',
       icon: '🧮',
       w: 220,
       h: 120,
-      url: 'https://micetf.fr/duo/',
+      url: 'https://micetf.fr/parachute/',
       category: 'Maths — Calcul',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="120" viewBox="0 0 220 120"><rect width="220" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="110" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Le compte est bon</text><text x="110" y="60" text-anchor="middle" font-size="18" fill="#0f172a">Cible : 24</text><text x="110" y="90" text-anchor="middle" font-size="12" fill="#64748b">Trouver le calcul</text></svg>`
     },
@@ -1219,29 +1219,29 @@ export default function App() {
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">+ et −</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">18 + 5 = ?</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CE1</text></svg>`
     },
     {
-      title: 'Pb - Partage et division',
+      title: 'Dictée de nombres',
       icon: '➗',
       w: 240,
       h: 120,
-      url: 'https://micetf.fr/Problemes/index.php?v=cm1',
+      url: 'https://micetf.fr/dicteenombres/',
       category: 'Maths — Calcul',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Partage et division</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">24 ÷ 6 = ?</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CM1</text></svg>`
     },
     {
-      title: 'Pb - Vers la multiplication',
+      title: ' Vers la multiplication',
       icon: '✖️',
       w: 240,
       h: 120,
-      url: 'https://micetf.fr/Problemes/index.php?v=ce2',
+      url: 'https://micetf.fr/memoriser-multiplication/',
       category: 'Maths — Calcul',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Vers la multiplication</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">4 × 5 = ?</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CE2</text></svg>`
     },
     {
-      title: 'Pb - Les fruits',
+      title: 'Dénombrement',
       icon: '🍎',
       w: 240,
       h: 120,
-      url: 'https://micetf.fr/Problemes/index.php?v=ce1',
+      url: 'https://micetf.fr/denombrement/',
       category: 'Maths — Calcul',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Problèmes fruits</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">3 pommes à 2 €</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CE1</text></svg>`
     },
@@ -1264,10 +1264,11 @@ export default function App() {
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Proportionnalité</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">6 kg = 12 €</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CM2</text></svg>`
     },
     {
-      title: 'Écriture Seyès',
+      title: 'Générateur d’exercices de conjugaison',
       icon: '📝',
       w: 220,
       h: 140,
+      url: 'https://generateur-conjugaison.fr/',
       category: 'Français',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white"/><line x1="0" y1="35" x2="220" y2="35" stroke="#3b82f6" stroke-width="1"/><line x1="0" y1="70" x2="220" y2="70" stroke="#3b82f6" stroke-width="2"/><line x1="0" y1="105" x2="220" y2="105" stroke="#3b82f6" stroke-width="1"/><line x1="0" y1="122" x2="220" y2="122" stroke="#ef4444" stroke-width="1" stroke-dasharray="4"/><text x="110" y="60" text-anchor="middle" font-size="28" fill="#0f172a">a</text></svg>`
     },
