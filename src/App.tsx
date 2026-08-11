@@ -813,15 +813,18 @@ export default function App() {
       if (pdf) {
         const lx = pt.x - pdf.x, ly = pt.y - pdf.y
         const word = pdf.words.find(w => lx >= w.x - 4 && lx <= w.x + w.w + 4 && ly >= w.y - 4 && ly <= w.y + w.h + 4)
-        const text = word ? word.text : ''
-        if (text && 'speechSynthesis' in window) {
-          const u = new SpeechSynthesisUtterance(text)
-          u.lang = 'fr-FR'
-          u.rate = 0.85
-          window.speechSynthesis.cancel()
-          window.speechSynthesis.speak(u)
-          showToast(`Lecture : ${text}`)
-        } else if (!word) {
+        if (word) {
+          const line = pdf.words.filter(w => Math.abs(w.y - word.y) < (w.h * 0.75)).sort((a, b) => a.x - b.x)
+          const text = line.map(w => w.text).join(' ')
+          if (text && 'speechSynthesis' in window) {
+            const u = new SpeechSynthesisUtterance(text)
+            u.lang = 'fr-FR'
+            u.rate = 0.85
+            window.speechSynthesis.cancel()
+            window.speechSynthesis.speak(u)
+            showToast(`Lecture : ${text.length > 60 ? text.slice(0, 60) + '…' : text}`)
+          }
+        } else {
           showToast('Aucun mot détecté ici')
         }
       } else {
