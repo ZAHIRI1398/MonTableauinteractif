@@ -1344,7 +1344,7 @@ export default function App() {
       icon: '⬡',
       w: 220,
       h: 140,
-      url: 'https://www.logicieleducatif.fr/jeu/les-figures-geometriques',
+      url: 'https://polypad.amplify.com/embed/ppJvoRLLY7rhHg',
       category: 'Géométrie',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><polygon points="110,25 170,55 150,115 70,115 50,55" fill="#bae6fd" stroke="#0f172a" stroke-width="2"/><text x="110" y="135" text-anchor="middle" font-size="12" fill="#0f172a">Pentagone</text></svg>`
     },
@@ -1379,6 +1379,7 @@ export default function App() {
       icon: '🔷',
       w: 220,
       h: 140,
+      url: 'https://mathup.fr/cours/primaire/ce1/geometrie-figures-planes.html',
       category: 'Géométrie',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><rect x="40" y="50" width="60" height="60" fill="#f59e0b" opacity="0.8" stroke="#0f172a" stroke-width="2"/><circle cx="150" cy="80" r="40" fill="#60a5fa" opacity="0.8" stroke="#0f172a" stroke-width="2"/><text x="110" y="135" text-anchor="middle" font-size="12" fill="#0f172a">Carré, disque…</text></svg>`
     },
