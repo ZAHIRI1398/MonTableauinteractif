@@ -468,9 +468,14 @@ export default function App() {
         if (line) ctx.fillText(line, obj.x + 10, ly)
         ctx.textAlign = 'left'
       } else if (obj.type === 'stamp') {
-        const img = (obj as any)._img as HTMLImageElement | undefined
-        if (img && img.complete) ctx.drawImage(img, obj.x - obj.size / 2, obj.y - obj.size / 2, obj.size, obj.size)
-        else { ctx.fillStyle = (obj as any).color || '#f59e0b'; ctx.beginPath(); ctx.arc(obj.x, obj.y, obj.size / 2, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = 'white'; ctx.font = '20px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('⭐', obj.x, obj.y + 7); ctx.textAlign = 'left' }
+        if (obj.src === 'dot') {
+          ctx.fillStyle = (obj as any).color || activeColor
+          ctx.beginPath(); ctx.arc(obj.x, obj.y, obj.size / 2, 0, Math.PI * 2); ctx.fill()
+        } else {
+          const img = (obj as any)._img as HTMLImageElement | undefined
+          if (img && img.complete) ctx.drawImage(img, obj.x - obj.size / 2, obj.y - obj.size / 2, obj.size, obj.size)
+          else { ctx.fillStyle = (obj as any).color || '#f59e0b'; ctx.beginPath(); ctx.arc(obj.x, obj.y, obj.size / 2, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = 'white'; ctx.font = '20px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('⭐', obj.x, obj.y + 7); ctx.textAlign = 'left' }
+        }
       }
       ctx.restore()
     })
@@ -720,6 +725,30 @@ export default function App() {
       const newStamp: StampObj = { id: Date.now().toString(), type: 'stamp', x: pt.x, y: pt.y, size: 64, src: src || 'star' }
       if (!src) (newStamp as any).color = activeColor
       setObjects(o => [...o, newStamp])
+      return
+    }
+    if (tool === 'dot') {
+      const newDot: StampObj = { id: Date.now().toString(), type: 'stamp', x: pt.x, y: pt.y, size: Math.max(8, strokeWidth * 1.5 + 4), src: 'dot' }
+      ;(newDot as any).color = activeColor
+      setObjects(o => [...o, newDot])
+      return
+    }
+    if (tool === 'tts') {
+      const clicked = [...objects].reverse().find(obj => {
+        if (obj.type === 'text') return Math.hypot(obj.x - pt.x, obj.y - pt.y) < 50
+        if (obj.type === 'sticky') return pt.x >= obj.x && pt.x <= obj.x + obj.w && pt.y >= obj.y && pt.y <= obj.y + obj.h
+        return false
+      })
+      if (clicked) {
+        const text = (clicked as any).text || ''
+        if (text && 'speechSynthesis' in window) {
+          const u = new SpeechSynthesisUtterance(text)
+          u.lang = 'fr-FR'
+          u.rate = 0.9
+          window.speechSynthesis.cancel()
+          window.speechSynthesis.speak(u)
+        }
+      }
       return
     }
     if (tool === 'compass') {
@@ -1584,6 +1613,8 @@ export default function App() {
       if (e.key.toLowerCase() === 'l') setTool('line')
       if (e.key.toLowerCase() === 'a') setTool('arrow')
       if (e.key.toLowerCase() === 't') setTool('text')
+      if (e.key.toLowerCase() === 'd') setTool('dot')
+      if (e.key.toLowerCase() === 'r') setTool('tts')
       if (e.key.toLowerCase() === 's' && !e.ctrlKey) setTool('rect')
       if (e.key.toLowerCase() === 'o') { setTool('compass'); if(!compassCenter) showToast('Compas activé — cliquez pour placer la pointe 📍') }
       if (e.key === 'Escape') { setShowTimer(false); setShowRuler(false); setShowProtractor(false); setShowCurtain(false); setShowCalculator(false); setShowWheel(false); if(tool==='compass'){ setCompassIsDragging(false); (compassDragMode as any).current=null } }
@@ -2054,6 +2085,14 @@ export default function App() {
 
         <button onClick={() => setTool('text')} title="Texte (T)" className={`w-[42px] h-[42px] grid place-items-center rounded-xl border ${tool === 'text' ? 'bg-orange-500 border-orange-500 text-white' : 'bg-orange-500/12 border-orange-500/20'}`}>
           <svg width="20" height="20" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="3" fill={tool === 'text' ? 'white' : '#fed7aa'} opacity={tool === 'text' ? '0.25' : '0.45'} /><path d="M5 4v3h5.5v12h3V7H19V4z" fill={tool === 'text' ? 'white' : '#f97316'} /></svg>
+        </button>
+
+        <button onClick={() => setTool('dot')} title="Point (D)" className={`w-[42px] h-[42px] grid place-items-center rounded-xl border ${tool === 'dot' ? 'bg-indigo-500 border-indigo-500 text-white' : 'bg-indigo-500/12 border-indigo-500/20'}`}>
+          <svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7" fill={tool === 'dot' ? 'white' : '#818cf8'} /></svg>
+        </button>
+
+        <button onClick={() => setTool('tts')} title="Lire à voix haute (R)" className={`w-[42px] h-[42px] grid place-items-center rounded-xl border ${tool === 'tts' ? 'bg-pink-500 border-pink-500 text-white' : 'bg-pink-500/12 border-pink-500/20'}`}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={tool === 'tts' ? 'white' : '#ec4899'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z" fill={tool === 'tts' ? 'white' : '#ec4899'} /><path d="M15.54 8.46a5 5 0 0 1 0 7.07" /><path d="M19.07 4.93a10 10 0 0 1 0 14.14" /></svg>
         </button>
 
         <div className="w-px h-7 bg-white/10 mx-1 hidden sm:block" />
