@@ -1151,7 +1151,7 @@ export default function App() {
       icon: '💰',
       w: 240,
       h: 120,
-      url: 'https://micetf.fr/Problemes/index.php?v=ce2',
+      url: 'https://view.genially.com/5e9e1b963b6beb0db86d360b/',
       category: 'Maths — Grandeur et mesure',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Rendre la monnaie</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">100 € − 27 € = ?</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes monnaie CE2</text></svg>`
     },
