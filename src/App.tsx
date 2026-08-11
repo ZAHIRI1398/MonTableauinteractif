@@ -1084,6 +1084,15 @@ export default function App() {
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="100" viewBox="0 0 240 100"><rect width="240" height="100" fill="white" stroke="#0f172a" stroke-width="2"/><text x="70" y="45" text-anchor="middle" font-size="24" font-weight="bold" fill="#0f172a">34</text><text x="170" y="45" text-anchor="middle" font-size="24" font-weight="bold" fill="#0f172a">62</text><text x="120" y="45" text-anchor="middle" font-size="28" fill="#0f172a">&lt;</text><text x="120" y="80" text-anchor="middle" font-size="12" fill="#64748b">Comparer les nombres</text></svg>`
     },
     {
+      title: 'Exercices',
+      icon: '📊',
+      w: 240,
+      h: 140,
+      url: 'https://www.geogebra.org/m/bupdqqgy',
+      category: 'Maths — Numération',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="140" viewBox="0 0 240 140"><rect width="240" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="40" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Exercices Numération</text><text x="120" y="75" text-anchor="middle" font-size="18" fill="#0f172a">GeoGebra</text><text x="120" y="105" text-anchor="middle" font-size="12" fill="#64748b">Activités interactives</text></svg>`
+    },
+    {
       title: 'Tableau de conversion',
       icon: '↔️',
       w: 260,
@@ -1344,7 +1353,7 @@ export default function App() {
       icon: '⬡',
       w: 220,
       h: 140,
-      url: 'https://polypad.amplify.com/embed/ppJvoRLLY7rhHg',
+      url: 'https://www.pedagonet.com/Maths/LesPolygones.html',
       category: 'Géométrie',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><polygon points="110,25 170,55 150,115 70,115 50,55" fill="#bae6fd" stroke="#0f172a" stroke-width="2"/><text x="110" y="135" text-anchor="middle" font-size="12" fill="#0f172a">Pentagone</text></svg>`
     },
