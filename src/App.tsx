@@ -1349,7 +1349,7 @@ export default function App() {
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="35" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Masculin — Féminin</text><text x="120" y="65" text-anchor="middle" font-size="18" fill="#0f172a">garçon → fille</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Reconnaître le genre</text></svg>`
     },
     {
-      title: 'Polygones',
+      title: 'Polygones -Non polygones',
       icon: '⬡',
       w: 220,
       h: 140,
