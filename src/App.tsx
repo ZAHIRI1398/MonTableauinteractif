@@ -1300,11 +1300,12 @@ export default function App() {
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Problèmes fruits</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">3 pommes à 2 €</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CE1</text></svg>`
     },
     {
-      title: 'Pb - Les bonbons',
+      title: 'Activités de tri',
+
       icon: '🍬',
       w: 240,
       h: 120,
-      url: 'https://micetf.fr/Problemes/index.php?v=ce1',
+      url: 'https://micetf.fr/classement/',
       category: 'Maths — Calcul',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Problèmes bonbons</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">18 bonbons partagés</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CE1</text></svg>`
     },
@@ -1354,10 +1355,11 @@ export default function App() {
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="35" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Conjugaison</text><text x="120" y="65" text-anchor="middle" font-size="18" fill="#0f172a">Je / march__</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Présent de l’indicatif</text></svg>`
     },
     {
-      title: 'Jogging d’écriture',
+      title: 'Anagrammes',
       icon: '✍️',
       w: 220,
       h: 140,
+      url: 'https://micetf.fr/anagrammes/',
       category: 'Français',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white"/><line x1="0" y1="45" x2="220" y2="45" stroke="#cbd5e1" stroke-width="1"/><line x1="0" y1="75" x2="220" y2="75" stroke="#94a3b8" stroke-width="2"/><line x1="0" y1="105" x2="220" y2="105" stroke="#cbd5e1" stroke-width="1"/><text x="110" y="65" text-anchor="middle" font-size="14" fill="#64748b">10 minutes d’écriture</text></svg>`
     },
@@ -1371,26 +1373,29 @@ export default function App() {
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="40" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Ordre alphabétique</text><text x="120" y="70" text-anchor="middle" font-size="20" fill="#0f172a">A B C D E</text><text x="120" y="95" text-anchor="middle" font-size="12" fill="#64748b">Ranger les mots</text></svg>`
     },
     {
-      title: 'Le mot du jour',
+      title: 'Animations',
       icon: '🌟',
       w: 220,
       h: 140,
+      url: 'https://micetf.fr/animations/',
       category: 'Français',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><text x="110" y="40" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Le mot du jour</text><rect x="40" y="55" width="140" height="55" fill="#fef08a" rx="8"/><text x="110" y="90" text-anchor="middle" font-size="24" font-weight="bold" fill="#0f172a">chat</text></svg>`
     },
     {
-      title: 'Modèle d’écriture',
+      title: 'Dictée',
       icon: '📄',
       w: 220,
       h: 140,
+      url: 'https://micetf.fr/dictee/',
       category: 'Français',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><line x1="0" y1="30" x2="220" y2="30" stroke="#cbd5e1" stroke-width="1"/><line x1="0" y1="70" x2="220" y2="70" stroke="#94a3b8" stroke-width="2"/><line x1="0" y1="110" x2="220" y2="110" stroke="#cbd5e1" stroke-width="1"/><text x="110" y="55" text-anchor="middle" font-size="18" fill="#0f172a">m a</text></svg>`
     },
     {
-      title: 'Niveaux de langue',
+      title: 'Mot Mystère',
       icon: '👄',
       w: 240,
       h: 120,
+      url: 'https://micetf.fr/mot-mystere/',
       category: 'Français',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><rect x="20" y="30" width="80" height="30" fill="#fecaca" rx="4"/><text x="60" y="51" text-anchor="middle" font-size="10" fill="#0f172a">Soutenu</text><rect x="110" y="30" width="80" height="30" fill="#bae6fd" rx="4"/><text x="150" y="51" text-anchor="middle" font-size="10" fill="#0f172a">Courant</text><rect x="65" y="75" width="80" height="30" fill="#bbf7d0" rx="4"/><text x="105" y="96" text-anchor="middle" font-size="10" fill="#0f172a">Familier</text></svg>`
     },
