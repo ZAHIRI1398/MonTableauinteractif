@@ -1124,7 +1124,7 @@ export default function App() {
       icon: '🧩',
       w: 280,
       h: 120,
-      url: 'https://micetf.fr/numop',
+      url: 'https://micetf.fr/abaque/',
       category: 'Maths — Numération',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="280" height="120" viewBox="0 0 280 120"><rect width="280" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="140" y="35" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f172a">Décomposer 728</text><rect x="30" y="60" width="70" height="40" fill="#bae6fd" stroke="#0f172a"/><text x="65" y="86" text-anchor="middle" font-size="14" fill="#0f172a">700</text><rect x="105" y="60" width="70" height="40" fill="#bbf7d0" stroke="#0f172a"/><text x="140" y="86" text-anchor="middle" font-size="14" fill="#0f172a">20</text><rect x="180" y="60" width="70" height="40" fill="#fecaca" stroke="#0f172a"/><text x="215" y="86" text-anchor="middle" font-size="14" fill="#0f172a">8</text></svg>`
     },
