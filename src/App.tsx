@@ -1093,6 +1093,24 @@ export default function App() {
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="160" viewBox="0 0 320 160"><rect width="320" height="160" fill="white" stroke="#0f172a" stroke-width="2"/><line x1="80" y1="0" x2="80" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="160" y1="0" x2="160" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="240" y1="0" x2="240" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="0" y1="60" x2="320" y2="60" stroke="#0f172a" stroke-width="2"/><text x="40" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">U</text><text x="120" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">D</text><text x="200" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">C</text><text x="280" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">M</text></svg>`
     },
     {
+      title:  'Tableau de numération',
+      icon: '🔢',
+      w: 320,
+      h: 160,
+      url: 'https://micetf.fr/Numeration/index.php?t=Cubus',
+      category: 'Maths — Numération',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="160" viewBox="0 0 320 160"><rect width="320" height="160" fill="white" stroke="#0f172a" stroke-width="2"/><line x1="80" y1="0" x2="80" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="160" y1="0" x2="160" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="240" y1="0" x2="240" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="0" y1="60" x2="320" y2="60" stroke="#0f172a" stroke-width="2"/><text x="40" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">U</text><text x="120" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">D</text><text x="200" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">C</text><text x="280" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">M</text></svg>`
+    },
+    {
+      title: 'Cartons montessori',
+      icon: '🔢',
+      w: 320,
+      h: 160,
+      url: 'https://micetf.fr/montessori/',
+      category: 'Maths — Numération',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="160" viewBox="0 0 320 160"><rect width="320" height="160" fill="white" stroke="#0f172a" stroke-width="2"/><line x1="80" y1="0" x2="80" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="160" y1="0" x2="160" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="240" y1="0" x2="240" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="0" y1="60" x2="320" y2="60" stroke="#0f172a" stroke-width="2"/><text x="40" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">U</text><text x="120" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">D</text><text x="200" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">C</text><text x="280" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">M</text></svg>`
+    },
+    {
       title: 'Droite graduée',
       icon: '📏',
       w: 360,
@@ -1138,7 +1156,7 @@ export default function App() {
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="100" viewBox="0 0 240 100"><rect width="240" height="100" fill="white" stroke="#0f172a" stroke-width="2"/><text x="70" y="45" text-anchor="middle" font-size="24" font-weight="bold" fill="#0f172a">34</text><text x="170" y="45" text-anchor="middle" font-size="24" font-weight="bold" fill="#0f172a">62</text><text x="120" y="45" text-anchor="middle" font-size="28" fill="#0f172a">&lt;</text><text x="120" y="80" text-anchor="middle" font-size="12" fill="#64748b">Comparer les nombres</text></svg>`
     },
     {
-      title: 'Exercices',
+     title: 'Exercices',
       icon: '📊',
       w: 240,
       h: 140,
@@ -1147,6 +1165,16 @@ export default function App() {
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="140" viewBox="0 0 240 140"><rect width="240" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="40" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Exercices Numération</text><text x="120" y="75" text-anchor="middle" font-size="18" fill="#0f172a">GeoGebra</text><text x="120" y="105" text-anchor="middle" font-size="12" fill="#64748b">Activités interactives</text></svg>`
     },
     {
+      title: 'Ptit matheux',
+      icon: '📊',
+      w: 240,
+      h: 140,
+      url: 'https://ptitmatheux.fr/',
+      category: 'Maths — Numération',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="140" viewBox="0 0 240 140"><rect width="240" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="40" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Ptit Mateux Numération</text><text x="120" y="75" text-anchor="middle" font-size="18" fill="#0f172a">GeoGebra</text><text x="120" y="105" text-anchor="middle" font-size="12" fill="#64748b">Activités interactives</text></svg>`
+    },
+    {   
+      
       title: 'Tableau de conversion',
       icon: '↔️',
       w: 260,
@@ -1291,6 +1319,15 @@ export default function App() {
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Vers la multiplication</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">4 × 5 = ?</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CE2</text></svg>`
     },
     {
+      title: 'quotient et du reste de divisions simples',
+      icon: '➗',
+      w: 240,
+      h: 120,
+      url: 'https://micetf.fr/divisator/',
+      category: 'Maths — Calcul',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">quotient et du reste de divisions simples</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">24 ÷ 6 = ?</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CM1</text></svg>`
+    },
+    {
       title: 'Dénombrement',
       icon: '🍎',
       w: 240,
@@ -1319,6 +1356,15 @@ export default function App() {
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Proportionnalité</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">6 kg = 12 €</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CM2</text></svg>`
     },
     {
+      title: 'Se déplacer sur un quadrillage',
+      icon: '📊',
+      w: 240,
+      h: 120,
+      url: 'https://micetf.fr/reperage/',
+      category: 'Maths — Calcul',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Se déplacer sur un quadrillage</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">6 kg = 12 €</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CM2</text></svg>`
+    },
+    { 
       title: 'Générateur d’exercices de conjugaison',
       icon: '📝',
       w: 220,
