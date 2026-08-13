@@ -445,12 +445,15 @@ export default function App() {
         lines.forEach((line, i) => ctx.fillText(line, obj.x, obj.y + i * (obj.size * 1.3)))
       } else if (obj.type === 'image' || obj.type === 'pdf') {
         const img = (obj as any)._img as HTMLImageElement | undefined
-        if (img && img.complete) {
+        if (img && img.complete && img.naturalWidth > 0) {
           ctx.drawImage(img, obj.x, obj.y, obj.w, obj.h)
           ctx.strokeStyle = 'rgba(0,162,255,0.4)'; ctx.lineWidth = 1 / camera.zoom; ctx.strokeRect(obj.x, obj.y, obj.w, obj.h)
+        } else if (img && img.complete && img.naturalWidth === 0) {
+          ctx.fillStyle = '#fee2e2'; ctx.fillRect(obj.x, obj.y, obj.w, obj.h)
+          ctx.fillStyle = '#991b1b'; ctx.font = '14px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Image introuvable', obj.x + obj.w / 2, obj.y + obj.h / 2); ctx.textAlign = 'left'
         } else {
           ctx.fillStyle = '#1e293b'; ctx.fillRect(obj.x, obj.y, obj.w, obj.h)
-          ctx.fillStyle = '#64748b'; ctx.font = '14px sans-serif'; ctx.fillText('Chargement...', obj.x + obj.w / 2, obj.y + obj.h / 2)
+          ctx.fillStyle = '#64748b'; ctx.font = '14px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Chargement...', obj.x + obj.w / 2, obj.y + obj.h / 2); ctx.textAlign = 'left'
         }
       } else if (obj.type === 'sticky') {
         ctx.fillStyle = obj.color
@@ -474,7 +477,7 @@ export default function App() {
           ctx.beginPath(); ctx.arc(obj.x, obj.y, obj.size / 2, 0, Math.PI * 2); ctx.fill()
         } else {
           const img = (obj as any)._img as HTMLImageElement | undefined
-          if (img && img.complete) ctx.drawImage(img, obj.x - obj.size / 2, obj.y - obj.size / 2, obj.size, obj.size)
+          if (img && img.complete && img.naturalWidth > 0) ctx.drawImage(img, obj.x - obj.size / 2, obj.y - obj.size / 2, obj.size, obj.size)
           else { ctx.fillStyle = (obj as any).color || '#f59e0b'; ctx.beginPath(); ctx.arc(obj.x, obj.y, obj.size / 2, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = 'white'; ctx.font = '20px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('⭐', obj.x, obj.y + 7); ctx.textAlign = 'left' }
         }
       }
@@ -686,6 +689,7 @@ export default function App() {
       if ((obj.type === 'image' || obj.type === 'pdf' || obj.type === 'stamp') && !(obj as any)._img) {
         const img = new Image()
         img.crossOrigin = 'anonymous'
+        img.onerror = () => { (obj as any)._img = img; redraw() }
         img.src = (obj as any).src
         img.onload = () => { (obj as any)._img = img; redraw() }
         ; (obj as any)._img = img
