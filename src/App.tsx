@@ -1012,8 +1012,6 @@ export default function App() {
   }
   const nudgeCompassRadius = (d: number) => setCompassRadius(v => Math.min(420, Math.max(18, v + d)))
 
-  const handleClearDrawings = () => { setObjects([]); setRedoStack([]); showToast('Dessins effacés') }
-  const handleClearAll = () => { setObjects([]); setRedoStack([]); setCamera({ x: 0, y: 0, zoom: 1 }); setEmbeddedVideos([]); setCompassCenter(null); setCompassIsDragging(false); showToast('Tableau réinitialisé') }
   const handleUndo = () => { if (objects.length === 0) return; const last = objects[objects.length - 1]; setRedoStack(r => [...r, objects]); setObjects(o => o.slice(0, -1)); void last }
   const handleRedo = () => { if (redoStack.length === 0) return; const prev = redoStack[redoStack.length - 1]; setObjects(prev); setRedoStack(r => r.slice(0, -1)) }
 
@@ -1850,12 +1848,6 @@ export default function App() {
         <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-40 flex items-center gap-1.5 px-2 py-1.5 rounded-2xl backdrop-blur-xl border shadow-[0_8px_24px_rgba(0,0,0,0.25)] max-w-[96vw] overflow-x-auto ${isLight ? 'bg-white/92 border-slate-200' : 'bg-[rgba(15,23,42,0.92)] border-white/[0.12]'}`}>
           <button onClick={() => setCamera({ x: 0, y: 0, zoom: 1 })} title="Centrer la vue" className={`w-9 h-9 shrink-0 grid place-items-center rounded-xl border transition ${isLight ? 'bg-slate-50 border-slate-200 hover:bg-white text-slate-600' : 'bg-white/[0.06] border-white/10 hover:bg-white/[0.10] text-white/80'}`}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
-          </button>
-          <button onClick={handleClearDrawings} title="Effacer les dessins" className="w-9 h-9 shrink-0 grid place-items-center rounded-xl bg-white/[0.06] border border-white/10 text-amber-400 hover:bg-amber-500/15">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
-          </button>
-          <button onClick={handleClearAll} title="Réinitialiser tout" className="w-9 h-9 shrink-0 grid place-items-center rounded-xl bg-white/[0.06] border border-white/10 text-red-400 hover:bg-red-500/15">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></svg>
           </button>
           <div className="w-px h-4 bg-white/15 mx-1 shrink-0" />
           <button onClick={playClap} className="px-2.5 py-1.5 shrink-0 rounded-xl text-[15px] leading-none bg-amber-400/15 border border-amber-400/30 hover:scale-105 transition">👏</button>
