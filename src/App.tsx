@@ -1527,6 +1527,24 @@ export default function App() {
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><line x1="110" y1="20" x2="110" y2="120" stroke="#ef4444" stroke-width="2" stroke-dasharray="5"/><polygon points="70,50 100,50 100,90 70,90" fill="#bae6fd" stroke="#0f172a" stroke-width="2"/><polygon points="150,50 120,50 120,90 150,90" fill="#bae6fd" stroke="#0f172a" stroke-width="2"/><text x="110" y="135" text-anchor="middle" font-size="12" fill="#0f172a">Axe de symétrie</text></svg>`
     },
     {
+            title: 'Pareil, pas pareil ?',
+      icon: '🪞',
+      w: 220,
+      h: 140,
+      url: 'https://micetf.fr/pareil-pas-pareil/#0',
+      category: 'Géométrie',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><line x1="110" y1="20" x2="110" y2="120" stroke="#ef4444" stroke-width="2" stroke-dasharray="5"/><polygon points="70,50 100,50 100,90 70,90" fill="#bae6fd" stroke="#0f172a" stroke-width="2"/><polygon points="150,50 120,50 120,90 150,90" fill="#bae6fd" stroke="#0f172a" stroke-width="2"/><text x="110" y="135" text-anchor="middle" font-size="12" fill="#0f172a">Axe de symétrie</text></svg>`
+    },
+    {
+            title: 'Reproduction sur quadrillage',
+      icon: '🪞',
+      w: 220,
+      h: 140,
+      url: 'https://micetf.fr/reproduction-sur-quadrillage/',
+      category: 'Géométrie',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white" stroke="#0f172a" stroke-width="2"/><line x1="110" y1="20" x2="110" y2="120" stroke="#ef4444" stroke-width="2" stroke-dasharray="5"/><polygon points="70,50 100,50 100,90 70,90" fill="#bae6fd" stroke="#0f172a" stroke-width="2"/><polygon points="150,50 120,50 120,90 150,90" fill="#bae6fd" stroke="#0f172a" stroke-width="2"/><text x="110" y="135" text-anchor="middle" font-size="12" fill="#0f172a">Axe de symétrie</text></svg>`
+    },
+    {
       title: 'Angle : Permis Rapporteur',
       icon: '📐',
       w: 240,
