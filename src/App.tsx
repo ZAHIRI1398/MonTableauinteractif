@@ -1029,12 +1029,31 @@ export default function App() {
         // @ts-ignore
         const { jsPDF } = await import('https://esm.sh/jspdf@2.5.1')
         const dpr = window.devicePixelRatio || 1
-        const w = canvas.width / dpr
-        const h = canvas.height / dpr
-        const doc = new jsPDF({ unit: 'px', format: [w, h], orientation: w > h ? 'landscape' : 'portrait' })
-        const imgData = canvas.toDataURL('image/png')
-        doc.addImage(imgData, 'PNG', 0, 0, w, h)
-        doc.save(`tableau-${Date.now()}.pdf`)
+        const cw = canvas.width / dpr
+        const ch = canvas.height / dpr
+        const a4w = 794, a4h = 1123
+        if (cw <= a4w && ch <= a4h) {
+          const doc = new jsPDF({ unit: 'px', format: [cw, ch], orientation: cw > ch ? 'landscape' : 'portrait' })
+          doc.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, cw, ch)
+          doc.save(`tableau-${Date.now()}.pdf`)
+        } else {
+          const imgData = canvas.toDataURL('image/png')
+          const img = new Image()
+          img.src = imgData
+          await new Promise<void>((resolve, reject) => { img.onload = () => resolve(); img.onerror = reject })
+          const doc = new jsPDF({ unit: 'px', format: [a4w, a4h] })
+          const pageCount = Math.max(1, Math.ceil(ch / a4h))
+          for (let p = 0; p < pageCount; p++) {
+            if (p > 0) doc.addPage([a4w, a4h], 'portrait')
+            const sliceH = Math.min(a4h, ch - p * a4h)
+            const c2 = document.createElement('canvas')
+            c2.width = Math.round(cw); c2.height = Math.round(sliceH)
+            const ctx2 = c2.getContext('2d')!
+            ctx2.drawImage(img, 0, -p * a4h, cw, ch)
+            doc.addImage(c2.toDataURL('image/png'), 'PNG', 0, 0, a4w, sliceH)
+          }
+          doc.save(`tableau-${Date.now()}.pdf`)
+        }
         showToast('Export PDF réussi ✅')
       } catch { showToast('Erreur export PDF') }
       return
@@ -1855,9 +1874,7 @@ export default function App() {
           <button onClick={() => setCamera({ x: 0, y: 0, zoom: 1 })} title="Centrer la vue" className={`w-9 h-9 shrink-0 grid place-items-center rounded-xl border transition ${isLight ? 'bg-slate-50 border-slate-200 hover:bg-white text-slate-600' : 'bg-white/[0.06] border-white/10 hover:bg-white/[0.10] text-white/80'}`}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
           </button>
-          <button onClick={handleClearDrawings} title="Effacer les dessins" className="w-9 h-9 shrink-0 grid place-items-center rounded-xl bg-white/[0.06] border border-white/10 text-amber-400 hover:bg-amber-500/15">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
-          </button>
+
           <button onClick={handleClearAll} title="Réinitialiser tout" className="w-9 h-9 shrink-0 grid place-items-center rounded-xl bg-white/[0.06] border border-white/10 text-red-400 hover:bg-red-500/15">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></svg>
           </button>
