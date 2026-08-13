@@ -1319,6 +1319,15 @@ export default function App() {
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Vers la multiplication</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">4 × 5 = ?</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CE2</text></svg>`
     },
     {
+       title: ' Duels de produits',
+      icon: '✖️',
+      w: 240,
+      h: 120,
+      url: 'https://micetf.fr/duels-produits/',
+      category: 'Maths — Calcul',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Vers la multiplication</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">4 × 5 = ?</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes </text></svg>`
+    },
+    {
       title: 'quotient et du reste de divisions simples',
       icon: '➗',
       w: 240,
