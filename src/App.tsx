@@ -320,6 +320,7 @@ export default function App() {
 
     objects.forEach(obj => {
       ctx.save()
+      try {
       ctx.globalAlpha = (obj as any).opacity !== undefined ? (obj as any).opacity / 100 : 1
       if (obj.type === 'path') {
         ctx.strokeStyle = obj.color
@@ -453,7 +454,7 @@ export default function App() {
           ctx.fillStyle = '#991b1b'; ctx.font = '14px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Image introuvable', obj.x + obj.w / 2, obj.y + obj.h / 2); ctx.textAlign = 'left'
         } else {
           ctx.fillStyle = '#1e293b'; ctx.fillRect(obj.x, obj.y, obj.w, obj.h)
-          ctx.fillStyle = '#64748b'; ctx.font = '14px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Chargement...', obj.x + obj.w / 2, obj.y + obj.h / 2); ctx.textAlign = 'left'
+          ctx.fillStyle = '#64748b'; ctx.font = '14px sans-serif'; ctx.textAlign = 'center'; ctx.fillText((obj as any)._imgError ? 'Image indisponible' : 'Chargement...', obj.x + obj.w / 2, obj.y + obj.h / 2); ctx.textAlign = 'left'
         }
       } else if (obj.type === 'sticky') {
         ctx.fillStyle = obj.color
@@ -475,12 +476,17 @@ export default function App() {
         if (obj.src === 'dot') {
           ctx.fillStyle = (obj as any).color || activeColor
           ctx.beginPath(); ctx.arc(obj.x, obj.y, obj.size / 2, 0, Math.PI * 2); ctx.fill()
+        } else if (!/^(https?:|data:|blob:|\/)/i.test(obj.src)) {
+          ctx.font = `${obj.size}px sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+          ctx.fillText(obj.src, obj.x, obj.y)
+          ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
         } else {
           const img = (obj as any)._img as HTMLImageElement | undefined
           if (img && img.complete && img.naturalWidth > 0) ctx.drawImage(img, obj.x - obj.size / 2, obj.y - obj.size / 2, obj.size, obj.size)
           else { ctx.fillStyle = (obj as any).color || '#f59e0b'; ctx.beginPath(); ctx.arc(obj.x, obj.y, obj.size / 2, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = 'white'; ctx.font = '20px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('⭐', obj.x, obj.y + 7); ctx.textAlign = 'left' }
         }
       }
+      } catch { /* objet non dessinable : on n'interrompt pas le rendu */ }
       ctx.restore()
     })
     ctx.restore()
@@ -686,13 +692,23 @@ export default function App() {
 
   useEffect(() => {
     objects.forEach(obj => {
-      if ((obj.type === 'image' || obj.type === 'pdf' || obj.type === 'stamp') && !(obj as any)._img) {
-        const img = new Image()
-        img.crossOrigin = 'anonymous'
-        img.onerror = () => { (obj as any)._img = img; redraw() }
-        img.src = (obj as any).src
-        img.onload = () => { (obj as any)._img = img; redraw() }
-        ; (obj as any)._img = img
+      if ((obj.type === 'image' || obj.type === 'pdf' || obj.type === 'stamp') && !(obj as any)._img && !(obj as any)._imgError) {
+        const src = (obj as any).src as string
+        if (!/^(https?:|data:|blob:|\/)/i.test(src)) return
+        const load = (withCors: boolean) => {
+          const img = new Image()
+          if (withCors) img.crossOrigin = 'anonymous'
+          img.onload = () => { (obj as any)._img = img; redraw() }
+          img.onerror = () => {
+            if (withCors) { load(false); return }
+            (obj as any)._img = undefined
+            ; (obj as any)._imgError = true
+            redraw()
+          }
+          img.src = src
+          ; (obj as any)._img = img
+        }
+        load(/^https?:/i.test(src))
       }
     })
   }, [objects, redraw])
@@ -1039,11 +1055,13 @@ export default function App() {
       } catch { showToast('Erreur export PDF') }
       return
     }
-    const link = document.createElement('a')
-    link.download = `tableau-${Date.now()}.${type}`
-    link.href = canvas.toDataURL(type === 'png' ? 'image/png' : 'image/jpeg', 0.92)
-    link.click()
-    showToast(`Export ${type.toUpperCase()} réussi ✅`)
+    try {
+      const link = document.createElement('a')
+      link.download = `tableau-${Date.now()}.${type}`
+      link.href = canvas.toDataURL(type === 'png' ? 'image/png' : 'image/jpeg', 0.92)
+      link.click()
+      showToast(`Export ${type.toUpperCase()} réussi ✅`)
+    } catch { showToast(`Erreur export ${type.toUpperCase()}`) }
   }
   const startRecording = async () => {
     const canvas = canvasRef.current
