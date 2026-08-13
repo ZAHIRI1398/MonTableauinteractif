@@ -1374,6 +1374,16 @@ export default function App() {
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120"><rect width="240" height="120" fill="white" stroke="#0f172a" stroke-width="2"/><text x="120" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Se déplacer sur un quadrillage</text><text x="120" y="60" text-anchor="middle" font-size="18" fill="#0f172a">6 kg = 12 €</text><text x="120" y="90" text-anchor="middle" font-size="12" fill="#64748b">Problèmes CM2</text></svg>`
     },
     { 
+      title: 'Le bon mot',
+      icon: '📝',
+      w: 220,
+      h: 140,
+      url: 'https://micetf.fr/le-bon-mot/',
+      category: 'Français',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white"/><line x1="0" y1="35" x2="220" y2="35" stroke="#3b82f6" stroke-width="1"/><line x1="0" y1="70" x2="220" y2="70" stroke="#3b82f6" stroke-width="2"/><line x1="0" y1="105" x2="220" y2="105" stroke="#3b82f6" stroke-width="1"/><line x1="0" y1="122" x2="220" y2="122" stroke="#ef4444" stroke-width="1" stroke-dasharray="4"/><text x="110" y="60" text-anchor="middle" font-size="28" fill="#0f172a">a</text></svg>`
+    },
+    {
+     
       title: 'Générateur d’exercices de conjugaison',
       icon: '📝',
       w: 220,
