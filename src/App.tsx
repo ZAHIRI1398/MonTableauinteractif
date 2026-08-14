@@ -704,19 +704,6 @@ export default function App() {
     const pt = getPoint(e, rect)
       ; (e.target as Element).setPointerCapture(e.pointerId)
 
-    // Vérifier si on clique sur un PDF - désactiver le dessin dans ce cas
-    const clickedPdf = [...objects].reverse().find(obj => {
-      if (obj.type === 'pdf') {
-        return pt.x >= obj.x && pt.x <= obj.x + (obj as any).w && pt.y >= obj.y && pt.y <= obj.y + (obj as any).h
-      }
-      return false
-    })
-    
-    if (clickedPdf && (tool === 'pen' || tool === 'highlighter' || tool === 'eraser' || tool === 'line' || tool === 'arrow' || tool.startsWith('shape'))) {
-      showToast('Dessin désactivé sur le PDF - utilisez l\'outil 🔊 pour lire')
-      return
-    }
-
     if (tool === 'hand' || tool === 'select' && e.button === 1 || (e.altKey)) {
       isPanning.current = true
       lastPan.current = { x: e.clientX, y: e.clientY }
@@ -1046,31 +1033,66 @@ export default function App() {
         const ch = canvas.height / dpr
         const a4w = 794, a4h = 1123
         
-        // Créer un canvas temporaire pour préserver le ratio d'aspect
-        const tempCanvas = document.createElement('canvas')
-        tempCanvas.width = canvas.width
-        tempCanvas.height = canvas.height
-        const tempCtx = tempCanvas.getContext('2d')!
-        tempCtx.drawImage(canvas, 0, 0)
+        // Calculer les bornes du contenu réel (PDF + dessins)
+        let minX = 0, minY = 0, maxX = cw, maxY = ch
+        objects.forEach(obj => {
+          if (obj.type === 'pdf') {
+            minX = Math.min(minX, obj.x)
+            minY = Math.min(minY, obj.y)
+            maxX = Math.max(maxX, obj.x + obj.w)
+            maxY = Math.max(maxY, obj.y + obj.h)
+          } else if (obj.type === 'path') {
+            obj.points.forEach(p => {
+              minX = Math.min(minX, p.x)
+              minY = Math.min(minY, p.y)
+              maxX = Math.max(maxX, p.x)
+              maxY = Math.max(maxY, p.y)
+            })
+          } else if (obj.type === 'shape') {
+            minX = Math.min(minX, obj.x1, obj.x2)
+            minY = Math.min(minY, obj.y1, obj.y2)
+            maxX = Math.max(maxX, obj.x1, obj.x2)
+            maxY = Math.max(maxY, obj.y1, obj.y2)
+          }
+        })
         
-        if (cw <= a4w && ch <= a4h) {
-          const doc = new jsPDF({ unit: 'px', format: [cw, ch], orientation: cw > ch ? 'landscape' : 'portrait' })
-          doc.addImage(tempCanvas.toDataURL('image/png'), 'PNG', 0, 0, cw, ch)
+        // Ajouter une marge
+        const margin = 20
+        minX = Math.max(0, minX - margin)
+        minY = Math.max(0, minY - margin)
+        maxX = Math.min(cw, maxX + margin)
+        maxY = Math.min(ch, maxY + margin)
+        
+        const contentW = maxX - minX
+        const contentH = maxY - minY
+        
+        // Créer un canvas temporaire pour la zone de contenu
+        const tempCanvas = document.createElement('canvas')
+        tempCanvas.width = contentW * dpr
+        tempCanvas.height = contentH * dpr
+        const tempCtx = tempCanvas.getContext('2d')!
+        tempCtx.fillStyle = '#ffffff'
+        tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height)
+        tempCtx.drawImage(canvas, minX * dpr, minY * dpr, contentW * dpr, contentH * dpr, 0, 0, tempCanvas.width, tempCanvas.height)
+        
+        if (contentW <= a4w && contentH <= a4h) {
+          const doc = new jsPDF({ unit: 'px', format: [contentW, contentH], orientation: contentW > contentH ? 'landscape' : 'portrait' })
+          doc.addImage(tempCanvas.toDataURL('image/png'), 'PNG', 0, 0, contentW, contentH)
           doc.save(`tableau-${Date.now()}.pdf`)
         } else {
           const doc = new jsPDF({ unit: 'px', format: [a4w, a4h] })
-          const pageCount = Math.max(1, Math.ceil(ch / a4h))
+          const pageCount = Math.max(1, Math.ceil(contentH / a4h))
           for (let p = 0; p < pageCount; p++) {
             if (p > 0) doc.addPage([a4w, a4h], 'portrait')
-            const sliceH = Math.min(a4h, ch - p * a4h)
+            const sliceH = Math.min(a4h, contentH - p * a4h)
             const c2 = document.createElement('canvas')
-            c2.width = Math.round(cw * dpr)
+            c2.width = Math.round(contentW * dpr)
             c2.height = Math.round(sliceH * dpr)
             const ctx2 = c2.getContext('2d')!
             ctx2.drawImage(
               tempCanvas,
               0, Math.round(p * a4h * dpr),
-              Math.round(cw * dpr), Math.round(sliceH * dpr),
+              Math.round(contentW * dpr), Math.round(sliceH * dpr),
               0, 0, c2.width, c2.height
             )
             doc.addImage(c2.toDataURL('image/png'), 'PNG', 0, 0, a4w, sliceH)
