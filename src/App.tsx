@@ -1905,8 +1905,10 @@ export default function App() {
 
         {objects.filter(obj => obj.type === 'pdf').map(pdf => {
           const pdfObj = pdf as PdfObj
+          const screenX = pdfObj.x * camera.zoom + camera.x
+          const screenY = (pdfObj.y + pdfObj.h) * camera.zoom + camera.y + 8
           return (
-            <div key={pdfObj.id} className="absolute z-20 group" style={{ left: pdfObj.x, top: pdfObj.y + pdfObj.h + 8 }}>
+            <div key={pdfObj.id} className="absolute z-20 group" style={{ left: screenX, top: screenY }}>
               <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg backdrop-blur-xl border shadow-lg ${isLight ? 'bg-white/90 border-slate-200 text-slate-700' : 'bg-black/80 border-white/20 text-white'}`}>
                 <button 
                   onClick={() => changePdfPage(pdfObj.id, 'prev')}
