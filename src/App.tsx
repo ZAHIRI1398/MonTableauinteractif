@@ -5,7 +5,7 @@ type PathObj = { id: string; type: 'path'; points: Point[]; color: string; width
 type ShapeObj = { id: string; type: 'shape'; shape: string; x1: number; y1: number; x2: number; y2: number; color: string; width: number; opacity: number; filled: boolean; lineStyle: string }
 type TextObj = { id: string; type: 'text'; x: number; y: number; text: string; color: string; size: number }
 type ImageObj = { id: string; type: 'image'; x: number; y: number; w: number; h: number; src: string }
-type PdfObj = { id: string; type: 'pdf'; x: number; y: number; w: number; h: number; src: string; words: { id: string; text: string; x: number; y: number; w: number; h: number }[] }
+type PdfObj = { id: string; type: 'pdf'; x: number; y: number; w: number; h: number; src: string; words: { id: string; text: string; x: number; y: number; w: number; h: number }[]; pages: { src: string; words: { id: string; text: string; x: number; y: number; w: number; h: number }[] }[]; currentPage: number }
 type StickyObj = { id: string; type: 'sticky'; x: number; y: number; w: number; h: number; text: string; color: string }
 type StampObj = { id: string; type: 'stamp'; x: number; y: number; size: number; src: string }
 type DrawObj = PathObj | ShapeObj | TextObj | ImageObj | PdfObj | StickyObj | StampObj
@@ -1640,54 +1640,105 @@ export default function App() {
       const url = URL.createObjectURL(file)
       const pdf = await pdfjs.getDocument({ url }).promise
       const pageCount = pdf.numPages
-      const renderScale = 1.2
-      const pages: { canvas: HTMLCanvasElement; viewport: any; textContent: any; y: number }[] = []
-      let totalH = 0
+      const renderScale = 1.5
+      const pagesData: { src: string; words: { id: string; text: string; x: number; y: number; w: number; h: number }[] }[] = []
+      
       for (let i = 1; i <= pageCount; i++) {
         const page = await pdf.getPage(i)
         const viewport = page.getViewport({ scale: renderScale })
         const pc = document.createElement('canvas')
         pc.width = viewport.width; pc.height = viewport.height
         const pctx = pc.getContext('2d')!
+        pctx.fillStyle = '#ffffff'
+        pctx.fillRect(0, 0, viewport.width, viewport.height)
         await page.render({ canvasContext: pctx, viewport }).promise
         const textContent = await page.getTextContent()
-        pages.push({ canvas: pc, viewport, textContent, y: totalH })
-        totalH += viewport.height
-      }
-      const pageW = Math.max(...pages.map(p => p.viewport.width))
-      const c = document.createElement('canvas')
-      c.width = pageW; c.height = totalH
-      const ctx = c.getContext('2d')!
-      const allWords: { id: string; text: string; x: number; y: number; w: number; h: number }[] = []
-      pages.forEach((p, pageIndex) => {
-        ctx.drawImage(p.canvas, 0, p.y)
-        p.textContent.items.forEach((item: any, index: number) => {
+        
+        const pageWords: { id: string; text: string; x: number; y: number; w: number; h: number }[] = []
+        textContent.items.forEach((item: any, index: number) => {
           if (!item.str?.trim()) return
-          const tx = pdfjs.Util.transform(p.viewport.transform, item.transform)
-          const itemWidth = Math.max(10, item.width * p.viewport.scale)
+          const tx = pdfjs.Util.transform(viewport.transform, item.transform)
+          const itemWidth = Math.max(10, item.width * viewport.scale)
           const itemHeight = Math.max(12, Math.abs(tx[3]) || 16)
-          const y = tx[5] - itemHeight + p.y
+          const y = tx[5] - itemHeight
           const parts = item.str.trim().split(/\s+/).filter(Boolean)
           const total = parts.reduce((s: number, part: string) => s + part.length, 0) || 1
           let x = tx[4]
-          parts.forEach((part: string, i: number) => {
+          parts.forEach((part: string, j: number) => {
             const pw = Math.max(8, itemWidth * (part.length / total))
-            allWords.push({ id: `${pageIndex}-${index}-${i}`, text: part, x, y, w: pw, h: itemHeight })
+            pageWords.push({ id: `${i}-${index}-${j}`, text: part, x, y, w: pw, h: itemHeight })
             x += pw + itemWidth * 0.04
           })
         })
-      })
+        
+        const maxW = 800
+        const w = Math.min(viewport.width, maxW)
+        const h = w * (viewport.height / viewport.width)
+        const imgScale = w / viewport.width
+        const scaledWords = pageWords.map(w => ({ ...w, x: w.x * imgScale, y: w.y * imgScale, w: w.w * imgScale, h: w.h * imgScale }))
+        
+        pagesData.push({ src: pc.toDataURL('image/png'), words: scaledWords })
+      }
+      
       const maxW = 800
-      const w = Math.min(pageW, maxW)
-      const h = w * (totalH / pageW)
-      const imgScale = w / pageW
-      const words = allWords.map(w => ({ ...w, x: w.x * imgScale, y: w.y * imgScale, w: w.w * imgScale, h: w.h * imgScale }))
-      const newObj: PdfObj = { id: Date.now().toString(), type: 'pdf', x: 80, y: 80, w, h, src: c.toDataURL('image/png'), words }
+      const firstPageW = Math.min(pagesData[0].src ? 800 : 600, maxW)
+      const newObj: PdfObj = { 
+        id: Date.now().toString(), 
+        type: 'pdf', 
+        x: 80, 
+        y: 80, 
+        w: firstPageW, 
+        h: firstPageW * 1.4, 
+        src: pagesData[0].src, 
+        words: pagesData[0].words,
+        pages: pagesData,
+        currentPage: 1
+      }
+      
+      const img = new Image()
+      img.crossOrigin = 'anonymous'
+      img.src = pagesData[0].src
+      await new Promise((resolve, reject) => {
+        img.onload = resolve
+        img.onerror = reject
+      })
+      ;(newObj as any)._img = img
+      
       setObjects(o => [...o, newObj])
-      showToast('PDF inséré — activez l’outil 🔊 pour lire')
-    } catch {
+      showToast(`PDF inséré — ${pageCount} pages — activez l’outil 🔊 pour lire`)
+    } catch (err) {
+      console.error('Erreur PDF:', err)
       showToast('Erreur de rendu PDF')
     }
+  }
+
+  const changePdfPage = (pdfId: string, direction: 'prev' | 'next') => {
+    setObjects(prev => prev.map(obj => {
+      if (obj.type === 'pdf' && obj.id === pdfId) {
+        const pdfObj = obj as PdfObj
+        const totalPages = pdfObj.pages.length
+        let newPage = pdfObj.currentPage
+        
+        if (direction === 'prev' && newPage > 1) {
+          newPage--
+        } else if (direction === 'next' && newPage < totalPages) {
+          newPage++
+        }
+        
+        if (newPage !== pdfObj.currentPage) {
+          const pageData = pdfObj.pages[newPage - 1]
+          const img = new Image()
+          img.crossOrigin = 'anonymous'
+          img.src = pageData.src
+          img.onload = () => {
+            ;(obj as any)._img = img
+            redraw()
+          }
+          return { ...pdfObj, currentPage: newPage, src: pageData.src, words: pageData.words }
+        }
+      }
+      return obj
+    }))
   }
 
   const playClap = () => {
@@ -1851,6 +1902,33 @@ export default function App() {
             <button onClick={() => setEmbeddedActivities(ev => ev.filter(x => x.id !== v.id))} className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-red-500 text-white grid place-items-center text-xs opacity-0 group-hover:opacity-100 transition z-10">✕</button>
           </div>
         ))}
+
+        {objects.filter(obj => obj.type === 'pdf').map(pdf => {
+          const pdfObj = pdf as PdfObj
+          return (
+            <div key={pdfObj.id} className="absolute z-20 group" style={{ left: pdfObj.x, top: pdfObj.y + pdfObj.h + 8 }}>
+              <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg backdrop-blur-xl border shadow-lg ${isLight ? 'bg-white/90 border-slate-200 text-slate-700' : 'bg-black/80 border-white/20 text-white'}`}>
+                <button 
+                  onClick={() => changePdfPage(pdfObj.id, 'prev')}
+                  disabled={pdfObj.currentPage <= 1}
+                  className={`w-7 h-7 grid place-items-center rounded-lg text-sm font-bold transition ${pdfObj.currentPage <= 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-white/10'}`}
+                >
+                  −
+                </button>
+                <span className="text-xs font-semibold min-w-[3rem] text-center">
+                  {pdfObj.currentPage}/{pdfObj.pages.length}
+                </span>
+                <button 
+                  onClick={() => changePdfPage(pdfObj.id, 'next')}
+                  disabled={pdfObj.currentPage >= pdfObj.pages.length}
+                  className={`w-7 h-7 grid place-items-center rounded-lg text-sm font-bold transition ${pdfObj.currentPage >= pdfObj.pages.length ? 'opacity-30 cursor-not-allowed' : 'hover:bg-white/10'}`}
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          )
+        })}
 
         {showCurtain && (
           <div className="absolute inset-0 z-30 flex flex-col">
