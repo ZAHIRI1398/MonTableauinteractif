@@ -1066,14 +1066,16 @@ export default function App() {
         const contentW = maxX - minX
         const contentH = maxY - minY
         
-        // Créer un canvas temporaire pour la zone de contenu
+        // Créer un canvas temporaire SANS devicePixelRatio pour préserver le ratio 1:1
         const tempCanvas = document.createElement('canvas')
-        tempCanvas.width = contentW * dpr
-        tempCanvas.height = contentH * dpr
+        tempCanvas.width = contentW
+        tempCanvas.height = contentH
         const tempCtx = tempCanvas.getContext('2d')!
         tempCtx.fillStyle = '#ffffff'
-        tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height)
-        tempCtx.drawImage(canvas, minX * dpr, minY * dpr, contentW * dpr, contentH * dpr, 0, 0, tempCanvas.width, tempCanvas.height)
+        tempCtx.fillRect(0, 0, contentW, contentH)
+        
+        // Dessiner le canvas original SANS le DPR pour éviter la déformation
+        tempCtx.drawImage(canvas, minX * dpr, minY * dpr, contentW * dpr, contentH * dpr, 0, 0, contentW, contentH)
         
         if (contentW <= a4w && contentH <= a4h) {
           const doc = new jsPDF({ unit: 'px', format: [contentW, contentH], orientation: contentW > contentH ? 'landscape' : 'portrait' })
@@ -1086,14 +1088,14 @@ export default function App() {
             if (p > 0) doc.addPage([a4w, a4h], 'portrait')
             const sliceH = Math.min(a4h, contentH - p * a4h)
             const c2 = document.createElement('canvas')
-            c2.width = Math.round(contentW * dpr)
-            c2.height = Math.round(sliceH * dpr)
+            c2.width = contentW
+            c2.height = sliceH
             const ctx2 = c2.getContext('2d')!
             ctx2.drawImage(
               tempCanvas,
-              0, Math.round(p * a4h * dpr),
-              Math.round(contentW * dpr), Math.round(sliceH * dpr),
-              0, 0, c2.width, c2.height
+              0, p * a4h,
+              contentW, sliceH,
+              0, 0, contentW, sliceH
             )
             doc.addImage(c2.toDataURL('image/png'), 'PNG', 0, 0, a4w, sliceH)
           }
