@@ -1,13 +1,13 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 
 type Point = { x: number; y: number }
-type PathObj = { id: string; type: 'path'; points: Point[]; color: string; width: number; opacity: number; nib: string }
-type ShapeObj = { id: string; type: 'shape'; shape: string; x1: number; y1: number; x2: number; y2: number; color: string; width: number; opacity: number; filled: boolean; lineStyle: string }
-type TextObj = { id: string; type: 'text'; x: number; y: number; text: string; color: string; size: number }
-type ImageObj = { id: string; type: 'image'; x: number; y: number; w: number; h: number; src: string }
+type PathObj = { id: string; type: 'path'; points: Point[]; color: string; width: number; opacity: number; nib: string; pdfId?: string; pageNumber?: number }
+type ShapeObj = { id: string; type: 'shape'; shape: string; x1: number; y1: number; x2: number; y2: number; color: string; width: number; opacity: number; filled: boolean; lineStyle: string; pdfId?: string; pageNumber?: number }
+type TextObj = { id: string; type: 'text'; x: number; y: number; text: string; color: string; size: number; pdfId?: string; pageNumber?: number }
+type ImageObj = { id: string; type: 'image'; x: number; y: number; w: number; h: number; src: string; pdfId?: string; pageNumber?: number }
 type PdfObj = { id: string; type: 'pdf'; x: number; y: number; w: number; h: number; src: string; words: { id: string; text: string; x: number; y: number; w: number; h: number }[]; pages: { src: string; words: { id: string; text: string; x: number; y: number; w: number; h: number }[] }[]; currentPage: number }
-type StickyObj = { id: string; type: 'sticky'; x: number; y: number; w: number; h: number; text: string; color: string }
-type StampObj = { id: string; type: 'stamp'; x: number; y: number; size: number; src: string }
+type StickyObj = { id: string; type: 'sticky'; x: number; y: number; w: number; h: number; text: string; color: string; pdfId?: string; pageNumber?: number }
+type StampObj = { id: string; type: 'stamp'; x: number; y: number; size: number; src: string; pdfId?: string; pageNumber?: number }
 type DrawObj = PathObj | ShapeObj | TextObj | ImageObj | PdfObj | StickyObj | StampObj
 
 const BOARD_COLORS: Record<string, string> = {
@@ -317,8 +317,19 @@ export default function App() {
         }
       }
     }
+    // Récupérer le PDF actif et sa page pour filtrer les dessins
+    const activePdf = objects.find(obj => obj.type === 'pdf') as PdfObj | undefined
+    const activePdfId = activePdf?.id
+    const activePdfPage = activePdf?.currentPage
 
     objects.forEach(obj => {
+      // Filtrer les dessins associés à une page PDF spécifique
+      if ((obj as any).pdfId && (obj as any).pageNumber) {
+        if ((obj as any).pdfId !== activePdfId || (obj as any).pageNumber !== activePdfPage) {
+          return // Ne pas afficher ce dessin
+        }
+      }
+      
       ctx.save()
       ctx.globalAlpha = (obj as any).opacity !== undefined ? (obj as any).opacity / 100 : 1
       if (obj.type === 'path') {
@@ -704,6 +715,17 @@ export default function App() {
     const pt = getPoint(e, rect)
       ; (e.target as Element).setPointerCapture(e.pointerId)
 
+    // Détecter si on clique sur un PDF pour associer les dessins à la page
+    const clickedPdf = [...objects].reverse().find(obj => {
+      if (obj.type === 'pdf') {
+        return pt.x >= obj.x && pt.x <= obj.x + (obj as any).w && pt.y >= obj.y && pt.y <= obj.y + (obj as any).h
+      }
+      return false
+    }) as PdfObj | undefined
+    
+    const pdfId = clickedPdf?.id
+    const pageNumber = clickedPdf?.currentPage
+
     if (tool === 'hand' || tool === 'select' && e.button === 1 || (e.altKey)) {
       isPanning.current = true
       lastPan.current = { x: e.clientX, y: e.clientY }
@@ -720,20 +742,20 @@ export default function App() {
       return
     }
     if (tool === 'sticky') {
-      const newSticky: StickyObj = { id: Date.now().toString(), type: 'sticky', x: pt.x - 80, y: pt.y - 60, w: 160, h: 120, text: 'Nouvelle note ✏️', color: stickyColors[Math.floor(Math.random() * stickyColors.length)] }
+      const newSticky: StickyObj = { id: Date.now().toString(), type: 'sticky', x: pt.x - 80, y: pt.y - 60, w: 160, h: 120, text: 'Nouvelle note ✏️', color: stickyColors[Math.floor(Math.random() * stickyColors.length)], pdfId, pageNumber }
       setObjects(o => [...o, newSticky])
       showToast('Post-it ajouté')
       return
     }
     if (tool === 'stamp') {
       const src = (window as any).__activeStamp || ''
-      const newStamp: StampObj = { id: Date.now().toString(), type: 'stamp', x: pt.x, y: pt.y, size: 64, src: src || 'star' }
+      const newStamp: StampObj = { id: Date.now().toString(), type: 'stamp', x: pt.x, y: pt.y, size: 64, src: src || 'star', pdfId, pageNumber }
       if (!src) (newStamp as any).color = activeColor
       setObjects(o => [...o, newStamp])
       return
     }
     if (tool === 'dot') {
-      const newDot: StampObj = { id: Date.now().toString(), type: 'stamp', x: pt.x, y: pt.y, size: Math.max(8, strokeWidth * 1.5 + 4), src: 'dot' }
+      const newDot: StampObj = { id: Date.now().toString(), type: 'stamp', x: pt.x, y: pt.y, size: Math.max(8, strokeWidth * 1.5 + 4), src: 'dot', pdfId, pageNumber }
       ;(newDot as any).color = activeColor
       setObjects(o => [...o, newDot])
       return
@@ -839,7 +861,20 @@ export default function App() {
     if (tool === 'eraser') {
       isDrawing.current = true
       currentPath.current = [pt]
+      
+      // Récupérer le PDF actif pour la gomme
+      const activePdf = objects.find(obj => obj.type === 'pdf') as PdfObj | undefined
+      const activePdfId = activePdf?.id
+      const activePdfPage = activePdf?.currentPage
+      
       setObjects(prev => prev.filter(obj => {
+        // Ne pas effacer les objets associés à une autre page PDF
+        if ((obj as any).pdfId && (obj as any).pageNumber) {
+          if ((obj as any).pdfId !== activePdfId || (obj as any).pageNumber !== activePdfPage) {
+            return true // Garder l'objet (ne pas l'effacer)
+          }
+        }
+        
         if (obj.type === 'path') return !obj.points.some(p => Math.hypot(p.x - pt.x, p.y - pt.y) < strokeWidth + 12)
         if (obj.type === 'shape') {
           const minX = Math.min(obj.x1, obj.x2), maxX = Math.max(obj.x1, obj.x2), minY = Math.min(obj.y1, obj.y2), maxY = Math.max(obj.y1, obj.y2)
@@ -904,7 +939,20 @@ export default function App() {
 
     if (tool === 'eraser') {
       currentPath.current.push(pt)
+      
+      // Récupérer le PDF actif pour la gomme
+      const activePdf = objects.find(obj => obj.type === 'pdf') as PdfObj | undefined
+      const activePdfId = activePdf?.id
+      const activePdfPage = activePdf?.currentPage
+      
       setObjects(prev => prev.filter(obj => {
+        // Ne pas effacer les objets associés à une autre page PDF
+        if ((obj as any).pdfId && (obj as any).pageNumber) {
+          if ((obj as any).pdfId !== activePdfId || (obj as any).pageNumber !== activePdfPage) {
+            return true // Garder l'objet (ne pas l'effacer)
+          }
+        }
+        
         if (obj.type === 'path') return !obj.points.some(p => Math.hypot(p.x - pt.x, p.y - pt.y) < strokeWidth + 12)
         if (obj.type === 'shape') {
           const minX = Math.min(obj.x1, obj.x2), maxX = Math.max(obj.x1, obj.x2), minY = Math.min(obj.y1, obj.y2), maxY = Math.max(obj.y1, obj.y2)
@@ -939,30 +987,35 @@ export default function App() {
 
     if (tool === 'laser' || tool === 'spotlight' || tool === 'magnifier') return
 
+    // Récupérer les infos PDF pour associer le dessin à la page actuelle
+    const currentPdf = [...objects].reverse().find(obj => obj.type === 'pdf') as PdfObj | undefined
+    const currentPdfId = currentPdf?.id
+    const currentPdfPage = currentPdf?.currentPage
+
     if (tool === 'pen' || tool === 'highlighter' || tool === 'magic-pen') {
       if (currentPath.current.length > 1) {
-        const newObj: PathObj = { id: Date.now().toString(), type: 'path', points: [...currentPath.current], color: tool === 'highlighter' ? '#fde047' : activeColor, width: strokeWidth, opacity: tool === 'highlighter' ? 55 : opacity, nib: tool === 'magic-pen' ? 'magic' : nib }
+        const newObj: PathObj = { id: Date.now().toString(), type: 'path', points: [...currentPath.current], color: tool === 'highlighter' ? '#fde047' : activeColor, width: strokeWidth, opacity: tool === 'highlighter' ? 55 : opacity, nib: tool === 'magic-pen' ? 'magic' : nib, pdfId: currentPdfId, pageNumber: currentPdfPage }
         setObjects(o => [...o, newObj])
         if (tool === 'magic-pen') setTimeout(() => setObjects(prev => prev.filter(x => x.id !== newObj.id)), 2800)
       }
     } else if (tool === 'line') {
       if (startPos.current && currentPath.current.length > 1) {
         const end = currentPath.current[currentPath.current.length - 1]
-        const newObj: ShapeObj = { id: Date.now().toString(), type: 'shape', shape: 'line', x1: startPos.current.x, y1: startPos.current.y, x2: end.x, y2: end.y, color: activeColor, width: strokeWidth, opacity, filled: false, lineStyle }
+        const newObj: ShapeObj = { id: Date.now().toString(), type: 'shape', shape: 'line', x1: startPos.current.x, y1: startPos.current.y, x2: end.x, y2: end.y, color: activeColor, width: strokeWidth, opacity, filled: false, lineStyle, pdfId: currentPdfId, pageNumber: currentPdfPage }
         setObjects(o => [...o, newObj as any])
         setObjects(prev => prev.map(x => x.id === newObj.id ? { ...x, shape: 'line' } as any : x))
       }
     } else if (tool === 'arrow') {
       if (startPos.current && currentPath.current.length > 1) {
         const end = currentPath.current[currentPath.current.length - 1]
-        const newObj: any = { id: Date.now().toString(), type: 'shape', shape: 'arrow', x1: startPos.current.x, y1: startPos.current.y, x2: end.x, y2: end.y, color: activeColor, width: strokeWidth, opacity, filled: false, lineStyle: arrowStyle }
+        const newObj: any = { id: Date.now().toString(), type: 'shape', shape: 'arrow', x1: startPos.current.x, y1: startPos.current.y, x2: end.x, y2: end.y, color: activeColor, width: strokeWidth, opacity, filled: false, lineStyle: arrowStyle, pdfId: currentPdfId, pageNumber: currentPdfPage }
         setObjects(o => [...o, newObj])
       }
     } else if (tool === 'rect' || tool.startsWith('shape') || ['rect', 'square', 'circle', 'triangle', 'right-triangle', 'pentagon', 'hexagon', 'rhombus', 'parallelogram', 'trapezoid', 'star', 'heart', 'cube', 'cylinder', 'cone', 'speech-bubble'].includes(shape) || tool === 'shape') {
       if (startPos.current && currentPath.current.length > 1) {
         const end = currentPath.current[currentPath.current.length - 1]
         if (Math.abs(end.x - startPos.current.x) > 6 && Math.abs(end.y - startPos.current.y) > 6) {
-          const newObj: ShapeObj = { id: Date.now().toString(), type: 'shape', shape, x1: startPos.current.x, y1: startPos.current.y, x2: end.x, y2: end.y, color: activeColor, width: strokeWidth, opacity, filled, lineStyle: 'solid' }
+          const newObj: ShapeObj = { id: Date.now().toString(), type: 'shape', shape, x1: startPos.current.x, y1: startPos.current.y, x2: end.x, y2: end.y, color: activeColor, width: strokeWidth, opacity, filled, lineStyle: 'solid', pdfId: currentPdfId, pageNumber: currentPdfPage }
           setObjects(o => [...o, newObj])
         }
       }
