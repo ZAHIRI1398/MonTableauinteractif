@@ -704,6 +704,19 @@ export default function App() {
     const pt = getPoint(e, rect)
       ; (e.target as Element).setPointerCapture(e.pointerId)
 
+    // Vérifier si on clique sur un PDF - désactiver le dessin dans ce cas
+    const clickedPdf = [...objects].reverse().find(obj => {
+      if (obj.type === 'pdf') {
+        return pt.x >= obj.x && pt.x <= obj.x + (obj as any).w && pt.y >= obj.y && pt.y <= obj.y + (obj as any).h
+      }
+      return false
+    })
+    
+    if (clickedPdf && (tool === 'pen' || tool === 'highlighter' || tool === 'eraser' || tool === 'line' || tool === 'arrow' || tool.startsWith('shape'))) {
+      showToast('Dessin désactivé sur le PDF - utilisez l\'outil 🔊 pour lire')
+      return
+    }
+
     if (tool === 'hand' || tool === 'select' && e.button === 1 || (e.altKey)) {
       isPanning.current = true
       lastPan.current = { x: e.clientX, y: e.clientY }
