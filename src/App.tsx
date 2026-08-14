@@ -1037,19 +1037,21 @@ export default function App() {
           doc.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, cw, ch)
           doc.save(`tableau-${Date.now()}.pdf`)
         } else {
-          const imgData = canvas.toDataURL('image/png')
-          const img = new Image()
-          img.src = imgData
-          await new Promise<void>((resolve, reject) => { img.onload = () => resolve(); img.onerror = reject })
           const doc = new jsPDF({ unit: 'px', format: [a4w, a4h] })
           const pageCount = Math.max(1, Math.ceil(ch / a4h))
           for (let p = 0; p < pageCount; p++) {
             if (p > 0) doc.addPage([a4w, a4h], 'portrait')
             const sliceH = Math.min(a4h, ch - p * a4h)
             const c2 = document.createElement('canvas')
-            c2.width = Math.round(cw); c2.height = Math.round(sliceH)
+            c2.width = Math.round(cw)
+            c2.height = Math.round(sliceH)
             const ctx2 = c2.getContext('2d')!
-            ctx2.drawImage(img, 0, -p * a4h, cw, ch)
+            ctx2.drawImage(
+              canvas,
+              0, Math.round(p * a4h * dpr),
+              Math.round(cw * dpr), Math.round(sliceH * dpr),
+              0, 0, c2.width, c2.height
+            )
             doc.addImage(c2.toDataURL('image/png'), 'PNG', 0, 0, a4w, sliceH)
           }
           doc.save(`tableau-${Date.now()}.pdf`)
@@ -1637,35 +1639,49 @@ export default function App() {
       pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.8.69/build/pdf.worker.mjs'
       const url = URL.createObjectURL(file)
       const pdf = await pdfjs.getDocument({ url }).promise
-      const page = await pdf.getPage(1)
+      const pageCount = pdf.numPages
       const renderScale = 1.2
-      const viewport = page.getViewport({ scale: renderScale })
+      const pages: { canvas: HTMLCanvasElement; viewport: any; textContent: any; y: number }[] = []
+      let totalH = 0
+      for (let i = 1; i <= pageCount; i++) {
+        const page = await pdf.getPage(i)
+        const viewport = page.getViewport({ scale: renderScale })
+        const pc = document.createElement('canvas')
+        pc.width = viewport.width; pc.height = viewport.height
+        const pctx = pc.getContext('2d')!
+        await page.render({ canvasContext: pctx, viewport }).promise
+        const textContent = await page.getTextContent()
+        pages.push({ canvas: pc, viewport, textContent, y: totalH })
+        totalH += viewport.height
+      }
+      const pageW = Math.max(...pages.map(p => p.viewport.width))
       const c = document.createElement('canvas')
-      c.width = viewport.width; c.height = viewport.height
+      c.width = pageW; c.height = totalH
       const ctx = c.getContext('2d')!
-      await page.render({ canvasContext: ctx, viewport }).promise
-      const textContent = await page.getTextContent()
-      const rawWords: { id: string; text: string; x: number; y: number; w: number; h: number }[] = []
-      textContent.items.forEach((item: any, index: number) => {
-        if (!item.str?.trim()) return
-        const tx = pdfjs.Util.transform(viewport.transform, item.transform)
-        const itemWidth = Math.max(10, item.width * viewport.scale)
-        const itemHeight = Math.max(12, Math.abs(tx[3]) || 16)
-        const y = tx[5] - itemHeight
-        const parts = item.str.trim().split(/\s+/).filter(Boolean)
-        const total = parts.reduce((s: number, p: string) => s + p.length, 0) || 1
-        let x = tx[4]
-        parts.forEach((part: string, i: number) => {
-          const pw = Math.max(8, itemWidth * (part.length / total))
-          rawWords.push({ id: `${index}-${i}`, text: part, x, y, w: pw, h: itemHeight })
-          x += pw + itemWidth * 0.04
+      const allWords: { id: string; text: string; x: number; y: number; w: number; h: number }[] = []
+      pages.forEach((p, pageIndex) => {
+        ctx.drawImage(p.canvas, 0, p.y)
+        p.textContent.items.forEach((item: any, index: number) => {
+          if (!item.str?.trim()) return
+          const tx = pdfjs.Util.transform(p.viewport.transform, item.transform)
+          const itemWidth = Math.max(10, item.width * p.viewport.scale)
+          const itemHeight = Math.max(12, Math.abs(tx[3]) || 16)
+          const y = tx[5] - itemHeight + p.y
+          const parts = item.str.trim().split(/\s+/).filter(Boolean)
+          const total = parts.reduce((s: number, part: string) => s + part.length, 0) || 1
+          let x = tx[4]
+          parts.forEach((part: string, i: number) => {
+            const pw = Math.max(8, itemWidth * (part.length / total))
+            allWords.push({ id: `${pageIndex}-${index}-${i}`, text: part, x, y, w: pw, h: itemHeight })
+            x += pw + itemWidth * 0.04
+          })
         })
       })
       const maxW = 800
-      const w = Math.min(viewport.width, maxW)
-      const h = w * (viewport.height / viewport.width)
-      const imgScale = w / viewport.width
-      const words = rawWords.map(w => ({ ...w, x: w.x * imgScale, y: w.y * imgScale, w: w.w * imgScale, h: w.h * imgScale }))
+      const w = Math.min(pageW, maxW)
+      const h = w * (totalH / pageW)
+      const imgScale = w / pageW
+      const words = allWords.map(w => ({ ...w, x: w.x * imgScale, y: w.y * imgScale, w: w.w * imgScale, h: w.h * imgScale }))
       const newObj: PdfObj = { id: Date.now().toString(), type: 'pdf', x: 80, y: 80, w, h, src: c.toDataURL('image/png'), words }
       setObjects(o => [...o, newObj])
       showToast('PDF inséré — activez l’outil 🔊 pour lire')
