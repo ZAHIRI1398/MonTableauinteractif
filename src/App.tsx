@@ -1689,7 +1689,7 @@ export default function App() {
     }
   }
 
-  const changePdfPage = (pdfId: string, direction: 'prev' | 'next') => {
+  const changePdfPage = async (pdfId: string, direction: 'prev' | 'next') => {
     setObjects(prev => prev.map(obj => {
       if (obj.type === 'pdf' && obj.id === pdfId) {
         const pdfObj = obj as PdfObj
@@ -1704,13 +1704,31 @@ export default function App() {
         
         if (newPage !== pdfObj.currentPage) {
           const pageData = pdfObj.pages[newPage - 1]
-          const img = new Image()
-          img.crossOrigin = 'anonymous'
-          img.src = pageData.src
-          img.onload = () => {
-            ;(obj as any)._img = img
-            redraw()
+          
+          // Charger l'image de manière asynchrone mais mettre à jour l'état
+          const loadImage = (src: string): Promise<HTMLImageElement> => {
+            return new Promise((resolve, reject) => {
+              const img = new Image()
+              img.crossOrigin = 'anonymous'
+              img.onload = () => resolve(img)
+              img.onerror = reject
+              img.src = src
+            })
           }
+          
+          loadImage(pageData.src).then(img => {
+            setObjects(current => current.map(o => {
+              if (o.id === pdfId && o.type === 'pdf') {
+                const updated = { ...o as PdfObj, currentPage: newPage, src: pageData.src, words: pageData.words }
+                ;(updated as any)._img = img
+                return updated
+              }
+              return o
+            }))
+            redraw()
+          })
+          
+          // Retourner l'objet mis à jour immédiatement pour éviter le clignotement
           return { ...pdfObj, currentPage: newPage, src: pageData.src, words: pageData.words }
         }
       }
