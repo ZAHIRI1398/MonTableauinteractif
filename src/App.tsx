@@ -1032,9 +1032,17 @@ export default function App() {
         const cw = canvas.width / dpr
         const ch = canvas.height / dpr
         const a4w = 794, a4h = 1123
+        
+        // Créer un canvas temporaire pour préserver le ratio d'aspect
+        const tempCanvas = document.createElement('canvas')
+        tempCanvas.width = canvas.width
+        tempCanvas.height = canvas.height
+        const tempCtx = tempCanvas.getContext('2d')!
+        tempCtx.drawImage(canvas, 0, 0)
+        
         if (cw <= a4w && ch <= a4h) {
           const doc = new jsPDF({ unit: 'px', format: [cw, ch], orientation: cw > ch ? 'landscape' : 'portrait' })
-          doc.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, cw, ch)
+          doc.addImage(tempCanvas.toDataURL('image/png'), 'PNG', 0, 0, cw, ch)
           doc.save(`tableau-${Date.now()}.pdf`)
         } else {
           const doc = new jsPDF({ unit: 'px', format: [a4w, a4h] })
@@ -1043,11 +1051,11 @@ export default function App() {
             if (p > 0) doc.addPage([a4w, a4h], 'portrait')
             const sliceH = Math.min(a4h, ch - p * a4h)
             const c2 = document.createElement('canvas')
-            c2.width = Math.round(cw)
-            c2.height = Math.round(sliceH)
+            c2.width = Math.round(cw * dpr)
+            c2.height = Math.round(sliceH * dpr)
             const ctx2 = c2.getContext('2d')!
             ctx2.drawImage(
-              canvas,
+              tempCanvas,
               0, Math.round(p * a4h * dpr),
               Math.round(cw * dpr), Math.round(sliceH * dpr),
               0, 0, c2.width, c2.height
