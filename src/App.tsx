@@ -1138,7 +1138,7 @@ export default function App() {
     setObjects(o => [...o, newObj])
   }
 
-  const activities: { title: string; icon: string; svg: string; w: number; h: number; url?: string; category: string }[] = [
+  const activities: { title: string; icon: string; svg: string; w: number; h: number; url?: string; target?: string; category: string }[] = [
     {
       title: 'Tableau de numération',
       icon: '🔢',
