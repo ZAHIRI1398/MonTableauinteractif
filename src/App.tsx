@@ -1078,110 +1078,15 @@ export default function App() {
     const canvas = canvasRef.current
     if (!canvas) return
     if (type === 'pdf') {
-      try {
-        // Vérifier s'il y a un PDF multi-pages
-        const pdfObj = objects.find(obj => obj.type === 'pdf') as PdfObj | undefined
-        
-        if (pdfObj && pdfObj.pages.length > 1) {
-          // Export multi-pages avec jsPDF
-          // @ts-ignore
-          const { jsPDF } = await import('https://esm.sh/jspdf@2.5.1')
-          const dpr = window.devicePixelRatio || 1
-          const cw = canvas.width / dpr
-          const ch = canvas.height / dpr
-          
-          // Calculer les dimensions du PDF
-          const pdfW = pdfObj.w
-          const pdfH = pdfObj.h
-          const doc = new jsPDF({ unit: 'px', format: [pdfW, pdfH], orientation: pdfW > pdfH ? 'landscape' : 'portrait' })
-          
-          // Sauvegarder l'état actuel
-          const originalPage = pdfObj.currentPage
-          const originalSrc = pdfObj.src
-          const originalWords = pdfObj.words
-          const originalImg = (pdfObj as any)._img
-          
-          // Pour chaque page du PDF
-          for (let pageNum = 1; pageNum <= pdfObj.pages.length; pageNum++) {
-            // Changer vers cette page
-            const pageData = pdfObj.pages[pageNum - 1]
-            
-            // Charger l'image de la page
-            const img = new Image()
-            img.crossOrigin = 'anonymous'
-            img.src = pageData.src
-            
-            await new Promise<void>((resolve, reject) => {
-              img.onload = () => {
-                // Mettre à jour l'objet PDF temporairement pour forcer le filtrage
-                setObjects(current => current.map(obj => {
-                  if (obj.id === pdfObj.id && obj.type === 'pdf') {
-                    const updated = { ...obj as PdfObj, currentPage: pageNum, src: pageData.src, words: pageData.words }
-                    ;(updated as any)._img = img
-                    return updated
-                  }
-                  return obj
-                }))
-                
-                // Attendre que le React se mette à jour et que le filtrage s'applique
-                setTimeout(() => {
-                  // Forcer un redraw avec le nouveau filtrage
-                  redraw()
-                  setTimeout(() => {
-                    // Capturer le canvas après que le filtrage a été appliqué
-                    const tempCanvas = document.createElement('canvas')
-                    tempCanvas.width = pdfW * dpr
-                    tempCanvas.height = pdfH * dpr
-                    const tempCtx = tempCanvas.getContext('2d')!
-                    tempCtx.fillStyle = '#ffffff'
-                    tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height)
-                    
-                    // Extraire la zone du PDF avec ses dessins filtrés
-                    const pdfX = pdfObj.x * dpr
-                    const pdfY = pdfObj.y * dpr
-                    tempCtx.drawImage(canvas, pdfX, pdfY, pdfW * dpr, pdfH * dpr, 0, 0, tempCanvas.width, tempCanvas.height)
-                    
-                    // Ajouter la page au PDF
-                    if (pageNum > 1) doc.addPage([pdfW, pdfH], pdfW > pdfH ? 'landscape' : 'portrait')
-                    doc.addImage(tempCanvas.toDataURL('image/png'), 'PNG', 0, 0, pdfW, pdfH)
-                    
-                    resolve()
-                  }, 200) // Délai plus long pour s'assurer que le filtrage est appliqué
-                }, 100)
-              }
-              img.onerror = reject
-            })
-          }
-          
-          // Restaurer l'état original
-          setObjects(current => current.map(obj => {
-            if (obj.id === pdfObj.id && obj.type === 'pdf') {
-              const restored = { ...obj as PdfObj, currentPage: originalPage, src: originalSrc, words: originalWords }
-              ;(restored as any)._img = originalImg
-              return restored
-            }
-            return obj
-          }))
-          redraw()
-          
-          doc.save(`tableau-${Date.now()}.pdf`)
-          showToast(`Export PDF réussi - ${pdfObj.pages.length} pages ✅`)
-        } else {
-          // Export simple sans PDF multi-pages
-          redraw()
-          setTimeout(() => {
-            const img = canvas.toDataURL('image/png')
-            const win = window.open('', '_blank')
-            if (!win) return
-            win.document.write(`<!doctype html><html><head><title>Tableau du Matin</title><style>body{margin:0;background:#e5e7eb;display:grid;place-items:center;min-height:100vh}img{max-width:100%;height:auto;background:white;box-shadow:0 10px 40px #0003}@media print{body{background:white}img{box-shadow:none;width:100%;page-break-inside:avoid}}</style></head><body><img src="${img}" onload="window.print()" /></body></html>`)
-            win.document.close()
-            showToast('Export PDF - choisissez "Enregistrer au format PDF" dans la fenêtre d\'impression')
-          }, 100)
-        }
-      } catch (err) {
-        console.error('Erreur export PDF:', err)
-        showToast('Erreur export PDF')
-      }
+      redraw()
+      setTimeout(() => {
+        const img = canvas.toDataURL('image/png')
+        const win = window.open('', '_blank')
+        if (!win) return
+        win.document.write(`<!doctype html><html><head><title>Tableau du Matin</title><style>body{margin:0;background:#e5e7eb;display:grid;place-items:center;min-height:100vh}img{max-width:100%;height:auto;background:white;box-shadow:0 10px 40px #0003}@media print{body{background:white}img{box-shadow:none;width:100%;page-break-inside:avoid}</style></head><body><img src="${img}" onload="window.print()" /></body></html>`)
+        win.document.close()
+        showToast('Export PDF - choisissez "Enregistrer au format PDF" dans la fenêtre d\'impression')
+      }, 100)
       return
     }
     const link = document.createElement('a')
