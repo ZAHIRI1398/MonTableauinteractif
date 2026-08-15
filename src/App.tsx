@@ -2121,9 +2121,17 @@ export default function App() {
               Tous droits réservés — Tableau du Matin 2025
             </div>
           </div>
+        </>
+      )}
 
+      {!showLeft && (
+        <button onClick={() => setShowLeft(true)} className="fixed top-16 left-5 z-40 w-[42px] h-[42px] rounded-full grid place-items-center text-xl bg-[rgba(15,23,42,0.9)] border border-sky-500/40 text-sky-400 shadow-xl">▶️</button>
+      )}
+
+      {showRight && !zenMode && (
+        <>
           {/* Panneau droit - Propriétés & Médias */}
-          <div className={`hidden lg:flex fixed top-[76px] bottom-[90px] right-4 w-[300px] z-30 flex-col gap-4 p-4 rounded-[20px] backdrop-blur-xl border shadow-[0_8px_28px_rgba(0,0,0,0.28)] overflow-auto ${showRight ? 'opacity-100' : 'opacity-0 pointer-events-none'} transition ${isLight ? 'bg-white/92 border-slate-200' : 'bg-[rgba(15,23,42,0.92)] border-white/10'}`}>
+          <div className={`hidden lg:flex fixed top-[76px] bottom-[90px] right-4 w-[300px] z-30 flex-col gap-4 p-4 rounded-[20px] backdrop-blur-xl border shadow-[0_8px_28px_rgba(0,0,0,0.28)] overflow-auto ${isLight ? 'bg-white/92 border-slate-200' : 'bg-[rgba(15,23,42,0.92)] border-white/10'}`}>
             <button onClick={() => setShowRight(false)} className="absolute top-3 right-3 w-7 h-7 grid place-items-center rounded-full bg-black/5 hover:bg-black/10 text-slate-500 text-xs">✕</button>
 
             <div>
@@ -2203,7 +2211,15 @@ export default function App() {
               </div>
             </div>
           </div>
+        </>
+      )}
 
+      {!showRight && (
+        <button onClick={() => setShowRight(true)} className="fixed top-5 left-5 z-40 w-[42px] h-[42px] rounded-full grid place-items-center text-xl bg-[rgba(15,23,42,0.9)] border border-sky-500/40 text-sky-400 shadow-xl">◀️</button>
+      )}
+
+      {!zenMode && (
+        <>
           <button onClick={() => setShowLeft(v => !v)} className={`fixed top-[74px] left-3 z-40 w-11 h-11 rounded-2xl grid place-items-center text-lg backdrop-blur-xl border shadow ${isLight ? 'bg-white border-slate-200' : 'bg-[rgba(15,23,42,0.92)] border-white/10 text-white'}`}>⚙️</button>
           <button onClick={() => setShowRight(v => !v)} className={`fixed top-[74px] right-3 z-40 w-11 h-11 rounded-2xl grid place-items-center text-lg backdrop-blur-xl border shadow ${isLight ? 'bg-white border-slate-200' : 'bg-[rgba(15,23,42,0.92)] border-white/10 text-white'}`}>🎨</button>
 
@@ -2229,26 +2245,6 @@ export default function App() {
                   <button onClick={() => handleExport('png')} className="py-3 rounded-xl bg-white border font-bold">PNG</button>
                   <button onClick={() => handleExport('pdf')} className="py-3 rounded-xl bg-white border font-bold">PDF</button>
                 </div>
-              </div>
-            </div>
-          )}
-          {showRight && (
-            <div className="lg:hidden fixed inset-0 z-40 bg-black/30 backdrop-blur-[2px]" onClick={() => setShowRight(false)}>
-              <div onClick={e => e.stopPropagation()} className={`absolute top-0 right-0 bottom-0 w-[84%] max-w-[360px] overflow-auto p-4 flex flex-col gap-4 ${isLight ? 'bg-white' : 'bg-[#0f172a]'}`}>
-                <div className="flex justify-between items-center">
-                  <h3 className="font-bold">Propriétés de l'outil</h3>
-                  <button onClick={() => setShowRight(false)} className="w-8 h-8 rounded-full bg-black/10 grid place-items-center">✕</button>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {['#00a2ff', '#ff4d4d', '#10b981', '#f59e0b', '#a855f7', '#ffffff', '#121212'].map(c => (
-                    <button key={c} onClick={() => setActiveColor(c)} className={`w-8 h-8 rounded-full border-2 ${activeColor === c ? 'ring-2 ring-sky-400' : ''}`} style={{ background: c, borderColor: c === '#ffffff' ? '#e2e8f0' : 'transparent' }} />
-                  ))}
-                </div>
-                <label className="text-xs">Épaisseur : {(strokeWidth/28).toFixed(1)} cm <input type="range" min={1} max={40} value={strokeWidth} onChange={e => setStrokeWidth(parseInt(e.target.value))} className="w-full accent-sky-500" /></label>
-                <label className="text-xs">Opacité : {opacity}% <input type="range" min={10} max={100} value={opacity} onChange={e => setOpacity(parseInt(e.target.value))} className="w-full accent-sky-500" /></label>
-                <label className="w-full py-3 rounded-xl bg-white border flex items-center justify-center gap-2 font-bold"> Insérer image <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" /></label>
-                <button onClick={() => setShowQuran(true)} className="w-full py-3 rounded-xl bg-teal-600 text-white font-bold">📖 Coran</button>
-                <button onClick={() => setShowYoutube(true)} className="w-full py-3 rounded-xl bg-white border font-bold">🎥 YouTube</button>
               </div>
             </div>
           )}
