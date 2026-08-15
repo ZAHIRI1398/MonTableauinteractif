@@ -1444,7 +1444,7 @@ export default function App() {
       icon: '📝',
       w: 220,
       h: 140,
-      url: 'https://generateur-conjugaison.fr/',
+      url: 'https://micetf.fr/generateurs/',
       target: '_blank',
       category: 'Français',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="220" height="140" viewBox="0 0 220 140"><rect width="220" height="140" fill="white"/><line x1="0" y1="35" x2="220" y2="35" stroke="#3b82f6" stroke-width="1"/><line x1="0" y1="70" x2="220" y2="70" stroke="#3b82f6" stroke-width="2"/><line x1="0" y1="105" x2="220" y2="105" stroke="#3b82f6" stroke-width="1"/><line x1="0" y1="122" x2="220" y2="122" stroke="#ef4444" stroke-width="1" stroke-dasharray="4"/><text x="110" y="60" text-anchor="middle" font-size="28" fill="#0f172a">a</text></svg>`
