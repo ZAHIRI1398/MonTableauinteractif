@@ -324,7 +324,7 @@ export default function App() {
 
     objects.forEach(obj => {
       // Filtrer les dessins associés à une page PDF spécifique
-      if ((obj as any).pdfId && (obj as any).pageNumber) {
+      if ((obj as any).pdfId && (obj as any).pageNumber && activePdfId && activePdfPage) {
         if ((obj as any).pdfId !== activePdfId || (obj as any).pageNumber !== activePdfPage) {
           return // Ne pas afficher ce dessin
         }
@@ -1113,7 +1113,7 @@ export default function App() {
             
             await new Promise<void>((resolve, reject) => {
               img.onload = () => {
-                // Mettre à jour l'objet PDF temporairement
+                // Mettre à jour l'objet PDF temporairement pour forcer le filtrage
                 setObjects(current => current.map(obj => {
                   if (obj.id === pdfObj.id && obj.type === 'pdf') {
                     const updated = { ...obj as PdfObj, currentPage: pageNum, src: pageData.src, words: pageData.words }
@@ -1123,11 +1123,12 @@ export default function App() {
                   return obj
                 }))
                 
-                // Attendre que le React se mette à jour
+                // Attendre que le React se mette à jour et que le filtrage s'applique
                 setTimeout(() => {
+                  // Forcer un redraw avec le nouveau filtrage
                   redraw()
                   setTimeout(() => {
-                    // Capturer le canvas
+                    // Capturer le canvas après que le filtrage a été appliqué
                     const tempCanvas = document.createElement('canvas')
                     tempCanvas.width = pdfW * dpr
                     tempCanvas.height = pdfH * dpr
@@ -1135,7 +1136,7 @@ export default function App() {
                     tempCtx.fillStyle = '#ffffff'
                     tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height)
                     
-                    // Extraire la zone du PDF avec ses dessins
+                    // Extraire la zone du PDF avec ses dessins filtrés
                     const pdfX = pdfObj.x * dpr
                     const pdfY = pdfObj.y * dpr
                     tempCtx.drawImage(canvas, pdfX, pdfY, pdfW * dpr, pdfH * dpr, 0, 0, tempCanvas.width, tempCanvas.height)
@@ -1145,8 +1146,8 @@ export default function App() {
                     doc.addImage(tempCanvas.toDataURL('image/png'), 'PNG', 0, 0, pdfW, pdfH)
                     
                     resolve()
-                  }, 100)
-                }, 50)
+                  }, 200) // Délai plus long pour s'assurer que le filtrage est appliqué
+                }, 100)
               }
               img.onerror = reject
             })
