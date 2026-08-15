@@ -2954,10 +2954,10 @@ export default function App() {
           <div onClick={e => e.stopPropagation()} className={`pointer-events-auto w-full max-w-[480px] rounded-[24px] border shadow-2xl p-6 text-center ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
             <div className="text-5xl mb-3">❤️</div>
             <h3 className={`text-xl font-black ${isLight ? 'text-slate-800' : 'text-white'}`}>Tableau du Matin</h3>
-            <div className="text-sm text-slate-500 mt-1">Tableau blanc interactif pour enseignants — inspiré de NinjaScribe</div>
+            <div className="text-sm text-slate-500 mt-1">Tableau blanc interactif pour enseignants </div>
             <div className={`mt-4 rounded-2xl p-4 text-sm leading-relaxed border text-left ${isLight ? 'bg-slate-50 border-slate-100 text-slate-600' : 'bg-white/[0.04] border-white/5 text-slate-300'}`}>
               Un tableau blanc moderne pour remplacer le tableau traditionnel : dessin à main levée avec 6 types de pointes, formes géométriques, surligneur, laser, projecteur, loupe, post-its, minuteur, règle et rapporteur, roue des prénoms, calculatrice, import d'images / PDF / vidéos, et extrait de versets coraniques en calligraphie — avec export PNG/PDF et sauvegarde de projets.
-              <div className="mt-3 text-xs opacity-70">Tous droits réservés — version web</div>
+              <div className="mt-3 text-xs opacity-70">Tous droits réservés 2026— version web</div>
             </div>
             <button onClick={() => setShowAbout(false)} className="mt-4 w-full py-3 rounded-xl bg-sky-500 text-white font-extrabold">Fermer</button>
           </div>
