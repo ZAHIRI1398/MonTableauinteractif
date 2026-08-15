@@ -57,6 +57,8 @@ export default function App() {
 
   const [showLeft, setShowLeft] = useState(true)
   const [showRight, setShowRight] = useState(true)
+  const [showTop, setShowTop] = useState(true)
+  const [showBottom, setShowBottom] = useState(true)
   const [showPenMenu, setShowPenMenu] = useState(false)
   const [showEraserMenu, setShowEraserMenu] = useState(false)
   const [showLineMenu, setShowLineMenu] = useState(false)
@@ -2012,7 +2014,7 @@ export default function App() {
       </button>
 
       {/* Top bar central */}
-      {!zenMode && (
+      {showTop && (
         <div className={`fixed top-4 left-1/2 -translate-x-1/2 z-40 flex items-center gap-1.5 px-2 py-1.5 rounded-2xl backdrop-blur-xl border shadow-[0_8px_24px_rgba(0,0,0,0.25)] max-w-[96vw] overflow-x-auto ${isLight ? 'bg-white/92 border-slate-200' : 'bg-[rgba(15,23,42,0.92)] border-white/[0.12]'}`}>
           <button onClick={() => setCamera({ x: 0, y: 0, zoom: 1 })} title="Centrer la vue" className={`w-9 h-9 shrink-0 grid place-items-center rounded-xl border transition ${isLight ? 'bg-slate-50 border-slate-200 hover:bg-white text-slate-600' : 'bg-white/[0.06] border-white/10 hover:bg-white/[0.10] text-white/80'}`}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
@@ -2043,13 +2045,18 @@ export default function App() {
             </button>
           )}
           <button onClick={() => setShowAbout(true)} className="ml-1 shrink-0 text-[20px] leading-none hover:scale-110 transition" style={{ animation: 'heartbeat 1.3s ease-in-out infinite' }}>❤️</button>
+          <button onClick={() => setShowTop(false)} title="Masquer la barre" className="ml-1 w-7 h-7 grid place-items-center rounded-full bg-black/5 hover:bg-black/10 text-slate-500 text-xs">✕</button>
         </div>
       )}
 
-      {!zenMode && (
+      {!showTop && (
+        <button onClick={() => setShowTop(true)} className="fixed top-5 right-5 z-40 w-[42px] h-[42px] rounded-full grid place-items-center text-xl bg-[rgba(15,23,42,0.9)] border border-sky-500/40 text-sky-400 shadow-xl">⬆️</button>
+      )}
+
+      {showLeft && !zenMode && (
         <>
           {/* Panneau gauche - Paramètres tableau (LTR: à gauche) */}
-          <div className={`hidden lg:flex fixed top-[76px] bottom-[90px] left-4 w-[300px] z-30 flex-col gap-4 p-4 rounded-[20px] backdrop-blur-xl border shadow-[0_8px_28px_rgba(0,0,0,0.28)] overflow-auto ${showLeft ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-6 pointer-events-none'} transition-all ${isLight ? 'bg-white/92 border-slate-200' : 'bg-[rgba(15,23,42,0.92)] border-white/10'}`}>
+          <div className={`hidden lg:flex fixed top-[76px] bottom-[90px] left-4 w-[300px] z-30 flex-col gap-4 p-4 rounded-[20px] backdrop-blur-xl border shadow-[0_8px_28px_rgba(0,0,0,0.28)] overflow-auto ${isLight ? 'bg-white/92 border-slate-200' : 'bg-[rgba(15,23,42,0.92)] border-white/10'}`}>
             <button onClick={() => setShowLeft(false)} className="absolute top-3 right-3 w-7 h-7 grid place-items-center rounded-full bg-black/5 hover:bg-black/10 text-slate-500 text-xs">✕</button>
             <div className="text-center">
               <h2 className={`text-[19px] font-extrabold ${isLight ? 'text-sky-600' : 'text-[#00a2ff]'}`}>Tableau du Matin</h2>
@@ -2249,7 +2256,8 @@ export default function App() {
       )}
 
       {/* Barre d'outils flottante */}
-      <div className={`fixed bottom-3 left-1/2 -translate-x-1/2 z-40 max-w-[min(96vw,1180px)] w-auto flex flex-wrap items-center justify-center gap-1 px-2 py-2 rounded-[18px] backdrop-blur-xl border shadow-[0_12px_32px_rgba(0,0,0,0.32)] ${zenMode ? 'translate-y-[140%]' : ''} transition-transform ${isLight ? 'bg-white/96 border-slate-200' : 'bg-[rgba(15,23,42,0.94)] border-white/12'}`}>
+      {showBottom && (
+        <div className={`fixed bottom-3 left-1/2 -translate-x-1/2 z-40 max-w-[min(96vw,1180px)] w-auto flex flex-wrap items-center justify-center gap-1 px-2 py-2 rounded-[18px] backdrop-blur-xl border shadow-[0_12px_32px_rgba(0,0,0,0.32)] transition-transform ${isLight ? 'bg-white/96 border-slate-200' : 'bg-[rgba(15,23,42,0.94)] border-white/12'}`}>
         <button onClick={() => setTool('select')} title="Sélection (V)" className={`w-[42px] h-[42px] grid place-items-center rounded-xl border transition ${tool === 'select' ? 'bg-sky-500 border-sky-500 text-white shadow' : isLight ? 'bg-slate-50 border-slate-200 hover:bg-white text-slate-600' : 'bg-white/[0.06] border-white/10 hover:bg-white/[0.10] text-white'}`}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 9-7 2-3 7L5 3z" fill={tool === 'select' ? 'white' : '#60a5fa'} stroke={tool === 'select' ? 'white' : '#3b82f6'} strokeWidth="1.5" strokeLinejoin="round" /></svg>
         </button>
@@ -2450,13 +2458,18 @@ export default function App() {
         </button>
 
         <div className="w-px h-7 bg-white/10 mx-1 hidden sm:block" />
-        <button onClick={() => setZenMode(v => !v)} title="Masquer la barre" className="w-[42px] h-[42px] grid place-items-center rounded-xl border bg-white/[0.04] border-dashed border-white/20 text-slate-400 hover:bg-white/[0.08]">
+        <button onClick={() => setShowBottom(false)} title="Masquer la barre" className="w-[42px] h-[42px] grid place-items-center rounded-xl border bg-white/[0.04] border-dashed border-white/20 text-slate-400 hover:bg-white/[0.08]">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" /><line x1="9" y1="3" x2="9" y2="21" /><path d="M17 16l-4-4 4-4" /></svg>
         </button>
       </div>
+      )}
+
+      {!showBottom && (
+        <button onClick={() => setShowBottom(true)} className="fixed bottom-5 right-5 z-40 w-[42px] h-[42px] rounded-full grid place-items-center text-xl bg-[rgba(15,23,42,0.9)] border border-sky-500/40 text-sky-400 shadow-xl">⬇️</button>
+      )}
 
       {zenMode && (
-        <button onClick={() => setZenMode(false)} className="fixed bottom-5 right-5 z-40 w-[48px] h-[48px] rounded-full grid place-items-center text-xl bg-[rgba(15,23,42,0.9)] border border-sky-500/40 text-sky-400 shadow-xl">🔧</button>
+        <button onClick={() => setZenMode(false)} className="fixed bottom-16 right-5 z-40 w-[42px] h-[42px] rounded-full grid place-items-center text-xl bg-[rgba(15,23,42,0.9)] border border-sky-500/40 text-sky-400 shadow-xl">🔧</button>
       )}
 
       {textInputPos && (
