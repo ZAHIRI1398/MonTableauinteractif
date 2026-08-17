@@ -86,6 +86,7 @@ export default function App() {
   const [timerRunning, setTimerRunning] = useState(false)
   const [showRuler, setShowRuler] = useState(false)
   const [showProtractor, setShowProtractor] = useState(false)
+  const [showSetSquare, setShowSetSquare] = useState(false)
   const [compassCenter, setCompassCenter] = useState<Point | null>(null)
   const [compassRadius, setCompassRadius] = useState(84)
   const [compassAngle, setCompassAngle] = useState(-0.9)
@@ -2437,6 +2438,9 @@ export default function App() {
         <button onClick={() => setShowProtractor(v => !v)} title="Rapporteur" className={`w-[42px] h-[42px] grid place-items-center rounded-xl border ${showProtractor ? 'bg-indigo-500 border-indigo-500 text-white' : 'bg-white/[0.06] border-white/10 text-indigo-400'}`}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 14a9 9 0 0 1 18 0Z" fill="#ede9fe" stroke="#818cf8" strokeWidth="1.5" /><line x1="3" y1="14" x2="21" y2="14" stroke="#6366f1" strokeWidth="1.5" /><circle cx="12" cy="14" r="2" fill="#6366f1" /></svg>
         </button>
+        <button onClick={() => setShowSetSquare(v => !v)} title="Équerre" className={`w-[42px] h-[42px] grid place-items-center rounded-xl border ${showSetSquare ? 'bg-rose-500 border-rose-500 text-white' : 'bg-white/[0.06] border-white/10 text-rose-400'}`}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 20L20 4L4 4L4 20Z" fill="#ffe4e6" stroke="#f43f5e" strokeWidth="1.5" /><line x1="4" y1="4" x2="4" y2="12" stroke="#f43f5e" strokeWidth="1.5" /><line x1="4" y1="4" x2="12" y2="4" stroke="#f43f5e" strokeWidth="1.5" /></svg>
+        </button>
         <button onClick={() => { setTool('compass'); if(!compassCenter){ showToast('Cliquez sur le tableau pour placer la pointe du compas 📍') } }} title="Compas — tracer des cercles (O)" className={`w-[42px] h-[42px] grid place-items-center rounded-xl border ${tool === 'compass' ? 'bg-cyan-500 border-cyan-500 text-white shadow scale-105' : 'bg-white/[0.06] border-white/10 text-cyan-400 hover:bg-white/[0.10]'}`}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="5" r="2" fill={tool==='compass' ? 'white' : '#a5f3fc'} stroke="currentColor" strokeWidth="1.4"/><path d="M11.1 7.2L5.2 20l1.8 0.4L11.1 7.2Z" fill={tool==='compass' ? 'rgba(255,255,255,0.95)' : '#cffafe'} stroke="currentColor" strokeWidth="1.1"/><path d="M12.9 7.2L18.8 20l-1.8 0.4L12.9 7.2Z" fill="#fde68a" stroke="#f59e0b" strokeWidth="1.1"/><circle cx="5.3" cy="20.6" r="1.1" fill="#ef4444"/><path d="M18.2 20.6l-1.3-2 2.2-0.6 0.5 2.1-1.4 0.5Z" fill="#0ea5e9"/></svg>
         </button>
@@ -2598,6 +2602,75 @@ export default function App() {
               window.addEventListener('pointermove', move); window.addEventListener('pointerup', up)
             }} />
           </div>
+        </div>
+      )}
+
+      {showSetSquare && (
+        <div className="fixed top-[40%] left-1/2 -translate-x-1/2 z-40 select-none">
+          <div className={`relative w-[200px] h-[200px] rounded-2xl border shadow-2xl overflow-hidden ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
+            <button onClick={() => setShowSetSquare(false)} className="absolute top-2 right-2 w-6 h-6 rounded-full bg-red-500 text-white grid place-items-center text-[11px] z-10">✕</button>
+            <button onPointerDown={startRotate} title="Faites glisser pour pivoter" className="absolute top-2 left-2 w-6 h-6 rounded-full bg-sky-500 text-white grid place-items-center text-xs z-10 cursor-grab active:cursor-grabbing">↻</button>
+            <svg viewBox="0 0 200 200" className="w-full h-full">
+              {/* Triangle rectangle isocèle - équerre Aristo */}
+              <path d="M 20 180 L 180 180 L 20 20 Z" fill={isLight ? 'rgba(255, 100, 100, 0.15)' : 'rgba(244, 63, 94, 0.2)'} stroke="#f43f5e" strokeWidth="2" />
+              
+              {/* Graduations en cm - hypoténuse */}
+              {Array.from({ length: 23 }).map((_, i) => {
+                const progress = i / 22
+                const x1 = 20 + progress * 160
+                const y1 = 180 - progress * 160
+                const norm = Math.sqrt(2)
+                const dx = -1 / norm * 8
+                const dy = 1 / norm * 8
+                const x2 = x1 + dx
+                const y2 = y1 + dy
+                const isCm = i % 5 === 0
+                const h = isCm ? 15 : 8
+                const x3 = x1 + dx * (h / 8)
+                const y3 = y1 + dy * (h / 8)
+                return <g key={i}>
+                  <line x1={x1} y1={y1} x2={x3} y2={y3} stroke={isCm ? '#f43f5e' : '#94a3b8'} strokeWidth={isCm ? 1.3 : 1} />
+                  {isCm && <text x={x1 + dx * 2} y={y1 + dy * 2} textAnchor="middle" dominantBaseline="middle" fontSize="7" fill={isLight ? '#be123c' : '#e2e8f0'} fontWeight="700">{i}</text>}
+                </g>
+              })}
+              
+              {/* Graduations horizontales - base */}
+              {Array.from({ length: 17 }).map((_, i) => {
+                const x = 20 + i * 10
+                const isCm = i % 5 === 0
+                const h = isCm ? 12 : 6
+                return <g key={i}>
+                  <line x1={x} y1={180} x2={x} y2={180 - h} stroke={isCm ? '#f43f5e' : '#94a3b8'} strokeWidth={isCm ? 1.3 : 1} />
+                  {isCm && <text x={x} y={180 - 18} textAnchor="middle" fontSize="7" fill={isLight ? '#be123c' : '#e2e8f0'} fontWeight="700">{i}</text>}
+                </g>
+              })}
+              
+              {/* Graduations verticales - côté */}
+              {Array.from({ length: 17 }).map((_, i) => {
+                const y = 180 - i * 10
+                const isCm = i % 5 === 0
+                const h = isCm ? 12 : 6
+                return <g key={i}>
+                  <line x1={20} y1={y} x2={20 + h} y2={y} stroke={isCm ? '#f43f5e' : '#94a3b8'} strokeWidth={isCm ? 1.3 : 1} />
+                  {isCm && <text x={20 + 18} y={y} textAnchor="middle" dominantBaseline="middle" fontSize="7" fill={isLight ? '#be123c' : '#e2e8f0'} fontWeight="700">{i}</text>}
+                </g>
+              })}
+              
+              {/* Marque d'angle droit */}
+              <circle cx="20" cy="180" r="3" fill="#f43f5e" />
+              <path d="M 20 165 L 35 165 L 35 180" fill="none" stroke="#f43f5e" strokeWidth="1" />
+            </svg>
+            <div className="absolute inset-0 cursor-move" onPointerDown={e => {
+              const el = (e.currentTarget.parentElement as HTMLElement).parentElement as HTMLElement
+              const startX = e.clientX, startY = e.clientY
+              const rect = el.getBoundingClientRect()
+              const sx = rect.left, sy = rect.top
+              const move = (ev: PointerEvent) => { el.style.left = `${sx + (ev.clientX - startX)}px`; el.style.top = `${sy + (ev.clientY - startY)}px`; el.style.transform = 'translate(0,0)'; el.style.position = 'fixed' }
+              const up = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up) }
+              window.addEventListener('pointermove', move); window.addEventListener('pointerup', up)
+            }} />
+          </div>
+          <div className="text-center text-[11px] text-white/50 mt-1.5">Équerre Aristo — ↻ pour pivoter</div>
         </div>
       )}
 
