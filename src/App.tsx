@@ -2540,6 +2540,7 @@ export default function App() {
             <button onPointerDown={startRotate} title="Faites glisser pour pivoter" className="absolute top-2 left-2 w-6 h-6 rounded-full bg-sky-500 text-white grid place-items-center text-xs z-10 cursor-grab active:cursor-grabbing">↻</button>
             <svg viewBox="0 0 460 72" className="w-full h-full">
               <rect x="0" y="0" width="460" height="72" fill={isLight ? 'rgba(253, 246, 227, 0.08)' : 'rgba(30, 41, 59, 0.08)'} />
+              <rect x="0" y="0" width="460" height="72" fill="none" stroke="black" strokeWidth="1" />
               {/* Graduations en cm / mm — 1 cm = 28 px, 16 cm visibles */}
               {Array.from({ length: 161 }).map((_, i) => {
                 const x = 8 + i * 2.8
@@ -2549,8 +2550,8 @@ export default function App() {
                 const h = isCm ? 22 : isHalfCm ? 14 : 8
                 const cm = Math.floor(i / 10)
                 return <g key={i}>
-                  <line x1={x} y1={72 - h} x2={x} y2={72} stroke={isLight ? '#92400e' : '#94a3b8'} strokeWidth={isCm ? 1.4 : 1} opacity={isCm ? 1 : 0.9} />
-                  {isCm && <text x={x} y={16} textAnchor="middle" fontSize="9" fill={isLight ? '#78350f' : '#e2e8f0'} fontWeight="700">{cm}</text>}
+                  <line x1={x} y1={72 - h} x2={x} y2={72} stroke="black" strokeWidth={isCm ? 1.4 : 1} opacity={isCm ? 1 : 0.9} />
+                  {isCm && <text x={x} y={16} textAnchor="middle" fontSize="9" fill="black" fontWeight="700">{cm}</text>}
                 </g>
               })}
               <rect x="8" y="36" width={16*28} height="1" fill={isLight ? '#f59e0b' : '#38bdf8'} opacity="0.35" />
@@ -2575,21 +2576,37 @@ export default function App() {
           <div className={`relative w-[320px] h-[170px] rounded-t-[160px] border shadow-2xl overflow-hidden bg-transparent ${isLight ? 'border-slate-200' : 'border-white/10'}`}>
             <button onClick={() => setShowProtractor(false)} className="absolute bottom-3 right-3 w-6 h-6 rounded-full bg-red-500 text-white grid place-items-center text-[11px] z-10">✕</button>
             <svg viewBox="0 0 320 170" className="w-full h-full">
-              <path d="M 10 160 A 150 150 0 0 1 310 160 Z" fill={isLight ? 'rgba(248, 250, 252, 0.15)' : 'rgba(30, 41, 59, 0.15)'} stroke="#818cf8" strokeWidth="1.5" />
-              <line x1="10" y1="160" x2="310" y2="160" stroke="#6366f1" strokeWidth="1.5" />
+              <path d="M 10 160 A 150 150 0 0 1 310 160 Z" fill={isLight ? 'rgba(248, 250, 252, 0.15)' : 'rgba(30, 41, 59, 0.15)'} stroke="black" strokeWidth="1.5" />
+              <line x1="10" y1="160" x2="310" y2="160" stroke="black" strokeWidth="1.5" />
+              
+              {/* Graduations sens gauche-droite (0 à 180) */}
               {Array.from({ length: 19 }).map((_, i) => {
                 const deg = i * 10
                 const rad = (180 - deg) * Math.PI / 180
                 const r1 = 150, r2 = deg % 30 === 0 ? 128 : deg % 10 === 0 ? 136 : 142
                 const x1 = 160 + Math.cos(rad) * r1, y1 = 160 - Math.sin(rad) * r1
                 const x2 = 160 + Math.cos(rad) * r2, y2 = 160 - Math.sin(rad) * r2
-                return <g key={i}>
-                  <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={deg % 30 === 0 ? '#6366f1' : '#94a3b8'} strokeWidth={deg % 30 === 0 ? 1.3 : 1} />
-                  {<text x={160 + Math.cos(rad) * 115} y={160 - Math.sin(rad) * 115} textAnchor="middle" dominantBaseline="middle" fontSize="8" fill={isLight ? '#475569' : '#e2e8f0'} fontWeight="700">{deg}°</text>}
+                return <g key={`left-${i}`}>
+                  <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="black" strokeWidth={deg % 30 === 0 ? 1.3 : 1} />
+                  {<text x={160 + Math.cos(rad) * 115} y={160 - Math.sin(rad) * 115} textAnchor="middle" dominantBaseline="middle" fontSize="8" fill="black" fontWeight="700">{deg}°</text>}
                 </g>
               })}
-              <circle cx="160" cy="160" r="3" fill="#6366f1" />
-              <line x1="160" y1="160" x2="160" y2="22" stroke="#a5b4fc" strokeWidth="1" strokeDasharray="4 4" />
+              
+              {/* Graduations sens droite-gauche (180 à 0) */}
+              {Array.from({ length: 19 }).map((_, i) => {
+                const deg = i * 10
+                const rad = deg * Math.PI / 180
+                const r1 = 150, r2 = deg % 30 === 0 ? 128 : deg % 10 === 0 ? 136 : 142
+                const x1 = 160 + Math.cos(rad) * r1, y1 = 160 - Math.sin(rad) * r1
+                const x2 = 160 + Math.cos(rad) * r2, y2 = 160 - Math.sin(rad) * r2
+                return <g key={`right-${i}`}>
+                  <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="black" strokeWidth={deg % 30 === 0 ? 1.3 : 1} />
+                  {<text x={160 + Math.cos(rad) * 115} y={160 - Math.sin(rad) * 115} textAnchor="middle" dominantBaseline="middle" fontSize="8" fill="black" fontWeight="700">{deg}°</text>}
+                </g>
+              })}
+              
+              <circle cx="160" cy="160" r="3" fill="black" />
+              <line x1="160" y1="160" x2="160" y2="22" stroke="black" strokeWidth="1" strokeDasharray="4 4" />
             </svg>
             <button onPointerDown={startRotate} title="Faites glisser pour pivoter" className="absolute top-2 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-sky-500 text-white grid place-items-center text-[11px] z-10 cursor-grab active:cursor-grabbing">↻</button>
             <div className="absolute inset-0 cursor-move" onPointerDown={e => {
@@ -2612,7 +2629,7 @@ export default function App() {
             <button onPointerDown={startRotate} title="Faites glisser pour pivoter" className="absolute top-2 left-2 w-6 h-6 rounded-full bg-sky-500 text-white grid place-items-center text-xs z-10 cursor-grab active:cursor-grabbing">↻</button>
             <svg viewBox="0 0 200 200" className="w-full h-full">
               {/* Triangle rectangle isocèle - équerre Aristo */}
-              <path d="M 20 180 L 180 180 L 20 20 Z" fill={isLight ? 'rgba(255, 100, 100, 0.01)' : 'rgba(244, 63, 94, 0.02)'} stroke="#f43f5e" strokeWidth="2" />
+              <path d="M 20 180 L 180 180 L 20 20 Z" fill={isLight ? 'rgba(255, 100, 100, 0.01)' : 'rgba(244, 63, 94, 0.02)'} stroke="black" strokeWidth="2" />
               
               {/* Graduations en cm - hypoténuse */}
               {Array.from({ length: 23 }).map((_, i) => {
@@ -2629,8 +2646,8 @@ export default function App() {
                 const x3 = x1 + dx * (h / 8)
                 const y3 = y1 + dy * (h / 8)
                 return <g key={i}>
-                  <line x1={x1} y1={y1} x2={x3} y2={y3} stroke={isCm ? '#f43f5e' : '#94a3b8'} strokeWidth={isCm ? 1.3 : 1} />
-                  {isCm && <text x={x1 + dx * 2} y={y1 + dy * 2} textAnchor="middle" dominantBaseline="middle" fontSize="7" fill={isLight ? '#be123c' : '#e2e8f0'} fontWeight="700">{i}</text>}
+                  <line x1={x1} y1={y1} x2={x3} y2={y3} stroke="black" strokeWidth={isCm ? 1.3 : 1} />
+                  {isCm && <text x={x1 + dx * 2} y={y1 + dy * 2} textAnchor="middle" dominantBaseline="middle" fontSize="7" fill="black" fontWeight="700">{i}</text>}
                 </g>
               })}
               
@@ -2640,8 +2657,8 @@ export default function App() {
                 const isCm = i % 5 === 0
                 const h = isCm ? 12 : 6
                 return <g key={i}>
-                  <line x1={x} y1={180} x2={x} y2={180 - h} stroke={isCm ? '#f43f5e' : '#94a3b8'} strokeWidth={isCm ? 1.3 : 1} />
-                  {isCm && <text x={x} y={180 - 18} textAnchor="middle" fontSize="7" fill={isLight ? '#be123c' : '#e2e8f0'} fontWeight="700">{i}</text>}
+                  <line x1={x} y1={180} x2={x} y2={180 - h} stroke="black" strokeWidth={isCm ? 1.3 : 1} />
+                  {isCm && <text x={x} y={180 - 18} textAnchor="middle" fontSize="7" fill="black" fontWeight="700">{i}</text>}
                 </g>
               })}
               
@@ -2651,14 +2668,14 @@ export default function App() {
                 const isCm = i % 5 === 0
                 const h = isCm ? 12 : 6
                 return <g key={i}>
-                  <line x1={20} y1={y} x2={20 + h} y2={y} stroke={isCm ? '#f43f5e' : '#94a3b8'} strokeWidth={isCm ? 1.3 : 1} />
-                  {isCm && <text x={20 + 18} y={y} textAnchor="middle" dominantBaseline="middle" fontSize="7" fill={isLight ? '#be123c' : '#e2e8f0'} fontWeight="700">{i}</text>}
+                  <line x1={20} y1={y} x2={20 + h} y2={y} stroke="black" strokeWidth={isCm ? 1.3 : 1} />
+                  {isCm && <text x={20 + 18} y={y} textAnchor="middle" dominantBaseline="middle" fontSize="7" fill="black" fontWeight="700">{i}</text>}
                 </g>
               })}
               
               {/* Marque d'angle droit */}
-              <circle cx="20" cy="180" r="3" fill="#f43f5e" />
-              <path d="M 20 165 L 35 165 L 35 180" fill="none" stroke="#f43f5e" strokeWidth="1" />
+              <circle cx="20" cy="180" r="3" fill="black" />
+              <path d="M 20 165 L 35 165 L 35 180" fill="none" stroke="black" strokeWidth="1" />
             </svg>
             <div className="absolute inset-0 cursor-move" onPointerDown={e => {
               const el = (e.currentTarget.parentElement as HTMLElement).parentElement as HTMLElement
