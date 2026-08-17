@@ -2535,11 +2535,11 @@ export default function App() {
 
       {showRuler && (
         <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 w-[min(92vw,460px)] select-none">
-          <div className={`relative w-full h-[72px] rounded-2xl border shadow-2xl overflow-hidden ${isLight ? 'bg-[#fdf6e3] border-amber-200' : 'bg-[#1a1a1a] border-white/10'}`}>
+          <div className={`relative w-full h-[72px] rounded-2xl border shadow-2xl overflow-hidden bg-transparent ${isLight ? 'border-amber-200' : 'border-white/10'}`}>
             <button onClick={() => setShowRuler(false)} className="absolute top-2 right-2 w-6 h-6 rounded-full bg-red-500 text-white grid place-items-center text-[11px] z-10">✕</button>
             <button onPointerDown={startRotate} title="Faites glisser pour pivoter" className="absolute top-2 left-2 w-6 h-6 rounded-full bg-sky-500 text-white grid place-items-center text-xs z-10 cursor-grab active:cursor-grabbing">↻</button>
             <svg viewBox="0 0 460 72" className="w-full h-full">
-              <rect x="0" y="0" width="460" height="72" fill={isLight ? '#fdf6e3' : '#1e293b'} />
+              <rect x="0" y="0" width="460" height="72" fill={isLight ? 'rgba(253, 246, 227, 0.08)' : 'rgba(30, 41, 59, 0.08)'} />
               {/* Graduations en cm / mm — 1 cm = 28 px, 16 cm visibles */}
               {Array.from({ length: 161 }).map((_, i) => {
                 const x = 8 + i * 2.8
@@ -2572,10 +2572,10 @@ export default function App() {
 
       {showProtractor && (
         <div className="fixed top-[38%] left-1/2 -translate-x-1/2 z-40 select-none">
-          <div className={`relative w-[320px] h-[170px] rounded-t-[160px] border shadow-2xl overflow-hidden ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
+          <div className={`relative w-[320px] h-[170px] rounded-t-[160px] border shadow-2xl overflow-hidden bg-transparent ${isLight ? 'border-slate-200' : 'border-white/10'}`}>
             <button onClick={() => setShowProtractor(false)} className="absolute bottom-3 right-3 w-6 h-6 rounded-full bg-red-500 text-white grid place-items-center text-[11px] z-10">✕</button>
             <svg viewBox="0 0 320 170" className="w-full h-full">
-              <path d="M 10 160 A 150 150 0 0 1 310 160 Z" fill={isLight ? '#f8fafc' : '#1e293b'} stroke="#818cf8" strokeWidth="1.5" />
+              <path d="M 10 160 A 150 150 0 0 1 310 160 Z" fill={isLight ? 'rgba(248, 250, 252, 0.15)' : 'rgba(30, 41, 59, 0.15)'} stroke="#818cf8" strokeWidth="1.5" />
               <line x1="10" y1="160" x2="310" y2="160" stroke="#6366f1" strokeWidth="1.5" />
               {Array.from({ length: 19 }).map((_, i) => {
                 const deg = i * 10
@@ -2607,12 +2607,12 @@ export default function App() {
 
       {showSetSquare && (
         <div className="fixed top-[40%] left-1/2 -translate-x-1/2 z-40 select-none">
-          <div className={`relative w-[200px] h-[200px] rounded-2xl border shadow-2xl overflow-hidden ${isLight ? 'bg-white border-slate-200' : 'bg-[#0f172a] border-white/10'}`}>
+          <div className={`relative w-[200px] h-[200px] rounded-2xl border shadow-2xl overflow-hidden bg-transparent ${isLight ? 'border-slate-200' : 'border-white/10'}`}>
             <button onClick={() => setShowSetSquare(false)} className="absolute top-2 right-2 w-6 h-6 rounded-full bg-red-500 text-white grid place-items-center text-[11px] z-10">✕</button>
             <button onPointerDown={startRotate} title="Faites glisser pour pivoter" className="absolute top-2 left-2 w-6 h-6 rounded-full bg-sky-500 text-white grid place-items-center text-xs z-10 cursor-grab active:cursor-grabbing">↻</button>
             <svg viewBox="0 0 200 200" className="w-full h-full">
               {/* Triangle rectangle isocèle - équerre Aristo */}
-              <path d="M 20 180 L 180 180 L 20 20 Z" fill={isLight ? 'rgba(255, 100, 100, 0.15)' : 'rgba(244, 63, 94, 0.2)'} stroke="#f43f5e" strokeWidth="2" />
+              <path d="M 20 180 L 180 180 L 20 20 Z" fill={isLight ? 'rgba(255, 100, 100, 0.01)' : 'rgba(244, 63, 94, 0.02)'} stroke="#f43f5e" strokeWidth="2" />
               
               {/* Graduations en cm - hypoténuse */}
               {Array.from({ length: 23 }).map((_, i) => {
