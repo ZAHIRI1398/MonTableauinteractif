@@ -2596,10 +2596,10 @@ export default function App() {
                 </g>
               })}
               
-              {/* Deuxième graduation : 180° (gauche) → 0° (droite) - style GeoGebra Notes */}
+              {/* Deuxième graduation : 180° (gauche) → 0° (droite) - sens opposé */}
               {Array.from({ length: 19 }).map((_, i) => {
                 const deg = i * 10
-                const rad = (180 - deg) * Math.PI / 180
+                const rad = deg * Math.PI / 180
                 const r1 = 150, r2 = deg % 30 === 0 ? 110 : deg % 10 === 0 ? 118 : 126
                 const x1 = 160 + Math.cos(rad) * r1, y1 = 160 - Math.sin(rad) * r1
                 const x2 = 160 + Math.cos(rad) * r2, y2 = 160 - Math.sin(rad) * r2
