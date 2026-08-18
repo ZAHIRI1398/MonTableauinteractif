@@ -2583,29 +2583,29 @@ export default function App() {
               <path d="M 10 160 A 150 150 0 0 1 310 160 Z" fill={isLight ? 'rgba(248, 250, 252, 0.15)' : 'rgba(30, 41, 59, 0.15)'} stroke="black" strokeWidth="2" />
               <line x1="10" y1="160" x2="310" y2="160" stroke="black" strokeWidth="2" />
               
-              {/* Graduations côté gauche (0° à gauche → 180° au centre) - style GeoGebra Notes */}
+              {/* Première graduation : 0° (gauche) → 180° (droite) - style GeoGebra Notes */}
               {Array.from({ length: 19 }).map((_, i) => {
                 const deg = i * 10
                 const rad = (180 - deg) * Math.PI / 180
-                const r1 = 150, r2 = deg % 30 === 0 ? 120 : deg % 10 === 0 ? 130 : 140
+                const r1 = 150, r2 = deg % 30 === 0 ? 125 : deg % 10 === 0 ? 132 : 140
                 const x1 = 160 + Math.cos(rad) * r1, y1 = 160 - Math.sin(rad) * r1
                 const x2 = 160 + Math.cos(rad) * r2, y2 = 160 - Math.sin(rad) * r2
-                return <g key={`left-${i}`}>
+                return <g key={`outer-${i}`}>
                   <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="black" strokeWidth={deg % 30 === 0 ? 2.5 : 1.5} />
-                  {<text x={160 + Math.cos(rad) * 105} y={160 - Math.sin(rad) * 105} textAnchor="middle" dominantBaseline="middle" fontSize="12" fill="black" fontWeight="900">{deg}°</text>}
+                  {<text x={160 + Math.cos(rad) * 108} y={160 - Math.sin(rad) * 108} textAnchor="middle" dominantBaseline="middle" fontSize="11" fill="black" fontWeight="900">{deg}°</text>}
                 </g>
               })}
               
-              {/* Graduations côté droit (0° à droite → 180° au centre) - style GeoGebra Notes */}
+              {/* Deuxième graduation : 180° (gauche) → 0° (droite) - style GeoGebra Notes */}
               {Array.from({ length: 19 }).map((_, i) => {
                 const deg = i * 10
-                const rad = deg * Math.PI / 180
-                const r1 = 150, r2 = deg % 30 === 0 ? 120 : deg % 10 === 0 ? 130 : 140
+                const rad = (180 - deg) * Math.PI / 180
+                const r1 = 150, r2 = deg % 30 === 0 ? 110 : deg % 10 === 0 ? 118 : 126
                 const x1 = 160 + Math.cos(rad) * r1, y1 = 160 - Math.sin(rad) * r1
                 const x2 = 160 + Math.cos(rad) * r2, y2 = 160 - Math.sin(rad) * r2
-                return <g key={`right-${i}`}>
-                  <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="black" strokeWidth={deg % 30 === 0 ? 2.5 : 1.5} />
-                  {<text x={160 + Math.cos(rad) * 105} y={160 - Math.sin(rad) * 105} textAnchor="middle" dominantBaseline="middle" fontSize="12" fill="black" fontWeight="900">{deg}°</text>}
+                return <g key={`inner-${i}`}>
+                  <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="black" strokeWidth={deg % 30 === 0 ? 2 : 1} />
+                  {<text x={160 + Math.cos(rad) * 92} y={160 - Math.sin(rad) * 92} textAnchor="middle" dominantBaseline="middle" fontSize="9" fill="black" fontWeight="700">{deg}°</text>}
                 </g>
               })}
               
