@@ -2583,7 +2583,7 @@ export default function App() {
               <path d="M 10 160 A 150 150 0 0 1 310 160 Z" fill={isLight ? 'rgba(248, 250, 252, 0.15)' : 'rgba(30, 41, 59, 0.15)'} stroke="black" strokeWidth="2" />
               <line x1="10" y1="160" x2="310" y2="160" stroke="black" strokeWidth="2" />
               
-              {/* Graduations sens gauche-droite (0 à 180) - améliorées pour dyslexie */}
+              {/* Graduations côté gauche (0° à gauche → 180° au centre) - style GeoGebra Notes */}
               {Array.from({ length: 19 }).map((_, i) => {
                 const deg = i * 10
                 const rad = (180 - deg) * Math.PI / 180
@@ -2596,7 +2596,7 @@ export default function App() {
                 </g>
               })}
               
-              {/* Graduations sens droite-gauche (180 à 0) - améliorées pour dyslexie */}
+              {/* Graduations côté droit (0° à droite → 180° au centre) - style GeoGebra Notes */}
               {Array.from({ length: 19 }).map((_, i) => {
                 const deg = i * 10
                 const rad = deg * Math.PI / 180
