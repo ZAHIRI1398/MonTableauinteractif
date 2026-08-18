@@ -87,6 +87,7 @@ export default function App() {
   const [showRuler, setShowRuler] = useState(false)
   const [showProtractor, setShowProtractor] = useState(false)
   const [showSetSquare, setShowSetSquare] = useState(false)
+  const [showProtractor360, setShowProtractor360] = useState(false)
   const [compassCenter, setCompassCenter] = useState<Point | null>(null)
   const [compassRadius, setCompassRadius] = useState(84)
   const [compassAngle, setCompassAngle] = useState(-0.9)
@@ -2438,6 +2439,9 @@ export default function App() {
         <button onClick={() => setShowProtractor(v => !v)} title="Rapporteur" className={`w-[42px] h-[42px] grid place-items-center rounded-xl border ${showProtractor ? 'bg-indigo-500 border-indigo-500 text-white' : 'bg-white/[0.06] border-white/10 text-indigo-400'}`}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 14a9 9 0 0 1 18 0Z" fill="#ede9fe" stroke="#818cf8" strokeWidth="1.5" /><line x1="3" y1="14" x2="21" y2="14" stroke="#6366f1" strokeWidth="1.5" /><circle cx="12" cy="14" r="2" fill="#6366f1" /></svg>
         </button>
+        <button onClick={() => setShowProtractor360(v => !v)} title="Rapporteur 360°" className={`w-[42px] h-[42px] grid place-items-center rounded-xl border ${showProtractor360 ? 'bg-purple-500 border-purple-500 text-white' : 'bg-white/[0.06] border-white/10 text-purple-400'}`}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" fill="#f3e8ff" stroke="#a855f7" strokeWidth="1.5" /><line x1="12" y1="3" x2="12" y2="21" stroke="#a855f7" strokeWidth="1.5" /><line x1="3" y1="12" x2="21" y2="12" stroke="#a855f7" strokeWidth="1.5" /><circle cx="12" cy="12" r="2" fill="#a855f7" /></svg>
+        </button>
         <button onClick={() => setShowSetSquare(v => !v)} title="Équerre" className={`w-[42px] h-[42px] grid place-items-center rounded-xl border ${showSetSquare ? 'bg-rose-500 border-rose-500 text-white' : 'bg-white/[0.06] border-white/10 text-rose-400'}`}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 20L20 4L4 4L4 20Z" fill="#ffe4e6" stroke="#f43f5e" strokeWidth="1.5" /><line x1="4" y1="4" x2="4" y2="12" stroke="#f43f5e" strokeWidth="1.5" /><line x1="4" y1="4" x2="12" y2="4" stroke="#f43f5e" strokeWidth="1.5" /></svg>
         </button>
@@ -2576,37 +2580,37 @@ export default function App() {
           <div className={`relative w-[320px] h-[170px] rounded-t-[160px] border shadow-2xl overflow-hidden bg-transparent ${isLight ? 'border-slate-200' : 'border-white/10'}`}>
             <button onClick={() => setShowProtractor(false)} className="absolute bottom-3 right-3 w-6 h-6 rounded-full bg-red-500 text-white grid place-items-center text-[11px] z-10">✕</button>
             <svg viewBox="0 0 320 170" className="w-full h-full">
-              <path d="M 10 160 A 150 150 0 0 1 310 160 Z" fill={isLight ? 'rgba(248, 250, 252, 0.15)' : 'rgba(30, 41, 59, 0.15)'} stroke="black" strokeWidth="1.5" />
-              <line x1="10" y1="160" x2="310" y2="160" stroke="black" strokeWidth="1.5" />
+              <path d="M 10 160 A 150 150 0 0 1 310 160 Z" fill={isLight ? 'rgba(248, 250, 252, 0.15)' : 'rgba(30, 41, 59, 0.15)'} stroke="black" strokeWidth="2" />
+              <line x1="10" y1="160" x2="310" y2="160" stroke="black" strokeWidth="2" />
               
-              {/* Graduations sens gauche-droite (0 à 180) */}
+              {/* Graduations sens gauche-droite (0 à 180) - améliorées pour dyslexie */}
               {Array.from({ length: 19 }).map((_, i) => {
                 const deg = i * 10
                 const rad = (180 - deg) * Math.PI / 180
-                const r1 = 150, r2 = deg % 30 === 0 ? 128 : deg % 10 === 0 ? 136 : 142
+                const r1 = 150, r2 = deg % 30 === 0 ? 120 : deg % 10 === 0 ? 130 : 140
                 const x1 = 160 + Math.cos(rad) * r1, y1 = 160 - Math.sin(rad) * r1
                 const x2 = 160 + Math.cos(rad) * r2, y2 = 160 - Math.sin(rad) * r2
                 return <g key={`left-${i}`}>
-                  <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="black" strokeWidth={deg % 30 === 0 ? 1.3 : 1} />
-                  {<text x={160 + Math.cos(rad) * 115} y={160 - Math.sin(rad) * 115} textAnchor="middle" dominantBaseline="middle" fontSize="8" fill="black" fontWeight="700">{deg}°</text>}
+                  <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="black" strokeWidth={deg % 30 === 0 ? 2.5 : 1.5} />
+                  {<text x={160 + Math.cos(rad) * 105} y={160 - Math.sin(rad) * 105} textAnchor="middle" dominantBaseline="middle" fontSize="12" fill="black" fontWeight="900">{deg}°</text>}
                 </g>
               })}
               
-              {/* Graduations sens droite-gauche (180 à 0) */}
+              {/* Graduations sens droite-gauche (180 à 0) - améliorées pour dyslexie */}
               {Array.from({ length: 19 }).map((_, i) => {
                 const deg = i * 10
                 const rad = deg * Math.PI / 180
-                const r1 = 150, r2 = deg % 30 === 0 ? 128 : deg % 10 === 0 ? 136 : 142
+                const r1 = 150, r2 = deg % 30 === 0 ? 120 : deg % 10 === 0 ? 130 : 140
                 const x1 = 160 + Math.cos(rad) * r1, y1 = 160 - Math.sin(rad) * r1
                 const x2 = 160 + Math.cos(rad) * r2, y2 = 160 - Math.sin(rad) * r2
                 return <g key={`right-${i}`}>
-                  <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="black" strokeWidth={deg % 30 === 0 ? 1.3 : 1} />
-                  {<text x={160 + Math.cos(rad) * 115} y={160 - Math.sin(rad) * 115} textAnchor="middle" dominantBaseline="middle" fontSize="8" fill="black" fontWeight="700">{deg}°</text>}
+                  <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="black" strokeWidth={deg % 30 === 0 ? 2.5 : 1.5} />
+                  {<text x={160 + Math.cos(rad) * 105} y={160 - Math.sin(rad) * 105} textAnchor="middle" dominantBaseline="middle" fontSize="12" fill="black" fontWeight="900">{deg}°</text>}
                 </g>
               })}
               
-              <circle cx="160" cy="160" r="3" fill="black" />
-              <line x1="160" y1="160" x2="160" y2="22" stroke="black" strokeWidth="1" strokeDasharray="4 4" />
+              <circle cx="160" cy="160" r="4" fill="black" />
+              <line x1="160" y1="160" x2="160" y2="22" stroke="black" strokeWidth="2" strokeDasharray="4 4" />
             </svg>
             <button onPointerDown={startRotate} title="Faites glisser pour pivoter" className="absolute top-2 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-sky-500 text-white grid place-items-center text-[11px] z-10 cursor-grab active:cursor-grabbing">↻</button>
             <div className="absolute inset-0 cursor-move" onPointerDown={e => {
@@ -2688,6 +2692,47 @@ export default function App() {
             }} />
           </div>
           <div className="text-center text-[11px] text-white/50 mt-1.5">Équerre Aristo — ↻ pour pivoter</div>
+        </div>
+      )}
+
+      {showProtractor360 && (
+        <div className="fixed top-[38%] left-1/2 -translate-x-1/2 z-40 select-none">
+          <div className={`relative w-[320px] h-[320px] rounded-full border shadow-2xl overflow-hidden bg-transparent ${isLight ? 'border-slate-200' : 'border-white/10'}`}>
+            <button onClick={() => setShowProtractor360(false)} className="absolute top-2 right-2 w-6 h-6 rounded-full bg-red-500 text-white grid place-items-center text-[11px] z-10">✕</button>
+            <svg viewBox="0 0 320 320" className="w-full h-full">
+              <circle cx="160" cy="160" r="150" fill={isLight ? 'rgba(248, 250, 252, 0.12)' : 'rgba(30, 41, 59, 0.12)'} stroke="black" strokeWidth="2" />
+              
+              {/* Graduations cercle complet - améliorées pour dyslexie */}
+              {Array.from({ length: 36 }).map((_, i) => {
+                const deg = i * 10
+                const rad = (deg - 90) * Math.PI / 180
+                const r1 = 150, r2 = deg % 30 === 0 ? 125 : deg % 10 === 0 ? 135 : 142
+                const x1 = 160 + Math.cos(rad) * r1, y1 = 160 + Math.sin(rad) * r1
+                const x2 = 160 + Math.cos(rad) * r2, y2 = 160 + Math.sin(rad) * r2
+                return <g key={i}>
+                  <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="black" strokeWidth={deg % 30 === 0 ? 2.5 : 1.5} />
+                  {<text x={160 + Math.cos(rad) * 110} y={160 + Math.sin(rad) * 110} textAnchor="middle" dominantBaseline="middle" fontSize="12" fill="black" fontWeight="900">{deg}°</text>}
+                </g>
+              })}
+              
+              {/* Lignes de repère horizontale et verticale */}
+              <line x1="10" y1="160" x2="310" y2="160" stroke="black" strokeWidth="1" strokeDasharray="4 4" />
+              <line x1="160" y1="10" x2="160" y2="310" stroke="black" strokeWidth="1" strokeDasharray="4 4" />
+              
+              <circle cx="160" cy="160" r="4" fill="black" />
+            </svg>
+            <button onPointerDown={startRotate} title="Faites glisser pour pivoter" className="absolute top-2 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-sky-500 text-white grid place-items-center text-xs z-10 cursor-grab active:cursor-grabbing">↻</button>
+            <div className="absolute inset-0 cursor-move" onPointerDown={e => {
+              const el = (e.currentTarget.parentElement as HTMLElement).parentElement as HTMLElement
+              const startX = e.clientX, startY = e.clientY
+              const rect = el.getBoundingClientRect()
+              const sx = rect.left, sy = rect.top
+              const move = (ev: PointerEvent) => { el.style.left = `${sx + (ev.clientX - startX)}px`; el.style.top = `${sy + (ev.clientY - startY)}px`; el.style.transform = 'translate(0,0)'; el.style.position = 'fixed' }
+              const up = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up) }
+              window.addEventListener('pointermove', move); window.addEventListener('pointerup', up)
+            }} />
+          </div>
+          <div className="text-center text-[11px] text-white/50 mt-1.5">Rapporteur 360° — ↻ pour pivoter</div>
         </div>
       )}
 
