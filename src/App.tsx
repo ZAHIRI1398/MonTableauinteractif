@@ -2185,6 +2185,10 @@ export default function App() {
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="23 7 16 12 23 17 23 7" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" /></svg>
                   Insérer vidéo YouTube 🎥
                 </button>
+                <button onClick={() => window.open('https://applicationmaths.pages.dev/', '_blank', 'noopener,noreferrer')} className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-[13px] font-bold border ${isLight ? 'bg-white border-slate-200 hover:bg-slate-50 text-slate-700' : 'bg-white/[0.06] border-white/10 hover:bg-white/[0.10] text-white'}`}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /><line x1="10" y1="10" x2="16" y2="10" /><line x1="10" y1="14" x2="14" y2="14" /></svg>
+                   Maths Sainte Bernadette➗
+                </button>
                 <button onClick={() => setShowQuran(true)} className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-[13px] font-bold border bg-gradient-to-br from-teal-600 to-teal-700 border-teal-500 text-white shadow">
                   <span>🌦️</span> Météo du jour
                 </button>
