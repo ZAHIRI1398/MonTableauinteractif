@@ -1155,7 +1155,7 @@ export default function App() {
       icon: '🔢',
       w: 320,
       h: 160,
-      url: 'https://micetf.fr/Numeration/index.php?t=Cubus',
+      url: 'https://dedys.fr/activite/jeu-du-tableau/',
       category: 'Maths — Numération',
       svg: `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="160" viewBox="0 0 320 160"><rect width="320" height="160" fill="white" stroke="#0f172a" stroke-width="2"/><line x1="80" y1="0" x2="80" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="160" y1="0" x2="160" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="240" y1="0" x2="240" y2="160" stroke="#0f172a" stroke-width="2"/><line x1="0" y1="60" x2="320" y2="60" stroke="#0f172a" stroke-width="2"/><text x="40" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">U</text><text x="120" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">D</text><text x="200" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">C</text><text x="280" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">M</text></svg>`
     },
