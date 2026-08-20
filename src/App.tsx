@@ -1617,16 +1617,12 @@ export default function App() {
   const insertActivity = (idx: number) => {
     const a = activities[idx]
     if (a.url) {
-      if (a.target === '_blank') {
-        window.open(a.url, '_blank')
-      } else {
-        setEmbeddedActivities(v => [...v, { id: Date.now().toString(), url: a.url!, x: 120 - camera.x / camera.zoom, y: 100 - camera.y / camera.zoom }])
-      }
+      window.open(a.url, '_blank', 'noopener,noreferrer')
     } else {
       svgToImg(a.svg, a.w, a.h)
     }
     setShowActivities(false)
-    showToast(`Activité « ${a.title} » insérée`)
+    showToast(`Activité « ${a.title} » ouverte dans un nouvel onglet`)
   }
 
   const generateShareLink = () => {
